@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Aluguel {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagAluguel.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-6 col-md-8 col-sm-12">
+									<h2>Aluguel</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Aluguel de Ativos</li>
+									</ul>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+									<a onclick="fAbrirModalDetalheAlug('/', '', 'Novo');" id="btnAlugNovo" name="btnAlugNovo" style="width: 140px;" class="btn btn-info btn-round btn-si mple" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Novo Aluguel </a>
+									<a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+									<a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<!-- <div class="header">
+							<h2><strong>Aluguel</strong> de Ativos</h2>
+						</div> -->
+						<div class="body">
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix align-items-end">
+								<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Data Inicial:</p>
+									<input style="font-size:12px;" type="date" class="form-control" name="txtFiltroAlugDtIni" id="txtFiltroAlugDtIni">
+								</div>
+								<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Data Final:</p>
+									<input style="font-size:12px;" type="date" class="form-control" name="txtFiltroAlugDtFim" id="txtFiltroAlugDtFim">
+								</div>
+								<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Ativo:</p>
+									<select style="font-size:12px;" id="txtFiltroAlugAtivo" name="txtFiltroAlugAtivo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+								</div>
+								<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 text-left">
+									<a onclick="fCarregarGrid('/');" id="btnAlugPesquisar" name="btnAlugPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+								</div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<hr />
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<!-- Div table-responsive -->
+							<div class="table-responsive" id="AreaGrid">
+								<table id="Grid" name="Grid" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+									<thead>
+										<tr class="thead-dark font-weight-bold">
+											<th>Data</th>
+											<th>Ativo</th>
+											<th>Valor Bruto</th>
+											<th>Valor IR</th>
+											<th>Valor Líquido</th>
+											<th style="display: none;"></th>
+											<th>Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+									</tfoot>
+								</table>
+							</div>
+							<!-- Div table-responsive -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Detalhe -->
+	<div class="modal fade" id="PopModalDetalheAluguel" name="PopModalDetalheAluguel" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Aluguel de Ativos</strong> <strong id="PopModalDetalheAluguelTit" name="PopModalDetalheAluguelTit"></strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: inherit; max-height:500px;">
+
+					<form id="FormAlug" name="FormAlug" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<input type="hidden" name="txtCadAlugId" id="txtCadAlugId">
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-4 text-right"> <label style="font-size:12px;" for="txtCadAlugData" class="font-weight-bold">Data:</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control form-control-sm" id="txtCadAlugData" name="txtCadAlugData" type="date"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 6px; ">
+							<div class="col-4 text-right"> <label style="font-size:12px;" for="txtCadAlugAtivo" class="font-weight-bold">Ativo:</label> </div>
+							<div class="col-5"> <select style="font-size:12px;" id="txtCadAlugAtivo" name="txtCadAlugAtivo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione..."> </select> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-4 text-right"> <label style="font-size:12px;" for="txtCadAlugVlrBruto" class="font-weight-bold">Vlr. Bruto:</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control text-right" id="txtCadAlugVlrBruto" name="txtCadAlugVlrBruto" type="text" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-4 text-right"> <label style="font-size:12px;" for="txtCadAlugVlrIR" class="font-weight-bold">Vlr. IR:</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control text-right" id="txtCadAlugVlrIR" name="txtCadAlugVlrIR" type="text" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-4 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadAlugVlrLiquido">Vlr. Líquido:</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control text-right" id="txtCadAlugVlrLiquido" name="txtCadAlugVlrLiquido" type="text" readonly> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-10" id="AreaAlertaModalCad"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosAluguel('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheAlugSalvar" name="BtnModalDetalheAlugSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheAlugCancelar" id="BtnModalDetalheAlugCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe -->
+
+	<!-- Modal Confirmacao -->
+	<div class="modal fade" id="PopModalDelAluguel" name="PopModalDelAluguel" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><i class="fa fa-lg fa-check-square-o"></i>&nbsp; Exclusão... </h6>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="txtDelAlugId" name="txtDelAlugId">
+					<p class="text-secondary">Você realmente deseja excluir o Aluguel do Ativo?</p>
+					<div id="AreaAlertaModalExc"> </div>
+				</div>
+				<div class="modal-footer">
+					<a onclick="fExcluirDadosAluguel('/'); return false;" class="btn btn-primary btn-round waves-effect" id="BtnModalDelAlugSim" style="width: 140px" name="BtnModalDelAlugSim" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iExcluir" name="iExcluir" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Sim </a>
+					<button style="width: 140px" type="button" name="BtnModalDelAlugNao" id="BtnModalDelAlugNao" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;Não&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Confirmacao -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.colVis.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.html5.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.print.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.flash.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/jszip.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/pdfmake.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/vfs_fonts.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAluguel.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			fLimparGrid('/');
+			buscar_todos_codigos_alugueis_acoes('/', "txtFiltroAlugAtivo", false, true, false);
+			buscar_todos_codigos_comprados_acoes('/', "txtCadAlugAtivo", false, false, true);
+			fCarregarGrid('/');
+		});
+	</script>
+{% endblock %}

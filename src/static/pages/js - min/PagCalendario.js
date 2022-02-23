@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#MnPrincCalendario").addClass("active open"),fLimparAreaAlerta("AreaAlertaPrinc")});

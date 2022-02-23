@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Dashboard {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagPrincipal.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+    <!-- Div Main Content -->
+    <section class="content">
+        <div class="container">
+
+            <!-- Div Titulo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="body block-header">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <h2>Dashboard</h2>
+                                    <ul class="breadcrumb p-l-0 p-b-0 ">
+                                        <li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+                                        <li class="breadcrumb-item active">Dashboard</li>
+                                    </ul>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+                                    <a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Titulo Pag -->
+
+            <!-- <div class="text-right">
+                <a onclick="fAbrirModalDetalheAgendaTrimestre('/');" style="font-size:15px;" class="text-danger font-weight-bold" href="javascript:void(0);"> Agenda dos Resultados do Trimestre </a>
+            </div> -->
+
+			{% include 'principal_portfolio.html' %}
+
+            <div id="AppApuracao"> </div>
+
+            <div id="AppOperacao"> </div>
+
+			{% include 'principal_proventos.html' %}
+
+            <div id="AppFatos"> </div>
+
+            <div id="AppNoticias"> </div>
+
+            {% if current_user.is_authenticated and current_user.tipo == 'A' %} <div id="AppDadosInvestidores"> </div> {% endif %}
+
+			{% include 'component_rodape.html' %}
+
+        </div>
+    </section>
+    <!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+    <!-- Modal Detalhe Agenda Trimestre -->
+    <div class="modal fade" id="PopModalAgendaTrimestre" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h6> <strong>Agenda dos Resultados do Trimestre ...</strong> </h6>
+                </div>
+                <div class="modal-body" style="margin: 0px; padding: 0px; ">
+
+                    <ul class="nav nav-tabs d-flex justify-content-center">
+                        <li class="nav-item"><a style="font-size: 12px; width: 120px; " class="border border-secondary text-center font-weight-bold nav-link active" data-toggle="tab" href="#AbaAgTriPort">PORTFÓLIO</a></li>
+                        <li class="nav-item"><a style="font-size: 12px; width: 120px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaAgTriRadar">RADAR</a></li>
+                        <li class="nav-item"><a style="font-size: 12px; width: 120px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaAgTriTodos">TODOS</a></li>
+                    </ul>
+
+                    <!-- Div tab-content -->
+                    <div class="tab-content" id="TabAgTriContent"  style="overflow-y: auto; max-height:380px; height:380px; margin: 0px; padding: 0px; ">
+                        <!-- Div AbaAgTriPort -->
+                        <div class="tab-pane fade show active" id="AbaAgTriPort" role="tabpanel">
+                            <div id="AreaTableModalAgendaTrimestrePortfolio"> </div>
+                        </div>
+                        <!-- Div AbaAgTriPort -->
+                        <!-- Div AbaAgTriRadar -->
+                        <div class="tab-pane fade" id="AbaAgTriRadar" role="tabpanel">
+                            <div id="AreaTableModalAgendaTrimestreRadar"> </div>
+                        </div>
+                        <!-- Div AbaAgTriRadar -->
+                        <!-- Div AbaAgTriTodos -->
+                        <div class="tab-pane fade" id="AbaAgTriTodos" role="tabpanel">
+                            <div id="AreaTableModalAgendaTrimestreTodos"> </div>
+                        </div>
+                        <!-- Div AbaAgTriTodos -->
+                    </div>
+                    <!-- Div tab-content -->
+
+                </div>
+                <div class="modal-footer">
+                   <small class="text-muted" style="font-size:15px;">Fonte: <a target="_blank" class="text-primary" href="https://br.advfn.com/jornal/2021/04/confira-a-agenda-completa-de-resultados-do-primeiro-trimestre-de-2021-1t21"> ADVFN </a> </small>
+                    &nbsp; &nbsp; &nbsp;
+                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Detalhe Agenda Trimestre -->
+
+{% endblock %}
+
+{% block modal_oper %}
+	{% include 'component_modal_oper.html' %}
+{% endblock %}
+
+{% block modal_porv %}
+	{% include 'component_modal_prov.html' %}
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+<!--	<script src="{{ url_for('static', filename='plugins/js/highstock.min.js') }}"></script>-->
+	<script src="{{ url_for('static', filename='plugins/js/highcharts.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highstock.exporting.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highstock.export-data.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagPrincipal.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagPrincipalTotais.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagPrincipalOperacoes.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagPrincipalApuracao.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagPrincipalProventosDivulgados.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagPrincipalProventosReceber.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagPrincipalFatos.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagPrincipalNoticias.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagPrincipalAgendaTri.js') }}"></script>
+    {% if current_user.is_authenticated and current_user.tipo == 'A' %}<script src="{{ static_autoversion('pages/js/PagPrincipalDadosInvestidores.js') }}"></script>{% endif %}
+	<script src="{{ static_autoversion('pages/js/PagModalProv.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagModalOper.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+
+            fMostrarEsconderValores();
+            fLimparTotalizadores("/");
+
+            {% if gerar_portoflio %}
+                fAbrirModalGerarPortfolio("/");
+            {% else %}
+                fCarregarDadosPagina("/");
+            {% endif %}
+
+            setTimeout( function(){
+                buscar_todos_codigos_comprados("/", 'selDetOperAtivo', false, false, true); // Oper
+                buscar_todos_corretora('/', 'selDetOperCorretora', false, false, true, false); // Oper
+                buscar_todos_codigos_comprados("/", 'selDivAtivo', false, false, true); // Prov
+                buscar_todos_corretora("/", 'selDivCorretora', true, false, false); // Prov
+            }, 500);
+
+        });
+    </script>
+{% endblock %}
+
+

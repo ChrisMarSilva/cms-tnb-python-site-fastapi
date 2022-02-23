@@ -1,0 +1,466 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Apuração {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagApuracao.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+									<h2>Apuração</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Apuração</li>
+									</ul>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+									<a onclick="fAbrirModalAjusteApuracao('/');" id="btnAjusteApur" name="btnAjusteApur" style="width: 200px;" class="btn btn-info btn-s imple btn-round " role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iAjuste" name="iAjuste" class="fa fa-pencil fa-lg" aria-hidden="true"></i> &nbsp;Ajustar Apuração </a>
+									<a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+									<a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="header">
+							<h2><strong>Apuração</strong></h2>
+						</div>
+						<div class="body">
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix align-items-end">
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Ano Base:</p>
+									<select style="font-size:12px;" id="selApuracAno" name="selApuracAno" class="form-control z-index show-menu-arrow"></select>
+								</div>
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+									<a onclick="fCarregarGrid('/');" id="btnApuracPesquisar" name="btnApuracPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar</a>
+								</div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<br />
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix">
+								<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+									<div class="custom-control custom-control-sm custom-checkbox">
+										<input onclick="fSalvarConfigApuracao('/', this);" type="checkbox" class="custom-control-input" id="chkApuracVlrSuperior20Mil">
+										<label style="font-size:12px;" class="custom-control-label font-w eight-bold" for="chkApuracVlrSuperior20Mil">Somente Compensar Prejuízos quando Valor Total da Venda for Superior a R$ 20.000,00.</label>
+									</div>
+								</div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<!-- Nav Tabs -->
+							<ul class="nav nav-tabs nav-justified" id="TabApuracao">
+								<li class="nav-item"> <a class="border border-secondary nav-link active" id="TabAcaoOperComum"    data-toggle="tab" aria-selected="true"  href="#AbaAcaoOperComum">    AÇÃO - Comum </a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        id="TabAcaoOperDayTrade" data-toggle="tab" aria-selected="false" href="#AbaAcaoOperDayTrade"> AÇÃO - Day Trade </a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        id="TabAFIIOper"         data-toggle="tab" aria-selected="false" href="#AbaAFIIOper">         FIIs </a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        id="TabAETFOperComum"    data-toggle="tab" aria-selected="false" href="#AbaAETFOperComum">    ETF - Comum </a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        id="TabAETFOperDayTrade" data-toggle="tab" aria-selected="false" href="#AbaAETFOperDayTrade"> ETF - Day Trade </a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        id="TabABDROperComum"    data-toggle="tab" aria-selected="false" href="#AbaABDROperComum">    BDR - Comum </a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        id="TabABDROperDayTrade" data-toggle="tab" aria-selected="false" href="#AbaABDROperDayTrade"> BDR - Day Trade</a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        id="TabACRIPTOOper"      data-toggle="tab" aria-selected="false" href="#AbaACRIPTOOper">      CRIPTOs </a> </li>
+							</ul>
+							<!-- Nav Tabs -->
+
+							<hr />
+
+							<!-- Div tab-content -->
+							<div class="tab-content" id="TabApuracaoContent">
+
+								<div class="tab-pane fade show active" id="AbaAcaoOperComum" role="tabpanel" aria-labelledby="TabAcaoOperComum">
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGrid1">
+										<table id="GridComum" name="GridComum" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+											<tr class="thead-dark font-weight-bold">
+												<th>Mes/Ano</th>
+												<th>Total Venda</th>
+												<th>Lucro Apurado</th>
+												<th>Prejuízo a Compensar</th>
+												<th>Base de Cálculo IR</th>
+												<th>IR Devido</th>
+												<th>IR Pago</th>
+												<th>IR a Pagar</th>
+												<th>Ação</th>
+											</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+								</div>
+
+								<div class="tab-pane fade" id="AbaAcaoOperDayTrade" role="tabpanel" aria-labelledby="TabAcaoOperDayTrade">
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGrid2">
+										<table id="GridDayTrade" name="GridDayTrade" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+											<tr class="thead-dark font-weight-bold">
+												<th>Mes/Ano</th>
+												<th>Total Venda</th>
+												<th>Lucro Apurado</th>
+												<th>Prejuízo a Compensar</th>
+												<th>Base de Cálculo IR</th>
+												<th>IR Devido</th>
+												<th>IR Pago</th>
+												<th>IR a Pagar</th>
+												<th>Ação</th>
+											</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+								</div>
+
+								<div class="tab-pane fade" id="AbaAFIIOper" role="tabpanel" aria-labelledby="TabAFIIOper">
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGrid3">
+										<table id="GridFII" name="GridFII" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+											<tr class="thead-dark font-weight-bold">
+												<th>Mes/Ano</th>
+												<th>Total Venda</th>
+												<th>Lucro Apurado</th>
+												<th>Prejuízo a Compensar</th>
+												<th>Base de Cálculo IR</th>
+												<th>IR Devido</th>
+												<th>IR Pago</th>
+												<th>IR a Pagar</th>
+												<th>Ação</th>
+											</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+								</div>
+
+								<div class="tab-pane fade" id="AbaAETFOperComum" role="tabpanel" aria-labelledby="TabAETFOperComum">
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGrid4">
+										<table id="GridETFComum" name="GridETFComum" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+											<tr class="thead-dark font-weight-bold">
+												<th>Mes/Ano</th>
+												<th>Total Venda</th>
+												<th>Lucro Apurado</th>
+												<th>Prejuízo a Compensar</th>
+												<th>Base de Cálculo IR</th>
+												<th>IR Devido</th>
+												<th>IR Pago</th>
+												<th>IR a Pagar</th>
+												<th>Ação</th>
+											</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+								</div>
+
+								<div class="tab-pane fade" id="AbaAETFOperDayTrade" role="tabpanel" aria-labelledby="TabAETFOperDayTrade">
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGrid5">
+										<table id="GridETFDayTrade" name="GridETFDayTrade" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+											<tr class="thead-dark font-weight-bold">
+												<th>Mes/Ano</th>
+												<th>Total Venda</th>
+												<th>Lucro Apurado</th>
+												<th>Prejuízo a Compensar</th>
+												<th>Base de Cálculo IR</th>
+												<th>IR Devido</th>
+												<th>IR Pago</th>
+												<th>IR a Pagar</th>
+												<th>Ação</th>
+											</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+								</div>
+
+								<div class="tab-pane fade" id="AbaABDROperComum" role="tabpanel" aria-labelledby="TabABDROperComum">
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGrid6">
+										<table id="GridBDRComum" name="GridBDRComum" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+											<tr class="thead-dark font-weight-bold">
+												<th>Mes/Ano</th>
+												<th>Total Venda</th>
+												<th>Lucro Apurado</th>
+												<th>Prejuízo a Compensar</th>
+												<th>Base de Cálculo IR</th>
+												<th>IR Devido</th>
+												<th>IR Pago</th>
+												<th>IR a Pagar</th>
+												<th>Ação</th>
+											</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+								</div>
+
+								<div class="tab-pane fade" id="AbaABDROperDayTrade" role="tabpanel" aria-labelledby="TabABDROperDayTrade">
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGrid7">
+										<table id="GridBDRDayTrade" name="GridBDRDayTrade" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+											<tr class="thead-dark font-weight-bold">
+												<th>Mes/Ano</th>
+												<th>Total Venda</th>
+												<th>Lucro Apurado</th>
+												<th>Prejuízo a Compensar</th>
+												<th>Base de Cálculo IR</th>
+												<th>IR Devido</th>
+												<th>IR Pago</th>
+												<th>IR a Pagar</th>
+												<th>Ação</th>
+											</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+								</div>
+
+								<div class="tab-pane fade" id="AbaACRIPTOOper" role="tabpanel" aria-labelledby="TabAFIIOper">
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGrid8">
+										<table id="GridCRIPTO" name="GridCRIPTO" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+											<tr class="thead-dark font-weight-bold">
+												<th>Mes/Ano</th>
+												<th>Total Venda</th>
+												<th>Lucro Apurado</th>
+												<th>Prejuízo a Compensar</th>
+												<th>Base de Cálculo IR</th>
+												<th>IR Devido</th>
+												<th>IR Pago</th>
+												<th>IR a Pagar</th>
+												<th>Ação</th>
+											</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+								</div>
+
+							</div>
+							<!-- Div tab-content -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Detalhe Ajuste Apurac -->
+	<div class="modal fade" id="PopModalDetalheAjusteApur" name="PopModalDetalheAjusteApur" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Ajuste Manual da Apuração</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+
+					<form id="FormCorret" name="FormCorret" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<!-- Div Row clearfix -->
+						<div class="row clearfix align-items-end" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3">
+								<p style="line-height: 0.5em;" class="font-weight-bold ">Ano:</p>
+								<input style="font-size:12px;" type="text" class="form-control" name="txtCadApurAno" id="txtCadApurAno" maxlength="4">
+							</div>
+							<div class="col-4">
+								<p style="line-height: 0.1em;" class="font-weight-bold ">Tipo:</p>
+								<select style="font-size:12px;" id="txtCadApurTipo" name="txtCadApurTipo" title="Selecione..." class="form-control">
+									<option value="C" selected>Ações - Oper. Comum</option>
+									<option value="D">Ações - Day-Trade</option>
+									<option value="F">FIIs - Oper.</option>
+									<option value="E">ETFs - Oper. Comum</option>
+									<option value="G">ETFs - Day-Trade</option>
+									<option value="I">BDRs - Oper. Comum</option>
+									<option value="J">BDRs - Day-Trade</option>
+									<option value="K">CRIPTOs - Oper.</option>
+								</select>
+							</div>
+							<div class="col-4 text-left">
+								<a onclick="fCarregarGridAjusteApuracao('/');" id="btnApuracBuscar" name="btnApuracBuscar" style="line-height: 1.8em; width: 140px;" class="btn btn-sm btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefreshBuscar" name="iRefreshBuscar" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Buscar</a>
+							</div>
+						</div>
+						<!-- Div Row clearfix -->
+
+						<hr />
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrJAN">JAN</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrJAN" name="txtCadApurVlrJAN" type="text" /> </div>
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrJUL">JUL</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrJUL" name="txtCadApurVlrJUL" type="text" /></div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrFEV">FEV</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrFEV" name="txtCadApurVlrFEV" type="text" /> </div>
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrAGO">AGO</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrAGO" name="txtCadApurVlrAGO" type="text" /> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrMAR">MAR</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrMAR" name="txtCadApurVlrMAR" type="text" /> </div>
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrSET">SET</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrSET" name="txtCadApurVlrSET" type="text" /> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrABR">ABR</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrABR" name="txtCadApurVlrABR" type="text" /> </div>
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrOUT">OUT</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrOUT" name="txtCadApurVlrOUT" type="text" /> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrMAI">MAI</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrMAI" name="txtCadApurVlrMAI" type="text" /> </div>
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrNOV">NOV</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrNOV" name="txtCadApurVlrNOV" type="text" /> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrJUN">JUN</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrJUN" name="txtCadApurVlrJUN" type="text" /> </div>
+							<div class="col-1"> </div>
+							<div class="col-1 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadApurVlrDEZ">DEZ</label> </div>
+							<div class="col-3"> <input style="font-size:12px;" class="form-control text-right" id="txtCadApurVlrDEZ" name="txtCadApurVlrDEZ" type="text" /> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-12" id="AreaAlertaModalCad"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosAjusteApur('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheAtivoSalvar" name="BtnModalDetalheAtivoSalvar" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar</a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheAtivoCancelar" id="BtnModalDetalheAtivoCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe Ajuste Apurac -->
+
+	<!-- Modal Detalhe Ajuste Apurac -->
+	<div class="modal fade" id="PopModalDetalheApuracVendas" name="PopModalDetalheApuracVendas" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Vendas no Mês</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+					<div id="DivGridApuracVendas"> </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheApuracVendasCancelar" id="BtnModalDetalheApuracVendasCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe Ajuste Apurac -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.colVis.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.html5.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.print.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.flash.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/jszip.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/pdfmake.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/vfs_fonts.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagApuracao.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+
+			fDefinirPadraoSelect('txtCadApurTipo');
+			fLimparGrid('/');
+			fCarregarConfigApuracao('/');
+
+            {% if gerar_portoflio %}
+                fAbrirModalGerarPortfolio("/");
+            {% else %}
+                fCarregarAnoApuracao('/');
+            {% endif %}
+		});
+	</script>
+{% endblock %}

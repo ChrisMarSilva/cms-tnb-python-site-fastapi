@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Admin - Investidor - Logs {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-6 col-md-8 col-sm-12">
+									<h2>Investidor Logs</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Investidor Logs</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="header"> <h2><strong>Investidor</strong> Logs</h2> </div>
+						<div class="body">
+
+							<!-- Div Row Form -->
+							<div class="form-group form-row">
+								<div class="col" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row Form -->
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix ">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+									<a onclick="fTestarTimeNormalLoop('/');" class="btn btn-sm btn-danger"> Teste Normal</a>
+									<a onclick="fTestarTimeAsyncLoop('/');" class="btn btn-sm btn-success"> Teste Async </a>
+								</div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<table style="font-size: 11px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+								<thead>
+									<tr class="bg-secondary text-white">
+										<th>#</th>
+										<th>Nome</th>
+										<th>Email</th>
+										{% for data, semana in lista_datas %}
+										<th class="text-center">{{ semana }}<br>{{ data }}</th>
+										{% endfor %}
+									</tr>
+								</thead>
+								<tbody>
+									{% for row in lista_grid %}
+									<tr>
+										<td>{{ row[0] }}</td>
+										<td>({{ row[1] }}) {{ row[2] }}</td>
+										<td>{{ row[3] }}</td>
+										<td class="text-center">{{ row[4] }} / {{ row[5] }}</td>
+										<td class="text-center">{{ row[6] }} / {{ row[7] }}</td>
+										<td class="text-center">{{ row[8] }} / {{ row[9] }}</td>
+										<td class="text-center">{{ row[10] }} / {{ row[11] }}</td>
+										<td class="text-center">{{ row[12] }} / {{ row[13] }}</td>
+										<td class="text-center">{{ row[14] }} / {{ row[15] }}</td>
+										<td class="text-center">{{ row[16] }} / {{ row[17] }}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+
+							<br/>
+
+							<h6>Lista #1</h6>
+							<!-- Div Row Form -->
+							<div class="row">
+
+								<div class="col-4">
+									{% for row in lista_keys_1 %}
+									<small class="col">{{ row }}</small><br/>
+									{% endfor %}
+								</div>
+
+								<div class="col-4">
+									{% for row in lista_keys_2 %}
+									<small class="col">{{ row }}</small><br/>
+									{% endfor %}
+								</div>
+
+								<div class="col-4">
+									{% for row in lista_keys_3 %}
+									<small class="col">{{ row }}</small><br/>
+									{% endfor %}
+								</div>
+
+							</div>
+							<!-- Div Row Form -->
+
+							<br/>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAdmimTestes.js') }}"></script>
+    <script>
+
+		async function fTestarTimeNormalLoop( urlPadrao, Numero ){
+			for (i = 1; i < 11; i++)
+				fTestarTimeNormal( urlPadrao, i );
+		}
+
+		async function fTestarTimeNormal( urlPadrao, Numero ){
+			var logNome = '@TamoNaBolsa Teste Time Normal - ' + Numero;
+			console.time(logNome + ' - TEMPO');
+			promise = new Promise((resolve, reject) => {
+				$.ajax({cache   : "false", dataType: "json", async   : true, type    : "POST", url: urlPadrao + "admin_investidor_log/testetimenormal",
+					success: function(data) { console.timeEnd(logNome + ' - TEMPO'); },
+					error: function (data) { console.error(logNome + ' - ERRO: ', data); },
+				});
+				resolve(true);
+			});
+		}
+
+		async function fTestarTimeAsyncLoop( urlPadrao, Numero ){
+			for (i = 1; i < 11; i++)
+				fTestarTimeAsync( urlPadrao, i );
+		}
+
+		async function fTestarTimeAsync( urlPadrao, Numero ){
+			var logNome = '@TamoNaBolsa Teste Time Async - ' + Numero;
+			console.time(logNome + ' - TEMPO');
+			promise = new Promise((resolve, reject) => {
+				$.ajax({cache   : "false", dataType: "json", async   : true, type    : "POST", url: urlPadrao + "admin_investidor_log/testetimeasync",
+					success: function(data) { console.timeEnd(logNome + ' - TEMPO'); },
+					error: function (data) { console.error(logNome + ' - ERRO: ', data); },
+				});
+				resolve(true);
+			});
+		}
+
+	</script>
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Admin - Testes {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagAdmimTestes.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+            <!-- Div Titulo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="body block-header">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6" style="border: 0px solid blue; ">
+                                    <h2>Admim - Testes</h2>
+                                    <ul class="breadcrumb p-l-0 p-b-0 ">
+                                        <li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+                                        <li class="breadcrumb-item active">Admim</li>
+                                        <li class="breadcrumb-item active">Testes</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body">
+
+                            <table id="GridAtivosAnual" name="Grid" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="thead-dark font-weight-bold">
+                                        <th></th>
+                                        <th>JAN</th>
+                                        <th>FEV</th>
+                                        <th>MAR</th>
+                                        <th>ABR</th>
+                                        <th>MAI</th>
+                                        <th>JUN</th>
+                                        <th>JUL</th>
+                                        <th>AGO</th>
+                                        <th>SET</th>
+                                        <th>OUT</th>
+                                        <th>NOV</th>
+                                        <th>DEZ</th>
+                                        <th>ANO</th>
+                                        <th>ACUM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for row in anual %}
+                                    <tr>
+                                        <td>{{ row.ano }}</td>
+                                        <td>{{ row.jan }}</td>
+                                        <td>{{ row.fev }}</td>
+                                        <td>{{ row.mar }}</td>
+                                        <td>{{ row.abr }}</td>
+                                        <td>{{ row.mai }}</td>
+                                        <td>{{ row.jun }}</td>
+                                        <td>{{ row.jul }}</td>
+                                        <td>{{ row.ago }}</td>
+                                        <td>{{ row.set }}</td>
+                                        <td>{{ row.out }}</td>
+                                        <td>{{ row.nov }}</td>
+                                        <td>{{ row.dez }}</td>
+                                        <td>{{ row.anual }}</td>
+                                        <td>{{ row.acum }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body">
+
+                            <table id="GridAtivosMensal" name="Grid" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="thead-dark font-weight-bold">
+                                        <th>Data</th>
+                                        <th>Codigo</th>
+                                        <th>Investimento</th>
+                                        <th>Patrimonio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for row in mensal %}
+                                    <tr>
+                                        <td>{{ row.data }}</td>
+                                        <td>{{ row.codigo }}</td>
+                                        <td>{{ row.investimento }}</td>
+                                        <td>{{ row.patrimonio }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body">
+
+                            <table id="GridAtivos" name="Grid" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="thead-dark font-weight-bold">
+                                        <th>Data</th>
+                                        <th>Codigo</th>
+                                        <th>Quant</th>
+                                        <th>Preço</th>
+                                        <th>Investio</th>
+                                        <th>Acumulado</th>
+                                        <th>Cotação</th>
+                                        <th>Investimento</th>
+                                        <th>Patrimonio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for row in lista %}
+                                    <tr>
+                                        <td>{{ row.data }}</td>
+                                        <td>{{ row.codigo }}</td>
+                                        <td>{{ row.quant }}</td>
+                                        <td>{{ row.preco }}</td>
+                                        <td>{{ row.investido }}</td>
+                                        <td>{{ row.acum }}</td>
+                                        <td>{{ row.cotacao }}</td>
+                                        <td>{{ row.investimento }}</td>
+                                        <td>{{ row.patrimonio }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAdmimTestes.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			// fLimparGrid('/');
+			// fCarregarGrid('/');
+			// fMontarGrid('/' , {{ users|safe }} );
+		});
+	</script>
+{% endblock %}

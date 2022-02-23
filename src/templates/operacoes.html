@@ -1,0 +1,488 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Operações {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagOperacoes.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6" style="border: 0px solid blue; ">
+									<h2>Operações</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Operações</li>
+									</ul>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+									<a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+									<a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<!-- <div class="header">
+							<h2><strong>Operações</strong></h2>
+						</div>     -->
+						<div class="body">
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix ">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+									<a title="Nova Compra" onclick="fAbrirModalDetalheOper('/', '', 'Novo', 'C', '', '100', '0,00');" id="btnOperNovaCompra"        name="btnOperNovaCompra"        class="btn btn-sm btn-simple btn-success"> <i class="fa fa-plus-square text-success"></i></a>
+									<a title="Nova Venda" onclick="fAbrirModalDetalheOper('/', '', 'Novo', 'V', '', '100', '0,00');" id="btnOperNovaVenda"         name="btnOperNovaVenda"         class="btn btn-sm btn-simple btn-danger">  <i class="fa fa-minus-square text-danger"></i></a>
+									<a title="Nova Bonificação" onclick="fAbrirModalDetalheOper('/', '', 'Novo', 'B', '', '', '');" id="btnOperNovaBonificacao"   name="btnOperNovaBonificacao"   class="btn btn-sm btn-simple btn-dark">    B </a>
+									<a title="Nova Amortização" onclick="fAbrirModalDetalheOper('/', '', 'Novo', 'A', '', '', '');" id="btnOperNovoAmortizacao"   name="btnOperNovoAmortizacao"   class="btn btn-sm btn-simple btn-dark">    A </a>
+									<a title="Novo Desdobramento" onclick="fAbrirModalDetalheOper('/', '', 'Novo', 'D', '', '', '');" id="btnOperNovoDesdobramento" name="btnOperNovoDesdobramento" class="btn btn-sm btn-simple btn-dark">    D </a>
+									<a title="Novo Grupamento" onclick="fAbrirModalDetalheOper('/', '', 'Novo', 'G', '', '', '');" id="btnOperNovoAgrupamento"   name="btnOperNovoAgrupamento"   class="btn btn-sm btn-simple btn-dark">    G </a>
+									<a title="Nova Troca" onclick="fAbrirModalDetalheOperTroca('/');" id="btnOperNovaTroca"   name="btnOperNovaTroca"   class="btn btn-sm btn-simple btn-dark">    T </a>
+									<a title="Nova Incorporação" onclick="fAbrirModalDetalheOperIncorporacao('/');" id="btnOperNovaIncorporacao"   name="btnOperNovaIncorporacao"   class="btn btn-sm btn-simple btn-dark">    I </a>
+									<a title="Nova Cripto" onclick="fAbrirModalDetalheOperCripto('/', '', 'Novo', 'C', '', '0,00', '0,00');" class="btn btn-sm btn-simple btn-dark">Cripto</a>
+									<a title="Importar Operações do Arquivo CSV no Padrão do Site TnB" onclick="fAbrirModalDetalheOperImportarOper('/');"            id="btnOperImportarCSV"       name="btnOperImportarCSV"       class="btn btn-sm btn-simple btn-primary"> <i class="fa fa-upload text-primary"></i></a>
+									<a title="Importar Operações do Site CEI - Canal Eletrônico do Investidor" onclick="fAbrirModalDetalheOperImportarOperCEI('/');" id="btnOperImportarCEI"       name="btnOperImportarCEI"       class="btn btn-sm btn-simple btn-primary"> <i class="fa fa-upload text-primary"></i></a>
+									 {% if current_user.is_authenticated and current_user.tipo == 'A' %} <a title="Importar Nota de Corretagem " onclick="fAbrirModalDetalheOperImportarOperNotaCorretagem('/');" id="btnOperImportarNotaCorretagem" name="btnOperImportarNotaCorretagem"       class="btn btn-sm btn-simple btn-primary"> <i class="fa fa-upload text-primary"></i></a> {% endif %}
+									<a title="Limpar Tudo" onclick="fAbrirModalLimparTodasOper();" id="btnOperLimparTodas"       name="btnOperLimparTodas"       class="btn btn-sm btn-simple btn-danger">  <i class="fa fa-trash-o text-danger"></i></a>
+								</div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix  align-items-end">
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Data Inicial:</p>
+									<input style="font-size:12px;" type="date" class="form-control" name="txtOperDataIni" id="txtOperDataIni">
+								</div>
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Data Final:</p>
+									<input style="font-size:12px;" type="date" class="form-control" name="txtOperDataFim" id="txtOperDataFim">
+								</div>
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Ativo:</p>
+									<select style="font-size:12px;" id="selOperAtivo" name="selOperAtivo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+								</div>
+								<div class="col-xl-3 col-lg-3 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Corretora:</p>
+									<select style="font-size:12px;" id="selOperCorretora" name="selOperCorretora" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione uma Corretora..."> </select>
+								</div>
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+									<a onclick="fCarregarGrid('/');" id="btnOperPesquisar" name="btnOperPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+								</div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<hr />
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<!-- Div table-responsive -->
+							<div class="table-responsive" id="AreaGrid">
+								<table id="Grid" name="Grid" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+									<thead>
+										<tr class="thead-dark font-weight-bold">
+											<th>Data</th>
+											<th>Tipo</th>
+											<th>Ativo</th>
+											<th>Quant.</th>
+											<th>Preço</th>
+											<th>Corretora</th>
+											<th>Corretagem</th>
+											<th>Taxas</th>
+											<th>Total</th>
+											<th>Custo</th>
+											<th style="display: none;"></th>
+											<th style="display: none;"></th>
+											<th>Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<!-- Div table-responsive -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Confirmacao Excluir Oper  -->
+	<div class="modal fade" id="PopModalDelOper" name="PopModalDelOper" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><i class="fa fa-lg fa-check-square-o"></i>&nbsp; <strong>Exclusão...</strong> </h6>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="txtIdOperDel" name="txtIdOperDel">
+					<p class="text-secondary">Deseja Excluir a Operação?</p>
+					<div id="AreaAlertaModalExc"> </div>
+				</div>
+				<div class="modal-footer">
+					<a onclick="fExcluirDadosOperacao('/'); return false;" class="btn btn-primary btn-round waves-effect" id="BtnModalDelOperSim" style="width: 140px" name="BtnModalDelOperSim" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iExcluir" name="iExcluir" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Sim </a>
+					<button style="width: 140px" type="button" name="BtnModalDelOperNao" id="BtnModalDelOperNao" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;N&#227;o&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Confirmacao Excluir Oper  -->
+
+	<!-- Modal Confirmacao Excluir Todas Oper  -->
+	<div class="modal fade" id="PopModalDelTdsOper" name="PopModalDelTdsOper" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><i class="fa fa-lg fa-check-square-o"></i>&nbsp; <strong>Exclusão...</strong> </h6>
+				</div>
+				<div class="modal-body">
+<!--					<input type="hidden" id="txtIdOperDel" name="txtIdOperDel">-->
+					<p class="text-secondary">Deseja Excluir Todas as Operações?</p>
+					<div id="AreaAlertaModalExcTds"> </div>
+				</div>
+				<div class="modal-footer">
+					<a onclick="fExcluirTodasOperacao('/'); return false;" class="btn btn-primary btn-round waves-effect" id="BtnModalDelTdsOperSim" style="width: 140px" name="BtnModalDelTdsOperSim" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iExcluirTds" name="iExcluirTds" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Sim </a>
+					<button style="width: 140px" type="button" name="BtnModalDelTdsOperNao" id="BtnModalDelTdsOperNao" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;N&#227;o&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Confirmacao Excluir Todas Oper -->
+
+	<!-- Modal Oper Import CSV -->
+	<div class="modal fade" id="PopModalImportCSVOper" name="PopModalImportCSVOper" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Importar Arquivo CSV de Operações</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+
+					<form method="POST" enctype="multipart/form-data" id="fileUploadForm" action=''>
+
+						<div class="form-group">
+							<div class="col-12" style="margin-bottom: 6px;!important; ">
+								<input type="file" name="arquivo" id="arquivo" name='arquivo' class="form-control-file">
+							</div>
+						</div>
+
+						<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+							<div class="col-12" id="AreaAlertaModalImportOper"></div>
+						</div>
+
+						<div class="form-group" style="margin-bottom: 6px;!important; ">
+							<div class="col-12">
+								<p class="text-dark font-weight-bold" style="font-size: 12px; margin: 1px;">O arquivo deverá ter a extensão ".CSV", com as seguintes colunas separados por ponto e vírgula (;)</p>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">Data; Tipo; Ativo; Quantidade; Preco; Corretagem; Taxas Liquidação; Emolumentos; ISS; IRRF; Outras Taxas;</p>
+								</i>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">01/01/2018; Compra; ITSA3; 1.000; 10,00; 1,99; 0,14; 0,07; 0,00; 0,00; 0,00;</p>
+								</i>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">02/01/2018; Venda; ITSA3; 1.000; 12,00; 1,99; 0,14; 0,07; 0,00; 0,00; 2,00;</p>
+								</i>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">03/01/2018; Bonificação; ITSA3; 1.000; 6,00; ; ; ; ; ; ;</p>
+								</i>
+							</div>
+						</div>
+
+						<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+							<div class="col-12" id="AreaTableModalImportOper"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fImportarCSVOper('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalImportCSVOperSalvar" name="BtnModalImportCSVOperSalvar" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iImportar" name="iImportar" class="fa fa-upload" aria-hidden="true"></i> &nbsp; Importar</a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalImportCSVOperCancelar" id="BtnModalImportCSVOperCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Oper Import CSV -->
+
+	<!-- Modal Oper Import CEI -->
+	<div class="modal fade" id="PopModalImportOperCEI" name="PopModalImportOperCEI" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Importar Operações do CEI - Canal Eletrônico do Investidor</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+
+					<p class="text-dark font-w eight-bold" style="font-size: 14px; margin: 1px; ">Entre no Site CEI e faça o <a href="https://cei.b3.com.br/CEI_Responsivo/login.aspx" target="_blank">login<a/>. </p>
+					<p class="text-dark font-w eight-bold" style="font-size: 14px; margin: 1px;">Navegue até o <a href="https://cei.b3.com.br/CEI_Responsivo/ConsultarProventos.aspx" target="_blank">Menu Extratos e Informativos ->  Negociação de ativo<a/> </p>
+					<p class="text-dark font-w eight-bold" style="font-size: 14px; margin: 1px;">Selecione a Instituição e Clique no botão "CONSULTAR", após carregar os dados.</p>
+					<p class="text-dark font-w eight-bold" style="font-size: 14px; margin: 1px;">Copie todo conteúdo da Página ou do Exel e Cole no campo abaixo.</p>
+
+					<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+						<div class="col-12" id="AreaAlertaModalImportOperCEI"> </div>
+					</div>
+
+					<div class="form-line">
+						<textarea id="TxtDadosImportCEI" rows="8" class="form-control no-resize border" placeholder="Cole aqui os dados do CEI - Canal Eletrônico do Investidor"></textarea>
+					</div>
+
+					<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+						<div class="col-12" id="AreaTableModalImportOperCEI"> </div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fImportarOperCEI('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalImportOperCEISalvar" name="BtnModalImportOperCEISalvar" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iImportarCEI" name="iImportarCEI" class="fa fa-upload" aria-hidden="true"></i> &nbsp; Importar</a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalImportOperCEICancelar" id="BtnModalImportOperCEICancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Oper Import CEI -->
+
+	<!-- Modal Oper Nota Corretagem -->
+	<div class="modal fade" id="PopModalImportOperNotaCorretagem" name="PopModalImportOperNotaCorretagem" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Importar Operações da Nota Corretagem</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; min-height:320px;; max-height:500px;">
+
+					<form method="POST" enctype="multipart/form-data" id="fileUploadForm2" action=''>
+
+						<div class="row clearfix" style="margin-bottom: 6px; ">
+							<div class="col-1"> </div>
+							<div class="col-4">
+								<select style="font-size:12px;" id="txtCorretoraNota" name="txtCorretoraNota" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione uma Corretora..."> </select>
+							</div>
+							<div class="col-7"> <input type="file" name="txtArquivoNota" id="txtArquivoNota" class="form-control-file"> </div>
+						</div>
+
+						<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+							<div class="col-1"> </div>
+							<div class="col-10" id="AreaAlertaModalImportOperNotaCorretagem"></div>
+							<div class="col-1"> </div>
+						</div>
+
+						<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+							<div class="col-12" id="AreaTableModalImportOperNotaCorretagem"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fImportarOperNotaCorretagem('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalImportOperNotaCorretagemSalvar" name="BtnModalImportOperNotaCorretagemSalvar" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iImportarNotaCorretagem" name="iImportarNotaCorretagem" class="fa fa-upload" aria-hidden="true"></i> &nbsp; Importar</a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalImportOperNotaCorretagemCancelar" id="BtnModalImportOperNotaCorretagemCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Oper Nota Corretagem -->
+
+	<!-- Modal Oper Incorporacao -->
+	<div class="modal fade" id="PopModalDetalheOperIncorporacao" name="PopModalDetalheOperIncorporacao" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-md  modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header text-center" style="padding-top: 5px; ">
+					<h4 class="title"><strong>Incorporação de Ativos</strong> </h4>
+				</div>
+				<div class="modal-body" style="overflow-y: inherit; max-height:650px; padding-top: 10px; ">
+
+					<form id="FormOperIncorporacao" name="FormOperIncorporacao" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<div class="row clearfix" style="margin-bottom: 5px; ">
+							<div class="col-lg-5 col-md-12">
+								<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Data</span>
+								<input type="date" style="font-size:12px;" class="form-control" id="txtDetOperIncorporacaoData" name="txtDetOperIncorporacaoData">
+							</div>
+							<div class="col-lg-5 col-md-12">
+								 <span style="font-size:12px;" class="font-weight-bold" >&nbsp;&nbsp;Fator </span>
+								 <input style="font-size:12px;" onkeyup="fCalcularOperacaoIncorporacao();" onchange="fCalcularOperacaoIncorporacao();" class="form-control text-right" id="txtDetOperIncorporacaoFator" name="txtDetOperIncorporacaoFator" type="text" min="0" step="1.00">
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 5px; ">
+							<div class="col-lg-12 col-md-12">
+								<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Corretora</span>
+								<select style="font-size:12px;" id="selDetOperIncorporacaoCorretora" name="selDetOperIncorporacaoCorretora" class="form-control " data-live-search="true" title="Selecione..."></select>
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-top: 15px; margin-bottom: 0px; ">
+							<div class="col-lg-12 col-md-12">
+								<span style="font-size:14px;" class="font-weight-bold">&nbsp;&nbsp;Dados do Atual Ativo</span>
+							</div>
+						</div>
+
+						<hr class='my-1'>
+
+						<div class="row clearfix" style="margin-bottom: 10px; ">
+							<div class="col-lg-5 col-md-12" >
+								<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Código</span>
+								<select onchange="fBuscarQuantAtualOper('/', 'A'); fBuscarPrecoMedioOper('/'); " style="font-size:12px;" id="selDetOperIncorporacaoAtivoAtual" name="selDetOperIncorporacaoAtivoAtual" class="form-control " data-live-search="true" ></select>
+							</div>
+							<div class="col-lg-3 col-md-12" style="padding-left: 5px; padding-right: 5px;">
+								 <span style="font-size:12px;" class="font-weight-bold" >&nbsp;&nbsp;Quant. </span>
+								 <input style="font-size:12px;" onkeyup="fCalcularOperacaoIncorporacao();" onchange="fCalcularOperacaoIncorporacao();" class="form-control text-right" id="txtDetOperIncorporacaoQuantAtual" name="txtDetOperIncorporacaoQuantAtual" type="text" min="0" step="1.00">
+							</div>
+							<div class="col-lg-4 col-md-12" >
+								<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Preço Médio:</span>
+								<input style="font-size:12px;" class="form-control text-right font-weight-bold disabled" id="txtDetOperIncorporacaoPrecoMedioAtual" name="txtDetOperIncorporacaoPrecoMedioAtual" type="text" disabled>
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 5px; ">
+							<div class="col-lg-12 col-md-12 text-right" >
+								<input style="font-size:18px;" class="form-control text-right font-weight-bold disabled" id="txtDetOperIncorporacaoTotalAtual" name="txtDetOperIncorporacaoTotalAtual" type="text" disabled value="0,00">
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-top: 15px; margin-bottom: 0px; ">
+							<div class="col-lg-12 col-md-12">
+								<span style="font-size:14px;" class="font-weight-bold">&nbsp;&nbsp;Dados do Novo Ativo</span>
+							</div>
+						</div>
+
+						<hr class='my-1'>
+
+						<div class="row clearfix" style="margin-bottom: 10px; ">
+							<div class="col-lg-5 col-md-12">
+								<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Código</span>
+								<select style="font-size:12px;" id="selDetOperIncorporacaoAtivoNovo" name="selDetOperIncorporacaoAtivoNovo" class="form-control " data-live-search="true" ></select>
+							</div>
+							<div class="col-lg-3 col-md-12" style="padding-left: 5px; padding-right: 5px;">
+								 <span style="font-size:12px;" class="font-weight-bold" >&nbsp;&nbsp;Quant. </span>
+								 <input style="font-size:12px;" class="form-control text-right" id="txtDetOperIncorporacaoQuantNovo" name="txtDetOperIncorporacaoQuantNovo" type="text" min="0" step="1.00">
+							</div>
+							<div class="col-lg-4 col-md-12">
+								<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Preço Médio:</span>
+								<input style="font-size:12px;" class="form-control text-right" id="txtDetOperIncorporacaoPrecoMedioNovo" name="txtDetOperIncorporacaoPrecoMedioNovo" type="text" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)">
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 5px; ">
+							<div class="col-lg-12 col-md-12 text-right" >
+								<input style="font-size:18px;" class="form-control text-right font-weight-bold disabled" id="txtDetOperIncorporacaoTotalNovo" name="txtDetOperIncorporacaoTotalNovo" type="text" disabled value="0,00">
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosOperIncorporacao('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheOperIncorporacaoSalvar" name="BtnModalDetalheOperIncorporacaoSalvar" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iSalvarIncorporacao" name="iSalvarIncorporacao" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar</a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheOperIncorporacaoCancelar" id="BtnModalDetalheOperIncorporacaoCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Oper Incorporacao -->
+
+	<!-- Modal Oper Troca -->
+	<div class="modal fade" id="PopModalDetalheOperTroca" name="PopModalDetalheOperTroca" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-md modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header text-center" style="padding-top: 5px; ">
+					<h4 class="title"><strong>Troca de Ativos</strong> </h4>
+				</div>
+				<div class="modal-body" style="overflow-y: inherit; max-height:650px; padding-top: 10px; ">
+
+					<form id="FormOperTroca" name="FormOperTroca" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<div class="row clearfix" style="margin-bottom: 10px; ">
+							<div class="col-lg-6 col-md-12" >
+								<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Código Atual</span>
+								<select style="font-size:12px;" id="selDetOperTrocaAtivoAtual" name="selDetOperTrocaAtivoAtual" class="form-control " data-live-search="true" ></select>
+							</div>
+							<div class="col-lg-6 col-md-12">
+								<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Código Novo</span>
+								<select style="font-size:12px;" id="selDetOperTrocaAtivoNovo" name="selDetOperTrocaAtivoNovo" class="form-control " data-live-search="true" ></select>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosOperTroca('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheOperTrocaSalvar" name="BtnModalDetalheOperTrocaSalvar" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iSalvarTroca" name="iSalvarTroca" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar</a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheOperTrocaCancelar" id="BtnModalDetalheOperTrocaCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Oper Troca -->
+
+{% endblock %}
+
+{% block modal_oper %}
+	{% include 'component_modal_oper.html' %}
+	{% include 'component_modal_oper_cripto.html' %}
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.colVis.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.html5.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.print.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.flash.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/jszip.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/pdfmake.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/vfs_fonts.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagOperacoes.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagModalOper.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagModalOperCripto.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			fLimparGrid('/');
+			fCarregarGrid('/');
+			buscar_todos_codigos_comprados('/', 'selOperAtivo', false, true, false, true, true, true, true, true);
+			buscar_todos_corretora('/', 'selOperCorretora', false, true, false, false);
+			buscar_todos_corretora('/', 'selDetOperCorretora', false, false, true, false);
+			buscar_todos_corretora('/', 'txtCorretoraNota', false, false, true, false);
+			buscar_todos_corretora('/', 'selDetOperIncorporacaoCorretora', false, false, true);
+			buscar_todos_corretora('/', 'selDetOperCriptoCorretora', false, false, true, false);
+			buscar_todos_codigos_comprados('/', 'selDetOperIncorporacaoAtivoAtual', false, false, true);
+			buscar_todos_codigos_completos('/', 'selDetOperIncorporacaoAtivoNovo', false, false, true);
+			buscar_todos_codigos_comprados('/', 'selDetOperTrocaAtivoAtual', false, false, true);
+			buscar_todos_codigos_completos('/', 'selDetOperTrocaAtivoNovo', false, false, true);
+		});
+	</script>
+{% endblock %}

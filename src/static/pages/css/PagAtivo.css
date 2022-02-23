@@ -1,0 +1,16 @@
+
+
+.paginate_button {
+ font-size: 11px;
+}
+.dataTables_info {
+ font-size: 11px;
+}
+
+#PopModalDetalheAtivo .modal-dialog {
+  transform: translate(0, -50%);
+  top: 40%;
+  margin: 0 auto;
+}
+
+

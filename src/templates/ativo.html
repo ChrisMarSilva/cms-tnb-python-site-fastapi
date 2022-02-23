@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Radar {% endblock %}
+
+{% block styles %}
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagAtivo.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-4 col-md-8 col-sm-12">
+									<h2>Radar</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Radar - Ativos para Acompanhamento</li>
+									</ul>
+								</div>
+								<div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+									<a onclick="fAbrirModalDetalheGrupo('/', 'Novo');" title="Criar Radar Personalizado" id="btnAdicionarGrupo" name="btnAdicionarGrupo" style="width: 160px;" class="btn btn-info btn-round btn-s imple" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-plus-square" aria-hidden="true"></i> &nbsp;Criar Radar </a>
+									&nbsp;
+									<a onclick="fAbrirModalDetalheAtivo('/');" title="Adicionar Ativos ao Radar Personalizado" id="btnAdicionarAtivo" name="btnAdicionarAtivo" style="width: 160px; display: none; " class="btn btn-info btn-round btn-s imple" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-plus-square" aria-hidden="true"></i> &nbsp; Adicionar Ativo</a>
+									&nbsp;
+									<a onclick="fAbrirModalDetalheGrupo('/', 'Alterar');" title="Alterar Nome do Radar Personalizado" id="btnAlterarGrupo" name="btnAlterarGrupo" style="width: 160px; display: none; " class="btn btn-info btn-round btn-s imple" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> &nbsp; Altera Nome</a>
+									&nbsp;
+									<a onclick="fAbrirModalRemoverGrupo('/');" title="Remover Radar Personalizado" id="btnRemoverGrupo" name="btnRemoverGrupo" style="width: 160px; display: none; " class="btn btn-info btn-round btn-s imple" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-minus-square" aria-hidden="true"></i> &nbsp; Remover Radar</a>
+									&nbsp;
+									<a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+									&nbsp;
+									<a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- DivTabGrupos -->
+			<ul class="nav nav-tabs d-flex nav-justified font-weight-bold" role="tablist" style="font-size: 13px; " id="TabGrupos"> </ul>
+			<!-- DivTabGrupos -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<!-- <div class="header">
+							<h2><strong>Radar</strong> - Ativos para Acompanhamento</h2>
+						</div> -->
+						<div class="body">
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<br />
+
+							<!-- Div table-responsive -->
+							<div class="table-responsive" id="AreaGrid">
+								<table id="Grid" name="Grid" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+									<thead>
+										<tr class="thead-dark font-weight-bold">
+											<th>Setor</th>
+											<th>Sub-Setor</th>
+											<th>Segmento</th>
+											<th>Ativo</th>
+											<th>Empresa</th>
+											<th>Preço</th>
+											<th>Variação</th>
+											<th style="display: none;">IdUserGrupo</th>
+											<th style="display: none;">IdUserAtivo</th>
+											<th>Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+									</tfoot>
+								</table>
+							</div>
+							<!-- Div table-responsive -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Detalhe -->
+	<div class="modal fade" id="PopModalDetalheGrupo" name="PopModalDetalheGrupo" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Grupo</strong> <strong id="PopModalDetalheGrupoTit" name="PopModalDetalheGrupoTit"></strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+
+					<form id="FormCorret" name="FormCorret" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<input type="hidden" id="txtCadGrupoId">
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-4 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadGrupoNome">Nome:</label> </div>
+							<div class="col-6"> <input style="font-size:12px;" class="form-control" id="txtCadGrupoNome" name="txtCadGrupoNome" type="text" maxlength="100"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-10" id="AreaAlertaModalCad"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosGrupo('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheGrupoSalvar" name="BtnModalDetalheGrupoSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheGrupoCancelar" id="BtnModalDetalheGrupoCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe -->
+
+	<!-- Modal Detalhe -->
+	<div class="modal fade" id="PopModalDetalheAtivo" name="PopModalDetalheAtivo" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Ativo - Novo</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: inherit;">
+
+					<form id="FormCorret2" name="FormCorret" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<input type="hidden" id="txtCadGrupoId">
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-4 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadAtivoCodigo">Ativo:</label> </div>
+							<div class="col-6"> <select style="font-size:12px;" class="form-control " data-live-search="true" title="Selecione..." id="txtCadAtivoCodigo" name="txtCadAtivoCodigo"></select> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-10" id="AreaAlertaModalCadAtivo"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosAtivo('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheAtivoSalvar" name="BtnModalDetalheAtivoSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheAtivoCancelar" id="BtnModalDetalheAtivoCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe -->
+
+	<!-- Modal Confirmacao -->
+	<div class="modal fade" id="PopModalDelGrupo" name="PopModalDelGrupo" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><i class="fa fa-lg fa-check-square-o"></i>&nbsp; Exclusão... </h6>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="txtDelGrupoId" name="txtDelGrupoId">
+					<p class="text-secondary">Você realmente deseja excluir a Grupo?</p>
+					<div id="AreaAlertaModalExc"> </div>
+				</div>
+				<div class="modal-footer">
+					<a onclick="fExcluirDadosGrupo('/'); return false;" class="btn btn-primary btn-round waves-effect" id="BtnModalDelGrupoSim" style="width: 140px" name="BtnModalDelGrupoSim" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iExcluir" name="iExcluir" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Sim </a>
+					<button style="width: 140px" type="button" name="BtnModalDelGrupoNao" id="BtnModalDelGrupoNao" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;Não&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Confirmacao -->
+
+{% endblock %}
+
+{% block modal_oper %}
+	{% include 'component_modal_oper.html' %}
+	{% include 'component_modal_oper_cripto.html' %}
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAtivo.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagModalOper.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagModalOperCripto.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			fLimparGrid('/');
+			fCarregarListaGrupos('/', '');
+			fCarregarGrid('/');
+			// buscar_todos_corretora('/', 'selDetOperCorretora', false, false, true);
+			buscar_todos_codigos_completos('/', 'txtCadAtivoCodigo', false, false, true);
+		});
+	</script>
+{% endblock %}

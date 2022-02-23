@@ -1,0 +1,348 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - CEI {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagCei.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+    <!-- Div Main Content -->
+    <section class="content">
+        <div class="container">
+
+            <!-- Div Titulo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="body block-header">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6" style="border: 0px solid blue; ">
+                                    <h2>CEI Investidor</h2>
+                                    <ul class="breadcrumb p-l-0 p-b-0 ">
+                                        <li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+                                        <li class="breadcrumb-item active">CEI</li>
+                                    </ul>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+                                    <a onclick="fAbrirModalDadosCei('/');" style="width: 200px;" class="btn btn-info btn-s imple btn-round " role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iSalvarCei" name="iSalvarCei" class="fa fa-pencil fa-lg" aria-hidden="true"></i> &nbsp;Meu Dados</a>
+                                    <a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Titulo Pag -->
+
+            <!-- Div Row clearfix -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <ul class="nav nav-tabs d-flex justify-content-center">
+                        <li class="nav-item"><a style="font-size: 14px; width: 250px; " class="border border-secondary text-center font-weight-bold nav-link active" data-toggle="tab" href="#AbaCeiOper">Operações</a></li>
+                        <li class="nav-item"><a style="font-size: 14px; width: 250px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaCeiProv">Proventos</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Div Row clearfix -->
+
+            <!-- Div Row clearfix -->
+            <div class="row clearfix">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+            </div>
+            <!-- Div Row clearfix -->
+
+            <!-- Tab Balance  -->
+            <div class="tab-content">
+
+                <!-- AbaCeiOper -->
+                <div role="tabpanel" class="tab-pane in active" id="AbaCeiOper">
+
+                    <!-- Div Conteudo Pag -->
+                    <div class="row clearfix">
+                        <div class="col-lg-12">
+                            <div class="card border">
+                                <div class="header">
+                                    <div class="row clearfix align-items-end">
+                                        <div class="col-6 text-left"> <h2><strong>Operações</strong> Importada do CEI Investidor</h2> </div>
+                                        {% if user_dthr != '' %}
+                                        <div class="col-6 text-right"> <em> <span class="text-muted">Última Integração:</span> <span class="text-left {{ title_cor }}"> {% if user_dthr != '' %} {{ user_dthr }} {% else %} Integração não realizada... {% endif %} </span> </em> </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="body">
+
+                                    {% if user_dthr == '' %}
+
+                                        <br/>
+                                        <div class="text-center">
+                                            <h6><em>Nunhuma Operação Importada...</em></h6>
+                                        </div>
+                                        <br/>
+                                        <br/>
+
+                                    {% else %}
+
+                                        <!-- Div Row clearfix -->
+                                        <div class="row clearfix align-items-end">
+                                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                                                <p class="font-weight-bold ">Data Inicial:</p>
+                                                <input style="font-size:12px;" type="date" class="form-control" name="txtCeiDataIni" id="txtCeiDataIni">
+                                            </div>
+                                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                                                <p class="font-weight-bold ">Data Final:</p>
+                                                <input style="font-size:12px;" type="date" class="form-control" name="txtCeiDataFim" id="txtCeiDataFim">
+                                            </div>
+                                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                                                <p class="font-weight-bold ">Ativo:</p>
+                                                <select style="font-size:12px;" id="selCeiAtivo" name="selCeiAtivo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Todos..."> </select>
+                                            </div>
+                                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+                                                <a onclick="fCarregarGrid('/');" id="btnCeiPesquisar" name="btnCeiPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-3 col-md-4 col-sm-12 text-right">
+                                                <a onclick="fAgruparLancOper('/');" title="Agrupar todos os itens selecionados em um Unico Lançamento, pórem tem que ter a mesma Data, Tipo e Ativo..." id="btnCeiAgrupar" name="btnCeiAgrupar" style="width: 170px;"  class="btn btn-simple btn-info btn-round font-weight-bold" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iAgrupar" name="iAgrupar" class="fa fa-lg fa-plus-square" aria-hidden="true"></i>&nbsp;Agrupar Lanç. </a>
+                                                <a onclick="fConferirLancOper('/');" title="Marcar como Conferido todos os itens selecionados..." id="btnCeiConferir" name="btnCeiConferir" style="width: 170px;" class="btn btn-simple btn-info btn-round font-weight-bold" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iConferir" name="iConferir" class="fa fa-lg fa-check" aria-hidden="true"></i>&nbsp;Conferir Lanç. </a>
+                                            </div>
+                                        </div>
+                                        <!-- Div Row clearfix -->
+
+                                        <hr />
+
+                                        <!-- Div table-responsive -->
+                                        <div class="table-responsive" id="AreaGrid">
+                                            <table id="Grid" name="Grid" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr class="thead-dark font-weight-bold">
+                                                        <th class="text-center" width="15px"> <input type='checkbox' id='ckTodos'/> </th>
+                                                        <th class="text-center" width="40px">Data</th>
+                                                        <th class="text-center" width="50px">Tipo</th>
+                                                        <th class="text-center" width="40px">Ativo</th>
+                                                        <th class="text-center" width="50px">Quant.</th>
+                                                        <th class="text-center" width="50px">Preço</th>
+                                                        <th class="text-center" width="70px">Total</th>
+                                                        <th class="text-center" width="90px">Corretora</th>
+                                                        <th class="text-center" width="50px">Situação</th>
+                                                        <th style="display: none;"></th>
+                                                        <th style="display: none;"></th>
+                                                        <th class="text-center" width="30px">Ação</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                </tfoot>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- Div table-responsive -->
+
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Div Conteudo Pag -->
+
+                </div>
+                <!-- AbaCeiOper -->
+
+                <!-- AbaCeiProv -->
+                <div role="tabpanel" class="tab-pane" id="AbaCeiProv">
+
+                    <!-- Div Conteudo Pag -->
+                    <div class="row clearfix">
+                        <div class="col-lg-12">
+                            <div class="card border">
+                                <div class="header">
+                                    <div class="row clearfix align-items-end">
+                                        <div class="col-6 text-left"> <h2><strong>Proventos</strong> Importado do CEI Investidor</h2> </div>
+                                        {% if user_dthr != '' %}
+                                            <div class="col-6 text-right"> <em> <span class="text-muted">Última Integração:</span> <span class="text-left {{ title_cor }}"> {% if user_dthr != '' %} {{ user_dthr }} {% else %} Integração não realizada... {% endif %} </span> </em> </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="body">
+
+                                    {% if user_dthr == '' %}
+
+                                        <br/>
+                                        <div class="text-center">
+                                            <h6><em>Nunhum Provento Importado...</em></h6>
+                                        </div>
+                                        <br/>
+                                        <br/>
+
+                                    {% else %}
+
+                                        <!-- Div Row clearfix -->
+                                        <div class="row clearfix align-items-end">
+                                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                                                <p class="font-weight-bold ">Data Inicial:</p>
+                                                <input style="font-size:12px;" type="date" class="form-control" name="txtCeiProvDataIni" id="txtCeiProvDataIni">
+                                            </div>
+                                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                                                <p class="font-weight-bold ">Data Final:</p>
+                                                <input style="font-size:12px;" type="date" class="form-control" name="txtCeiProvDataFim" id="txtCeiProvDataFim">
+                                            </div>
+                                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                                                <p class="font-weight-bold ">Ativo:</p>
+                                                <select style="font-size:12px;" id="selCeiProvAtivo" name="selCeiProvAtivo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Todos..."> </select>
+                                            </div>
+                                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+                                                <a onclick="fCarregarGridProv('/');" id="btnCeiProvPesquisar" name="btnCeiProvPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iProvRefresh" name="iProvRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-3 col-md-4 col-sm-12 text-right">
+                                                <a onclick="fAgruparLancProv('/');" title="Agrupar todos os itens selecionados em um Unico Lançamento, pórem tem que ter a mesma Data, Tipo e Ativo..." id="btnCeiProvAgrupar" name="btnCeiProvAgrupar" style="width: 170px;"  class="btn btn-simple btn-info btn-round font-weight-bold" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iProvAgrupar" name="iProvAgrupar" class="fa fa-lg fa-plus-square" aria-hidden="true"></i>&nbsp;Agrupar Prov. </a>
+                                                <a onclick="fConferirLancProv('/');" title="Marcar como Conferido todos os itens selecionados..." id="btnCeiProvConferir" name="btnCeiProvConferir" style="width: 170px;" class="btn btn-simple btn-info btn-round font-weight-bold" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iProvConferir" name="iProvConferir" class="fa fa-lg fa-check" aria-hidden="true"></i>&nbsp;Conferir Prov. </a>
+                                            </div>
+                                        </div>
+                                        <!-- Div Row clearfix -->
+
+                                        <hr />
+
+                                        <!-- Div table-responsive -->
+                                        <div class="table-responsive" id="AreaGridProv">
+                                            <table id="GridProv" name="GridProv" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr class="thead-dark font-weight-bold">
+                                                        <th class="text-center" width="15px"> <input type='checkbox' id='ckTodosProv'/> </th>
+                                                        <th class="text-center" width="40px">Dt. Pagto</th>
+                                                        <th class="text-center" width="50px">Tipo</th>
+                                                        <th class="text-center" width="40px">Ativo</th>
+                                                        <th class="text-center" width="50px">Quant.</th>
+                                                        <th class="text-center" width="50px">Tot. Bruto</th>
+                                                        <th class="text-center" width="70px">Tot. Líquido</th>
+                                                        <th class="text-center" width="90px">Corretora</th>
+                                                        <th class="text-center" width="50px">Situação</th>
+                                                        <th style="display: none;"></th>
+                                                        <th style="display: none;"></th>
+                                                        <th class="text-center" width="30px">Ação</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                </tfoot>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- Div table-responsive -->
+
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Div Conteudo Pag -->
+
+                </div>
+                <!-- AbaCeiProv -->
+
+            </div>
+            <!-- Tab Balance  -->
+
+			{% include 'component_rodape.html' %}
+
+        </div>
+    </section>
+    <!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+    <!-- Modal Meus Dados CEI -->
+    <div class="modal fade" id="PopModalDadosCEI" name="PopModalDadosCEI" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h6> <i class="fa fa-lg fa-check-square-o"></i>&nbsp; <strong>Meus Dados...</strong> </h6>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row clearfix" style="margin-bottom: 4px; " id="DivAlertaModalDadosCei" name="DivAlertaModalDadosCei">
+                        <div class="col-1"> </div>
+                        <div class="col-10" id="AlertaModalDadosCei"> </div>
+                        <div class="col-1"> </div>
+                    </div>
+
+                    <form id="FormCei" name="FormCei" role="form" novalidate action="javascript:void(0);" method="POST">
+
+                        <div class="row clearfix" style="margin-bottom: 4px;">
+                            <div class="col-4 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDetCeiCpf">CPF:</label> </div>
+                            <div class="col-5"> <input type="text" style="font-size:12px;" class="form-control" id="txtDetCeiCpf" name="txtDetCeiCpf" placeholder="CPF" maxlength="11" onblur="javascript:formataCampoNew(this, FMT_CPF)" onkeyup="javascript:validaKey(this,  FMT_CPF)"> </div>
+                        </div>
+
+                        <div class="row clearfix" style="margin-bottom: 4px;">
+                            <div class="col-4 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDetCeiSenha">Senha:</label> </div>
+                            <div class="col-5"> <input type="password" style="font-size:12px;" class="form-control" id="txtDetCeiSenha" name="txtDetCeiSenha" placeholder="Senha"> </div>
+                        </div>
+
+                        <div class="row clearfix" style="margin-top: 20px; padding-bottom: 2px; margin-bottom: 2px; line-height: 0.5;">
+                            <div class="col-4 text-right"> <label style="font-size:13px;" class="font-weight-bold">Situação:</label> </div>
+                            <div class="col-5"> <span class="font-weight-bold text-muted" style="font-size: 12px;" id="txtDetCeiSitDescr" name="txtDetCeiSitDescr"/> </div>
+                        </div>
+
+                        <div class="row clearfix" style="padding-top: 5px; margin-top: 5px; line-height: 1.0;">
+                            <div class="col-4 text-right"> <label style="font-size:11px;" class="font-weight-bold">Última DtHr.:</label> </div>
+                            <div class="col-5"> <em><span class="text-muted" style="font-size: 12px;" id="txtDetCeiDtHrDescr" name="txtDetCeiDtHrDescr"/></em> </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <a onclick="fSalvarDadosCei('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDadosCeiSalvar" name="BtnModalDadosCeiSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iDadosCeiSalvar" name="iDadosCeiSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+                    <button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDadosCeiCancelar" id="BtnModalDadosCeiCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Meus Dados CEI -->
+
+{% endblock %}
+
+{% block modal_oper %}
+	{% include 'component_modal_oper.html' %}
+{% endblock %}
+
+{% block modal_porv %}
+	{% include 'component_modal_prov.html' %}
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.colVis.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.html5.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.print.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.flash.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/jszip.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/pdfmake.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/vfs_fonts.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagCei.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagModalOper.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagModalProv.js') }}"></script>
+    <script>
+        var CeiCpf       = "{{ user_cpf }}";
+        var CeiDtHrDescr = "{{ user_dthr }}";
+        var CeiSit       = "{{ user_sit }}";
+        $(document).ready(function() {
+            fLimparGrid('/');
+            fLimparGridProv('/');
+            fCarregarGrid('/');
+            fCarregarGridProv('/');
+            buscar_todos_codigos_operacoes_cei( '/', 'selCeiAtivo',     false, true, false, true, true, true, true);
+            buscar_todos_codigos_proventos_cei( '/', 'selCeiProvAtivo', false, true, false, true, true, false, true,);
+            fCarregarModalCodigoAtivos( '/', 'Novo', 'C', '' ); // Modal Operações
+            buscar_todos_codigos_proventos_cei( '/', 'selDivAtivo', false, false, true);// Modal Proventos
+            buscar_todos_corretora( '/', 'selDivCorretora', true, false, false);// Modal Proventos
+        });
+    </script>
+{% endblock %}

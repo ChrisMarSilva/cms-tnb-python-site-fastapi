@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Admin - FII - Cotação {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagFIIFundoImobCotacao.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-6 col-md-8 col-sm-12">
+									<h2>FII - Cotação</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">FII - Fundos de Investimento Imobiliário - Cotação</li>
+									</ul>
+								</div>
+								<div class="col-lg-6 col-md-8 col-sm-12  text-right clearfix align-items-end" style="border: 0px solid blue; ">
+									<a onclick="fAtualizarTodasCotacoes('/');" id="BtnAtuCotacao" name="BtnAtuCotacao" style="width: 160px;" class="btn btn-info btn-round btn-simple" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iBtnAtuCotacao" name="iBtnAtuCotacao" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Atualizar Tudo</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="header">
+							<h2><strong>FII</strong> - Fundos de Investimento Imobiliário - Cotação</h2>
+						</div>
+						<div class="body">
+
+							<!-- Div Row Form -->
+							<div class="form-group form-row">
+								<div class="col" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row Form -->
+
+							<!-- Div table-responsive -->
+							<div class="table-responsive" id="AreaGrid">
+								<table id="Grid" name="Grid" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+									<thead>
+										<tr class="bg-secondary text-white">
+											<th>Ativo</th>
+											<th>Fechamento</th>
+											<th>Vlr. Anterior</th>
+											<th>R$ Variação</th>
+											<th>% Variação</th>
+											<th>DtHr. Atualização</th>
+											<th>Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<!-- Div table-responsive -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Detalhe -->
+	<div class="modal fade" id="PopModalDetalheFundoImobCotacao" name="PopModalDetalheFundoImobCotacao" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><i class="fa fa-lg fa-check-square-o"></i>&nbsp; <strong>Fundo Imob. - Cotação...</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+
+					<form id="FormCot" name="FormCot" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+							<div class="col-12" id="AreaAlertaModalCad"></div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-2"> </div>
+							<div class="col-4">
+								<label style="font-size:12px;" class="font-weight-bold" for="txtCadCotFundo">Fundo</label>
+								<input style="font-size:12px;" class="form-control font-weight-bold" id="txtCadCotFundo" name="txtCadCotFundo" type="text" readonly>
+							</div>
+							<div class="col-4">
+								<label style="font-size:12px;" class="font-weight-bold" for="txtCadCotFechamento">Fechamento</label>
+								<input style="font-size:12px;" class="form-control text-right" id="txtCadCotFechamento" name="txtCadCotFechamento" type="text" />
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-2"> </div>
+							<div class="col-4">
+								<label style="font-size:12px;" class="font-weight-bold" for="txtCadCotVlrAnterior">Vlr. Anterior</label>
+								<input style="font-size:12px;" class="form-control text-right" id="txtCadCotVlrAnterior" name="txtCadCotVlrAnterior" type="text" />
+							</div>
+							<div class="col-4">
+								<label style="font-size:12px;" class="font-weight-bold" for="txtCadCotVariacao">% Variação</label>
+								<input style="font-size:12px;" class="form-control text-right" id="txtCadCotVariacao" name="txtCadCotVariacao" type="text" />
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosFundoImobCot('/>');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheFundoImobCotSalvar" name="BtnModalDetalheFundoImobCotSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheFundoImobCotCancelar" id="BtnModalDetalheFundoImobCotCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagFIIFundoImobCotacao.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			fLimparGrid('/');
+			fCarregarGrid('/');
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Valor Intrínseco {% endblock %}
+
+{% block styles %}
+<!--    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />-->
+<!--    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />-->
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagIntrinseco.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+<!-- Div Main Content -->
+<section class="content">
+	<div class="container">
+
+		<!-- Div Titulo Pag -->
+		<div class="row clearfix">
+			<div class="col-lg-12">
+				<div class="card border">
+					<div class="body block-header">
+						<div class="row">
+							<div class="col-lg-6 col-md-8 col-sm-12">
+								<h2>Fórmula de Grahan</h2>
+								<ul class="breadcrumb p-l-0 p-b-0 ">
+									<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+									<li class="breadcrumb-item active">Fórmula de Grahan - Valor Intrínseco</li>
+								</ul>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+								<a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+								&nbsp;
+								<a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Div Titulo Pag -->
+
+		<!-- Div Conteudo Pag -->
+		<div class="row clearfix">
+			<div class="col-lg-12">
+				<div class="card border">
+					<!-- <div class="header">
+						<h2><strong>Fórmula de Grahan</strong> - Valor Intrínseco</h2>
+					</div> -->
+					<div class="body">
+
+						<!-- Div Row clearfix -->
+						<div class="row clearfix align-items-end">
+							<div class="col-xl-3 col-lg-3 col-md-4 col-sm-12">
+								<p class="font-weight-bold ">Setor:</p>
+								<select style="font-size:12px;" id="selFiltroSetor" name="selFiltroSetor" onchange="fCarregarGrid('/');" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+							</div>
+							<div class="col-xl-3 col-lg-3 col-md-4 col-sm-12">
+								<p class="font-weight-bold ">Sub-Setor:</p>
+								<select style="font-size:12px;" id="selFiltroSubSetor" name="selFiltroSubSetor" onchange="fCarregarGrid('/');" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+							</div>
+							<div class="col-xl-3 col-lg-3 col-md-4 col-sm-12">
+								<p class="font-weight-bold ">Segmento:</p>
+								<select style="font-size:12px;" id="selFiltroSegmento" name="selFiltroSegmento" onchange="fCarregarGrid('/');" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+							</div>
+							<div class="col-xl-3 col-lg-3 col-md-4 col-sm-12">
+								<p class="font-weight-bold ">Ativo:</p>
+								<select style="font-size:12px;" id="selFiltroAtivo" name="selFiltroAtivo" onchange="fCarregarGrid('/');" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+							</div>
+						</div>
+						<!-- Div Row clearfix -->
+
+						<!-- Div Row clearfix -->
+						<div class="row clearfix m-t-30 align-items-end">
+							<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
+								<p class="font-weight-bold ">Tipo:</p>
+								<select style="font-size:12px;" id="selFiltroTipo" name="selFiltroTipo" class="form-control z-index show-menu-arrow" onchange="fCarregarGrid('/');">
+									<option value="">Todos</option>
+									<option value="M" selected>Minhas</option>
+								</select>
+							</div>
+							<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
+								<p class="font-weight-bold ">Margem (%):</p>
+								<input style="font-size:13px;" type="text" class="form-control" name="txtFiltroPerc" id="txtFiltroPerc" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2);" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)">
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+								<a onclick="fCarregarGrid('/');" id="btnIntrPesquisar" name="btnIntrPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+							</div>
+						</div>
+						<!-- Div Row clearfix -->
+
+						<!-- <a onclick="fLimparGrid('/');" id="btnIntrLimpar" name="btnIntrLimpar" style="width: 120px;" class="btn btn-outline-info btn-sm" role="button" aria-pressed="true" href="javascript:void(0);"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Limpar</a> -->
+
+						<!-- Div Row clearfix -->
+						<div class="row clearfix m-t-30">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+						</div>
+						<!-- Div Row clearfix -->
+
+						<!-- Div table-responsive -->
+						<div class="table-responsive" id="AreaGrid">
+							<table id="Grid" name="Grid" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+								<thead>
+									<tr class="thead-dark font-weight-bold">
+										<th>Ativo</th>
+										<th>Nome</th>
+										<th>Preço</th>
+										<th>Intrinseco</th>
+										<th>Percentual</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+								<tfoot>
+								</tfoot>
+							</table>
+						</div>
+						<!-- Div table-responsive -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+	</div>
+</section>
+<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block scripts %}
+
+<!--	<script src="{{ url_for('static', filename='assets/js/libscripts.bundle.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='assets/js/vendorscripts.bundle.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='assets/js/mainscripts.bundle.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='assets/js/particles.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='assets/js/particles.js') }}"></script>-->
+
+<!--	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.colVis.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.html5.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.print.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.flash.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/jszip.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/pdfmake.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/vfs_fonts.js') }}"></script>-->
+
+<!--	<script src="{{ url_for('static', filename='plugins/js/highstock.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highstock.exporting.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highstock.export-data.js') }}"></script>-->
+
+<!--	<script src="{{ url_for('static', filename='plugins/js/highcharts.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highcharts.exporting.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highcharts.export-data.js') }}"></script>-->
+
+<!--	<script src="{{ url_for('static', filename='plugins/js/defaults-pt_BR.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/moment.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/moment-pt-br.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/fullcalendar.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/fullcalendar-pt-br.js') }}"></script>-->
+
+<!--	<script src="{{ static_autoversion('pages/js/PagPadrao.js') }}"></script>-->
+<!--	<script src="{{ static_autoversion('pages/js/PagPadraoDatas.js') }}"></script>-->
+<!--	<script src="{{ static_autoversion('pages/js/PagPadraoFormatar.js') }}"></script>-->
+<!--	<script src="{{ static_autoversion('pages/js/PagPadraoSelects.js') }}"></script>-->
+	<script src="{{ static_autoversion('pages/js/PagIntrinseco.js') }}"></script>
+
+	<script>
+		$(document).ready(function() {
+			fLimparGrid('/');
+			buscar_todos_setores_acoes('/', 'selFiltroSetor', false, true, false, true);
+			buscar_todos_subsetores_acoes('/', 'selFiltroSubSetor', false, true, false, true);
+			buscar_todos_segmentos_acoes('/', 'selFiltroSegmento', false, true, false, true);
+			buscar_todos_codigos_completos_acoes('/', 'selFiltroAtivo', false, true, false, true);
+			fDefinirPadraoSelect('selFiltroTipo');
+			fCarregarGrid('/');
+		});
+	</script>
+
+{% endblock %}

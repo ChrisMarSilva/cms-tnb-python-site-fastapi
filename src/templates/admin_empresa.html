@@ -1,0 +1,394 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Admin - Empresa {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagEmpresa.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-6 col-md-8 col-sm-12" style="border: 0px solid red; ">
+									<h2>Empresa</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Empresa</li>
+									</ul>
+								</div>
+								<div class="col-lg-6 col-md-8 col-sm-12  text-right clearfix align-items-end" style="border: 0px solid blue; ">
+									<a onclick="fAbrirModalIncEmpresa('/');" id="btnEmprIncEmp" name="btnEmprIncEmp" style="width: 170px;" class="btn btn-info btn-round btn-s imple" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Nova Empresa </a>
+									&nbsp;
+									<a onclick="fAbrirModalIncAtivo('/');"   id="btnEmprIncAtv" name="btnEmprIncAtv" style="width: 170px;" class="btn btn-info btn-round btn-s imple" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Novo Ativo </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="header">
+							<h2><strong>Empresa</strong></h2>
+						</div>
+						<div class="body">
+
+							<!-- Div Row Form -->
+							<div class="row clearfix align-items-end">
+								<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
+									<label class="font-weight-bold " style="font-size:12px;">Setor:</label>
+									<select style="font-size:12px;" id="selFiltroSetor" name="selFiltroSetor" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione..." onchange="fCarregarGrid('/');"></select>
+								</div>
+								<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
+									<label class="font-weight-bold " style="font-size:12px;">SubSetor:</label>
+									<select style="font-size:12px;" id="selFiltroSubSetor" name="selFiltroSubSetor" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione..." onchange="fCarregarGrid('/');"></select>
+								</div>
+								<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
+									<label class="font-weight-bold " style="font-size:12px;">Segmento:</label>
+									<select style="font-size:12px;" id="selFiltroSegmento" name="selFiltroSegmento" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione..." onchange="fCarregarGrid('/');"></select>
+								</div>
+								<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
+									<label class="font-weight-bold " style="font-size:12px;">Ativo:</label>
+									<select style="font-size:12px;" id="selFiltroAtivo" name="selFiltroAtivo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione..." onchange="fCarregarGrid('/');"></select>
+								</div>
+								<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
+									<label class="font-weight-bold " style="font-size:12px;">Tipo:</label>
+									<select style="font-size:12px;" id="selFiltroTipo" name="selFiltroTipo" class="form-control z-index show-menu-arrow" data-live-search="true" onchange="fCarregarGrid('/');">
+										<option value="">Todos</option>
+										<option value="M">Minhas</option>
+										<option value="C">Comprados</option>
+									</select>
+								</div>
+								<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 text-left">
+									<a onclick="fCarregarGrid('/');" id="btnEmprPesquisar" name="btnEmprPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+								</div>
+							</div>
+							<!-- Div Row Form -->
+
+							<!-- Div Row Form -->
+							<div class="row clearfix">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row Form -->
+
+							<!-- <hr /> -->
+
+							<!-- Div table-responsive -->
+							<div class="table-responsive" id="AreaGrid">
+								<table id="Grid" name="Grid" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+									<thead>
+										<tr class="bg-secondary text-white">
+											<th>Ativo</th>
+											<th>Nome</th>
+											<th>Empresa</th>
+											<th>Setor</th>
+											<th>Sub-Setor</th>
+											<th>Segmento</th>
+											<th>Situação</th>
+											<th style="display: none;"></th>
+											<th>Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+									</tfoot>
+								</table>
+							</div>
+							<!-- Div table-responsive -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Detalhe -->
+	<div class="modal fade" id="PopModalDetalheEmpresa" name="PopModalDetalheEmpresa" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><strong>Empresa</strong> <strong id="PopModalDetalheEmpresaTit" name="PopModalDetalheEmpresaTit"></strong></h6>
+				</div>
+				<div class="modal-body" style="overflow-y: inherit; max-height:500px;">
+
+					<form id="FormEmpr" name="FormEmpr" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<input id="txtCadEmprId" name="txtCadEmprId" type="hidden">
+
+                        <div class="row clearfix" style="margin-bottom: 4px; ">
+                            <div class="col-1"> </div>
+                            <div class="col-3"> <label style="font-size:12px;" for="txtCadEmprSetor" class="font-weight-bold">Setor:</label> </div>
+                            <div class="col-6"> <select style="font-size:12px;" id="txtCadEmprSetor" class="form-control " data-live-search="true"></select> </div>
+                        </div>
+
+                        <div class="row clearfix" style="margin-bottom: 4px; ">
+                            <div class="col-1"> </div>
+                            <div class="col-3"> <label style="font-size:12px;" for="txtCadEmprSubSetor" class="font-weight-bold">Sub-Setor:</label> </div>
+                            <div class="col-6"> <select style="font-size:12px;" id="txtCadEmprSubSetor" class="form-control " data-live-search="true"></select> </div>
+                        </div>
+
+                        <div class="row clearfix" style="margin-bottom: 4px; ">
+                            <div class="col-1"> </div>
+                            <div class="col-3"> <label style="font-size:12px;" for="txtCadEmprSegmento" class="font-weight-bold">Segmento:</label> </div>
+                            <div class="col-6"> <select style="font-size:12px;" id="txtCadEmprSegmento" class="form-control " data-live-search="true"></select> </div>
+                        </div>
+
+						<div class="row clearfix">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprNome">Nome</label> </div>
+							<div class="col-6"> <input style="font-size:12px;" class="form-control" id="txtCadEmprNome" name="txtCadEmprNome" type="text"> </div>
+						</div>
+
+						<div class="row clearfix">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprRazao">Razão Social</label> </div>
+							<div class="col-6">
+								<input style="font-size:12px;" class="form-control" id="txtCadEmprRazao" name="txtCadEmprRazao" type="text">
+							</div>
+						</div>
+
+						<div class="row clearfix">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprCNPJ">CNPJ</label> </div>
+							<div class="col-6"> <input style="font-size:12px;" class="form-control" id="txtCadEmprCNPJ" name="txtCadEmprCNPJ" type="text"> </div>
+						</div>
+
+						<div class="row clearfix">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprAtividade">Atividade</label> </div>
+							<div class="col-6"> <input style="font-size:12px;" class="form-control" id="txtCadEmprAtividade" name="txtCadEmprAtividade" type="text"> </div>
+						</div>
+
+						<div class="row clearfix">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprCodCVM">Cod. CVM</label> </div>
+							<div class="col-6">
+								<input style="font-size:12px;" class="form-control" id="txtCadEmprCodCVM" name="txtCadEmprCodCVM" type="text">
+							</div>
+						</div>
+
+						<div class="row clearfix">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprSitCVM">Sit. CVM</label> </div>
+							<div class="col-6"> <input style="font-size:12px;" class="form-control" id="txtCadEmprSitCVM" name="txtCadEmprSitCVM" type="text"> </div>
+						</div>
+
+						<div class="row clearfix">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:13px;" for="txtCadEmprSituacao" class="font-weight-bold">Situação:</label> </div>
+							<div class="col-6"> <select style="font-size:13px;" id="txtCadEmprSituacao" name="txtCadEmprSituacao" class="form-control"> <option value="A">Ativa</option> <option value="E">Encerrado</option> <option value="I">Inativa</option> </select> </div>
+						</div>
+
+						<div class="row clearfix">
+							<div class="col" id="AreaAlertaModalCad"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDados('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheEmprSalvar" name="BtnModalDetalheEmprSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheEmprCancelar" id="BtnModalDetalheEmprCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe -->
+
+	<!-- Modal Detalhe -->
+	<div class="modal fade" id="PopModalIncluirEmpresa" name="PopModalIncluirEmpresa" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><strong>Empresa...</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: inherit; max-height:500px;">
+
+					<div class="row clearfix" style="margin-bottom: 6px;!important; ">
+						<div class="col-12" id="AreaAlertaModalCadEmpr"></div>
+					</div>
+
+					<form id="FormIncEmpr" name="FormIncEmpr" role="form" novalidate action="javascript:void(0);" method="POST">
+
+                        <div class="row clearfix" style="margin-bottom: 4px; ">
+                            <div class="col-1"> </div>
+                            <div class="col-3"> <label style="font-size:12px;" for="txtCadInclEmprSetor" class="font-weight-bold">Setor:</label> </div>
+                            <div class="col-8"> <select style="font-size:12px;" id="txtCadInclEmprSetor" class="form-control " data-live-search="true"></select> </div>
+                        </div>
+
+                        <div class="row clearfix" style="margin-bottom: 4px; ">
+                            <div class="col-1"> </div>
+                            <div class="col-3"> <label style="font-size:12px;" for="txtCadInclEmprSubSetor" class="font-weight-bold">Sub-Setor:</label> </div>
+                            <div class="col-8"> <select style="font-size:12px;" id="txtCadInclEmprSubSetor" class="form-control " data-live-search="true"></select> </div>
+                        </div>
+
+                        <div class="row clearfix" style="margin-bottom: 4px; ">
+                            <div class="col-1"> </div>
+                            <div class="col-3"> <label style="font-size:12px;" for="txtCadInclEmprSegmento" class="font-weight-bold">Segmento:</label> </div>
+                            <div class="col-8"> <select style="font-size:12px;" id="txtCadInclEmprSegmento" class="form-control " data-live-search="true"></select> </div>
+                        </div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadInclEmprNome">Nome</label> </div>
+							<div class="col-8"> <input style="font-size:12px;" class="form-control" id="txtCadInclEmprNome" name="txtCadInclEmprNome" type="text"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadInclEmprRazao">Razão Social</label> </div>
+							<div class="col-8"> <input style="font-size:12px;" class="form-control" id="txtCadInclEmprRazao" name="txtCadInclEmprRazao" type="text"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadInclEmprCNPJ">CNPJ</label> </div>
+							<div class="col-8"> <input style="font-size:12px;" class="form-control" id="txtCadInclEmprCNPJ" name="txtCadInclEmprCNPJ" type="text"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadInclEmprAtividade">Atividade</label> </div>
+							<div class="col-8"> <input style="font-size:12px;" class="form-control" id="txtCadInclEmprAtividade" name="txtCadInclEmprAtividade" type="text"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadInclEmprCodCVM">Cod. CVM</label> </div>
+							<div class="col-8"> <input style="font-size:12px;" class="form-control" id="txtCadInclEmprCodCVM" name="txtCadInclEmprCodCVM" type="text"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadInclEmprSitCVM">Sit. CVM</label> </div>
+							<div class="col-8"> <input style="font-size:12px;" class="form-control" id="txtCadInclEmprSitCVM" name="txtCadInclEmprSitCVM" type="text"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" for="txtCadInclEmprSituacao" class="font-weight-bold">Situação:</label> </div>
+							<div class="col-8"> <select style="font-size:12px;" id="txtCadInclEmprSituacao" class="form-control"> <option value="A">Ativa</option> <option value="E">Encerrado</option> <option value="I">Inativa</option> </select> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosEmpr('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnPopModalIncluirEmpresaSalvar" name="BtnPopModalIncluirEmpresaSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnPopModalIncluirEmpresaCancelar" id="BtnPopModalIncluirEmpresaCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe -->
+
+	<!-- Modal Detalhe -->
+	<div class="modal fade" id="PopModalIncluirAtivo" name="PopModalIncluirAtivo" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><strong>Ativo...</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: inherit; max-height:500px;">
+
+					<form id="FormIncAtv" name="FormIncAtv" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<div class="row clearfix" style="margin-bottom: 6px;!important; ">
+							<div class="col-12" id="AreaAlertaModalCadAtv"></div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:13px;" for="txtCadInclAtvEmpresa" class="font-weight-bold">Empresa:</label> </div>
+							<div class="col-8"> <select style="font-size:13px; width: 400px;" id="txtCadInclAtvEmpresa" name="txtCadInclAtvEmpresa" class="form-control z-index show-menu-arrow"  data-live-search="true"></select> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadInclAtvCodigo">Código</label> </div>
+							<div class="col-8"> <input style="font-size:12px;" class="form-control" id="txtCadInclAtvCodigo" name="txtCadInclAtvCodigo" type="text"> </div>
+						</div>
+
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadInclAtvCodIsin">Cod. ISIN</label> </div>
+							<div class="col-8"> <input style="font-size:12px;" class="form-control" id="txtCadInclAtvCodIsin" name="txtCadInclAtvCodIsin" type="text"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadInclAtvTipo">Tipo</label> </div>
+							<div class="col-8"> <input style="font-size:12px;" class="form-control" id="txtCadInclAtvTipo" name="txtCadInclAtvTipo" type="text"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3"> <label style="font-size:13px;" for="txtCadInclAtvSituacao" class="font-weight-bold">Situação:</label> </div>
+							<div class="col-8"> <select style="font-size:13px width: 200px;" id="txtCadInclAtvSituacao" name="txtCadInclAtvSituacao" class="form-control"> <option value="A">Ativa</option> <option value="E">Encerrado</option> <option value="I">Inativa</option> </select> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosAtivo('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnPopModalIncluirAtivoSalvar" name="BtnPopModalIncluirAtivoSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnPopModalIncluirAtivoCancelar" id="BtnPopModalIncluirAtivoCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagEmpresa.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			fLimparGrid('/');
+			fCarregarGrid('/');
+			buscar_todos_setores_acoes('/', 'selFiltroSetor', false, false, true);
+			buscar_todos_subsetores_acoes('/', 'selFiltroSubSetor', false, false, true);
+			buscar_todos_segmentos_acoes('/', 'selFiltroSegmento', false, false, true);
+			buscar_todos_codigos_completos_acoes('/', 'selFiltroAtivo', false, false, true);
+			buscar_todos_setores_acoes('/', 'txtCadEmprSetor', false, false, true);
+			buscar_todos_setores_acoes('/', 'txtCadInclEmprSetor', false, false, true);
+			buscar_todos_subsetores_acoes('/', 'txtCadEmprSubSetor', false, false, true);
+			buscar_todos_subsetores_acoes('/', 'txtCadInclEmprSubSetor', false, false, true);
+			buscar_todos_segmentos_acoes('/', 'txtCadEmprSegmento', false, false, true);
+			buscar_todos_segmentos_acoes('/', 'txtCadInclEmprSegmento', false, false, true);
+			buscar_todos_nomes_empresas_acoes('/', 'txtCadInclAtvEmpresa', false, false, true);
+			fDefinirPadraoSelect('txtCadInclAtvEmpresa');
+		});
+	</script>
+{% endblock %}

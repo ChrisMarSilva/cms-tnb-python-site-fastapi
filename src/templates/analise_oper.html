@@ -1,0 +1,28 @@
+
+<!-- AbaOper -->
+<div class="tab-pane fade" id="AbaOper" role="tabpanel" aria-labelledby="oper-tab">
+
+    <!-- Div Row clearfix -->
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs d-flex justify-content-center">
+                <li class="nav-item"><a style="font-size: 12px; width: 210px; " class="border border-secondary text-center font-weight-bold nav-link active" data-toggle="tab" href="#AbaOperPorAtivo">Operações Por Ativo</a></li>
+                <li class="nav-item"><a style="font-size: 12px; width: 210px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaOperResumo">  Resumo das Operações</a></li>
+                <li class="nav-item"><a style="font-size: 12px; width: 210px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaOperDrawdown"> Drawdown </a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- Div Row clearfix -->
+
+    <!-- Tab Oper -->
+    <div class="tab-content">
+
+        {% include 'analise_oper_ativos_.html' %}
+        {% include 'analise_oper_resumo.html' %}
+        {% include 'analise_oper_drawdown.html' %}
+
+    </div>
+    <!-- Tab Oper -->
+
+</div>
+<!-- AbaOper -->

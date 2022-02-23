@@ -1,0 +1,103 @@
+
+<!-- AbaOperPorAtivo -->
+<div role="tabpanel" class="tab-pane in active" id="AbaOperPorAtivo">
+
+    <!-- Div Conteudo Pag -->
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card border">
+                <div class="header">
+                    <h2><strong>Operações</strong> Por Ativo</h2>
+                </div>
+                <div class="body">
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix align-items-end">
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                            <p class="font-weight-bold ">Ativo:</p>
+                            <select onchange="fCarregarGridAnaliseOper('/');" style="font-size:12px;" id="txtFiltroAnaliseOperAtivo" name="txtFiltroAnaliseOperAtivo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+                            <a onclick="fCarregarGridAnaliseOper('/');" id="btnAnaliseOperPesquisar" name="btnAnaliseOperPesquisar" style="width: 170px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefreshOper" name="iRefreshOper" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrincAnaliseOper"> </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix justify-content-md-center">
+                        <div class="col-sm-12 col-md-3 col-lg-2 col-xl-2 text-center">
+                            <h5 class="font-weight-bold text-title">Ativo</h5>
+                            <div class="font-weight-bold" id="DivAnaliseOperAtivo">...</div>
+                        </div>
+                        <div class="col-sm-12 col-md-3 col-lg-2 col-xl-2 text-center">
+                            <h5 class="font-weight-bold text-title">Total Invest.</h5>
+                            <div class="font-weight-bold" id="DivAnaliseOperTotInvest">R$ 0,00</div>
+                        </div>
+                        <div class="col-sm-12 col-md-3 col-lg-2 col-xl-2 text-center">
+                            <h5 class="font-weight-bold text-title">Total Atual</h5>
+                            <div class="font-weight-bold" id="DivAnaliseOperTotAtual">R$ 0,00</div>
+                        </div>
+                        <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 text-center">
+                            <h5 class="font-weight-bold text-title">Valorização</h5>
+                            <div class="font-weight-bold" id="DivAnaliseOperValorizacao">R$ 0,00 (0.00%)</div>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div id="DivGraficoOper" style="min-height: 0px; max-height: 400px; max-width: 100%; min-width: 600px; border: 0px solid red;"> </div>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div table-responsive -->
+                    <div class="table-responsive" id="AreaGrid">
+                        <table id="GridAnaliseOper" name="GridAnaliseOper" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr class="thead-dark font-weight-bold">
+                                    <th>Tipo</th>
+                                    <th>Categoria</th>
+                                    <th>Corretora</th>
+                                    <th>Data</th>
+                                    <th>Quant.</th>
+                                    <th>Custo/Ação</th>
+                                    <th>Preço Médio</th>
+                                    <th>Total</th>
+                                    <th>Valorização</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                            </tfoot>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Div table-responsive -->
+
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Div Conteudo Pag -->
+
+</div>
+<!-- AbaOperPorAtivo -->

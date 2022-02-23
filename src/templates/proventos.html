@@ -1,0 +1,295 @@
+
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Proventos {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagProventos.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+									<h2>Proventos</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Proventos</li>
+									</ul>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+									<a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+									<a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<!-- <div class="header">
+							<h2><strong>Proventos</strong></h2>
+						</div>     -->
+						<div class="body">
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix ">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+									<a title="Novo Provento" onclick="fAbrirModalDetalheRend('/', '', '', 'Novo');" id="btnRendNovo"        name="btnRendNovo"        class="btn btn-sm btn-simple btn-success"> <i class="fa fa-plus-square text-success"></i></a>
+									<a title="Importar Proventos do Arquivo CSV no Padrão do Site TnB" onclick="fAbrirModalDetalheRendImportarProv('/');"     id="btnProvImportarCSV" name="btnProvImportarCSV" class="btn btn-sm btn-simple btn-primary"> <i class="fa fa-upload text-primary"></i></a>
+									<a title="Importar Proventos do Site CEI - Canal Eletrônico do Investidor" onclick="fAbrirModalDetalheRendImportarProvCEI('/');"     id="btnProvImportarCEI" name="btnProvImportarCEI" class="btn btn-sm btn-simple btn-primary"> <i class="fa fa-upload text-primary"></i></a>
+									<a title="Limpar Tudo" onclick="fAbrirModalLimparTodasRend();" id="btnOperLimparTodas" name="btnOperLimparTodas" class="btn btn-sm btn-simple btn-danger">  <i class="fa fa-trash-o text-danger"></i></a>
+								</div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix align-items-end">
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Data Pagto Inicial:</p>
+									<input style="font-size:12px;" type="date" class="form-control" name="txtRendDataIni" id="txtRendDataIni">
+								</div>
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Data Pagto Final:</p>
+									<input style="font-size:12px;" type="date" class="form-control" name="txtRendDataFim" id="txtRendDataFim">
+								</div>
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Ativo:</p>
+									<select id="selRendAtivo" name="selRendAtivo" style="font-size:12px;" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+								</div>
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Tipo:</p>
+									<select style="font-size:12px;" id="selRendTipo" name="selRendTipo" class="form-control z-index show-menu-arrow">
+										<option value="">Todos</option>
+										<option value="D">Dividendos</option>
+										<option value="J">Juros s/ Capital</option>
+										<option value="R">Restituição de Capital</option>
+										<option value="FR">Rendimento</option>
+									</select>
+								</div>
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+									<a onclick="fCarregarGrid('/');" id="btnRendPesquisar" name="btnRendPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+								</div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<hr />
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<!-- Div table-responsive -->
+							<div class="table-responsive" id="AreaGrid">
+								<table id="Grid" name="Grid" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+									<thead>
+										<tr class="thead-dark font-weight-bold">
+											<th>Data Ex.</th>
+											<th>Data Pagto</th>
+											<th>Ativo</th>
+											<th>Tipo</th>
+											<th>Corretora</th>
+											<th>Quant.</th>
+											<th>Preço</th>
+											<th>Total</th>
+											<th style="display: none;"></th>
+											<th style="display: none;"></th>
+											<th>Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+									</tfoot>
+								</table>
+							</div>
+							<!-- Div table-responsive -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Confirmacao Excluir Todos Provent  -->
+	<div class="modal fade" id="PopModalDelTdsRend" name="PopModalDelTdsRend" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><i class="fa fa-lg fa-check-square-o"></i>&nbsp; <strong>Exclusão...</strong> </h6>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="txtIdOperDel" name="txtIdOperDel">
+					<p class="text-secondary">Deseja Excluir Todos os Proventos?</p>
+					<div id="AreaAlertaModalExcTds"> </div>
+				</div>
+				<div class="modal-footer">
+					<a onclick="fExcluirTodosRendimento('/'); return false;" class="btn btn-primary btn-round waves-effect" id="BtnModalDelTdsRendSim" style="width: 140px" name="BtnModalDelTdsRendSim" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iExcluir" name="iExcluir" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Sim </a>
+					<button style="width: 140px" type="button" name="BtnModalDelTdsRendNao" id="BtnModalDelTdsRendNao" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;N&#227;o&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Confirmacao Excluir Todos Provent  -->
+
+	<!-- Modal Prov Import CSV -->
+	<div class="modal fade" id="PopModalImportCSVProv" name="PopModalImportCSVProv" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Importar Arquivo CSV de Proventos</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+
+					<form method="POST" enctype="multipart/form-data" id="fileUploadForm" action=''>
+
+						<div class="form-group">
+							<div class="col-12" style="margin-bottom: 6px;!important; ">
+								<input type="file" name="arquivo" id="arquivo" name='arquivo' class="form-control-file">
+							</div>
+						</div>
+
+						<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+							<div class="col-12" id="AreaAlertaModalImportProv"></div>
+						</div>
+
+						<div class="form-group" style="margin-bottom: 6px;!important; ">
+							<div class="col-12">
+								<p class="text-dark font-weight-bold" style="font-size: 12px; margin: 1px;">O arquivo deverá ter a extensão ".CSV", com as seguintes colunas separados por ponto e vírgula (;)</p>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">Data Ex; Data Pagto; Tipo; Ativo; Quantidade; Preço Bruto; Preço Líquido;</p>
+								</i>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">01/01/2018; 02/01/2018; Dividendos; ITSA3; 10.000; 10,00; ;</p>
+								</i>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">01/01/2018; 02/01/2018; D; ITSA3; 10.000; 10,00; 10,00;</p>
+								</i>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">01/10/2018; 02/10/2018; Juros sobre Capital Próprio; ITSA3; 1.000; 20,00; 20,00; </p>
+								</i>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">01/10/2018; 02/10/2018; JSCP; ITSA3; 1.000; 10,00; 9,00; </p>
+								</i>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">01/10/2018; 02/10/2018; Restitução de Capital em Dinehiro; ITSA3; 1.000; 20,00; 20,00; </p>
+								</i>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">01/10/2018; 02/10/2018; REST CAP DIN; ITSA3; 1.000; 10,00; 9,00; </p>
+								</i>
+								<i>
+									<p class="text-muted" style="font-size: 12px; margin: 1px;">01/01/2018; 02/01/2018; Rendimento; AEFI11; 10.000; 10,00; ;</p>
+								</i>
+							</div>
+						</div>
+
+						<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+							<div class="col-12" id="AreaTableModalImportProv"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fImportarCSVProv('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalImportCSVProvSalvar" name="BtnModalImportCSVProvSalvar" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iImportar" name="iImportar" class="fa fa-upload" aria-hidden="true"></i> &nbsp; Importar</a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalImportCSVProvCancelar" id="BtnModalImportCSVProvCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Prov Import CSV -->
+
+	<!-- Modal Prov Import CEI -->
+	<div class="modal fade" id="PopModalImportProvCEI" name="PopModalImportProvCEI" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Importar Proventos do CEI - Canal Eletrônico do Investidor</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+
+					<p class="text-dark font-w eight-bold" style="font-size: 14px; margin: 1px;">Entre no Site CEI e faça o <a href="https://cei.b3.com.br/CEI_Responsivo/login.aspx" target="_blank">login<a/>. </p>
+					<p class="text-dark font-w eight-bold" style="font-size: 14px; margin: 1px;">Navegue até o <a href="https://cei.b3.com.br/CEI_Responsivo/ConsultarProventos.aspx" target="_blank">Menu Investimentos -> Proventos<a/> </p>
+					<p class="text-dark font-w eight-bold" style="font-size: 14px; margin: 1px;">Clique no botão "CONSULTAR", após carregar os dados.</p>
+					<p class="text-dark font-w eight-bold" style="font-size: 14px; margin: 1px;">Copie todo conteúdo da Página e Cole no campo abaixo.</p>
+
+					<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+						<div class="col-12" id="AreaAlertaModalImportProvCEI"> </div>
+					</div>
+
+					<div class="form-line">
+						<textarea id="TxtDadosImportCEI" rows="8" class="form-control no-resize border" placeholder="Cole aqui os dados do CEI - Canal Eletrônico do Investidor"></textarea>
+					</div>
+
+					<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+						<div class="col-12" id="AreaTableModalImportProvCEI"> </div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fImportarProvCEI('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalImportProvCEISalvar" name="BtnModalImportProvCEISalvar" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iImportarCEI" name="iImportarCEI" class="fa fa-upload" aria-hidden="true"></i> &nbsp; Importar</a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalImportProvCEICancelar" id="BtnModalImportProvCEICancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Prov Import CEI -->
+
+{% endblock %}
+
+{% block modal_porv %}
+	{% include 'component_modal_prov.html' %}
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.colVis.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.html5.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.print.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.flash.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/jszip.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/pdfmake.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/vfs_fonts.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagModalProv.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagProventos.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			buscar_todos_codigos_proventos('/', 'selRendAtivo', false, true, false, true, true, false, true);
+			buscar_todos_codigos_comprados_para_proventos('/', 'selDivAtivo', false, false, true, false);
+			buscar_todos_corretora('/', 'selDivCorretora', true, false, false, false);
+			fDefinirPadraoSelect('selRendTipo');
+			fLimparGrid('/');
+			fCarregarGrid('/');
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Contato {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagContato.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-6 col-md-8 col-sm-12">
+									<h2>Enviar E-mail para o Suporte</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('main.home') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Contato</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<div class="card border">
+						<div class="header">
+							<h2><strong>Contato</strong></h2>
+						</div>
+						<div class="body">
+							<form class="form-horizontal">
+								<div class="row clearfix">
+									<div class="col-lg-2 col-md-2 col-sm-4 form-control-label"> <label for="txtContatoNome">Nome</label> </div>
+									<div class="col-lg-10 col-md-10 col-sm-8">
+										<div class="form-group"> <input type="text" class="form-control" id="txtContatoNome" name="txtContatoNome" placeholder="Informe o seu Nome"> </div>
+									</div>
+								</div>
+								<div class="row clearfix">
+									<div class="col-lg-2 col-md-2 col-sm-4 form-control-label"> <label for="txtContatoEmail">E-mail</label> </div>
+									<div class="col-lg-10 col-md-10 col-sm-8">
+										<div class="form-group"> <input type="email" class="form-control" id="txtContatoEmail" name="txtContatoEmail" type="email" placeholder="Informe o seu E-mail"> </div>
+									</div>
+								</div>
+								<div class="row clearfix">
+									<div class="col-lg-2 col-md-2 col-sm-4 form-control-label"> <label for="txtContatoAssunto">Assunto</label> </div>
+									<div class="col-lg-10 col-md-10 col-sm-8">
+										<div class="form-group"> <input type="text" class="form-control" id="txtContatoAssunto" name="txtContatoAssunto" placeholder="Informe o Assunto"> </div>
+									</div>
+								</div>
+								<div class="row clearfix">
+									<div class="col-lg-2 col-md-2 col-sm-4 form-control-label"> <label for="txtContatoMensagem">Mensagem</label> </div>
+									<div class="col-lg-10 col-md-10 col-sm-8">
+										<div class="form-group"> <textarea rows="4" class="form-control no-resize" id="txtContatoMensagem" name="txtContatoMensagem" placeholder="Informe a sua Mensagem"></textarea> </div>
+									</div>
+								</div>
+								<div class="row clearfix">
+									<div class="col-sm-8 offset-sm-2">
+										<a onclick="enviarMensagem('/');" name="btnSalvar" id="btnSalvar" class="btn btn-raised btn-primary btn-round waves-effect" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-check" aria-hidden="true" name="iSalvar" id="iSalvar"></i>&nbsp;Enviar </a>
+										<p>Ou envie um E-mail diretamenta para <a href="mailto:suporte@tamonabolsa.com.br" target="_top"><strong>Suporte TamoNaBolsa</strong></a></p>
+									</div>
+								</div>
+								<div class="row clearfix">
+									<div class="col-sm-8 offset-sm-2">
+										<div id="AreaAlertaPrinc"> </div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ static_autoversion('pages/js/PagContato.js') }}"></script>
+	$(document).ready(function(){
+		// toastr.clear()
+		// toastr.success('We do have the Kapua suite available.', 'Turtle Bay Resort', {timeOut: 5000})
+	});
+{% endblock %}

@@ -1,0 +1,70 @@
+<!-- AbaProvYiledOnCost -->
+<div role="tabpanel" class="tab-pane" id="AbaProvYiledOnCost">
+
+    <!-- Div Conteudo Pag -->
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card border">
+                <div class="header">
+                    <h2><strong>Yield on Cost</strong></h2>
+                </div>
+                <div class="body">
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix align-items-end">
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                            <p class="font-weight-bold ">Ativo:</p>
+                            <select style="font-size:12px;" id="txtFiltroAnaliseYiledCostAtivo" name="txtFiltroAnaliseYiledCostAtivo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                            <p class="font-weight-bold ">Ano:</p>
+                            <select style="font-size:12px;" id="txtFiltroAnaliseYiledCostAno" name="txtFiltroAnaliseYiledCostAno" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ano..."> </select>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+                            <a onclick="fCarregarGridAnaliseYiedlCost('/');" id="btnAnaliseYiledCostPesquisar" name="btnAnaliseYiledCostPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefreshYiledCost" name="iRefreshYiledCost" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrincAnaliseYiledCost"> </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div table-responsive -->
+                    <div class="table-responsive" id="AreaGrid">
+                        <table id="GridAnaliseYiledCost" name="GridAnaliseYiledCost" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr class="thead-dark font-weight-bold">
+                                    <th>Ativo</th>
+                                    <th>Ano</th>
+                                    <th>Preço Médio</th>
+                                    <th>Preço Prov.</th>
+                                    <th>Total Prov.</th>
+                                    <th>Yield on Cost</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                            </tfoot>
+                            <tbody class="text-dark">
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Div table-responsive -->
+
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Div Conteudo Pag -->
+
+</div>
+<!-- AbaProvYiledOnCost -->

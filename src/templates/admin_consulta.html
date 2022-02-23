@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Admin - Consultas {% endblock %}
+
+{% block styles %}
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='assets/css/chatapp.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagAdminConsulta.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-6 col-md-8 col-sm-12">
+									<h2>Consulta</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item"><a href="javascript:void(0);">Adminstrador</a></li>
+										<li class="breadcrumb-item active">Consultas</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+
+				<!-- Div Col -->
+				<div class="col-lg-3">
+					<div class="card">
+						<!-- <div class="header">
+							<h2><strong>Tabelas</strong></h2>
+						</div> -->
+						<div class="body" style="height: 300px; max-height: 300px; padding: 0px; padding-bottom: 20px;">
+
+							<div class="card chat-app" style="border: 0px solid red; ">
+								<div class="people-list" style="border: 0px solid blue; ">
+									<div class="input-group"  style="width: 100%; ">
+										<input type="text" class="form-control" placeholder="Pesquisar Tabelas..." id="TxtFiltroTabelas">
+										<span class="input-group-addon"> <i class="zmdi zmdi-search"></i> </span>
+									</div>
+									<ul class="chat-list list-unstyled" id="DivListaTabelas" Style="overflow-y: auto; max-height: 200px; padding: 0px; padding-bottom: 20px;">
+										{% for tabela in lista_tabelas %}
+										<li class="clearfix" style="font-size: 10px;">{{ tabela }}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- Div Col -->
+
+				<!-- Div Col -->
+				<div class="col-lg-9">
+					<div class="card">
+						<!-- <div class="header">
+							<h2><strong>Consultas</strong></h2>
+						</div> -->
+						<div class="body" style="overflow-y: auto; height: 300px; max-height: 300px; border: 0px solid red">
+							<div class="form-group form-float">
+								<textarea rows="9" class="form-control" placeholder="Insira a Consulta SQL" style="resize: none;" wrap="off" id="DivConsultaSQL"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Div Col -->
+
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="header">
+							<h2><strong>Resultado...</strong></h2>
+						</div>
+						<div class="body">
+							<div id="DivResultado"> </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAdminConsulta.js') }}"></script>
+    <script>
+        var DataSetCamposTabela = {{ lista_campos|safe }};
+    </script>
+{% endblock %}

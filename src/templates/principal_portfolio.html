@@ -1,0 +1,228 @@
+
+<!-- Div Resumo Carteira -->
+<div class="card border info-box-2" >
+<!--    <div class="header" style="padding: 5px; padding-top: 20px; padding-left: 20px;">-->
+<!--        <h2><strong><a href="{{ url_for('portfolio.index') }}">Portfólio</a></strong></h2>-->
+<!--    </div>-->
+    <div class="body" style="height: 420px;">
+
+        <!-- Div Row clearfix -->
+        <div class="row clearfix">
+            <div class="col-12">
+                <ul class="nav nav-tabs d-flex justify-content-center">
+                    <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link active" data-toggle="tab" href="#AbaPortGeral">PORTFÓLIO</a></li>
+                    <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaPortAcoes">AÇÕES</a></li>
+                    <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaPortFiis">FIIs</a></li>
+                    <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaPortEts">ETFs</a></li>
+                    <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaPortBdr">BDRs</a></li>
+                    <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaPortCripto">CRIPTOs</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Div Row clearfix -->
+
+        <!-- Div Row clearfix -->
+        <div class="row clearfix">
+            <div class="col-12">
+
+                <!-- Div tab-content -->
+                <div class="tab-content" id="TabPortContent">
+
+                    <!-- Div AbaPortGeral -->
+                    <div class="tab-pane fade show active" id="AbaPortGeral" role="tabpanel">
+
+                        <!-- Div Resumo Portfólio -->
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-right: 2px; border: 0px solid red;">
+                                <div id="DivChartPrincPort" style="min-width: auto; max-width: auto; height: 330px; margin: 0 auto; border: 0px solid blue; "> </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; padding-right: 2px; border: 0px solid red;">
+<!--                                <h6 class="text-dark text-center text-primary"><a href="{{ url_for('portfolio.index') }}">Portfólio</a></h6>-->
+                                <table border="0" style="font-size: 14px; width: 100%" class="text-muted text-center">
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Investimento</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincPortTotInvest">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> <em>Patrimônio</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincPortTotAtual">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Valorização</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincPortTotValoriz">R$ 0,00 <small><em>( 0,00% )</em></small></span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Proventos</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincPortTotProv">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; border: 0px solid red;">
+                                <div id="DivGraficoPortfAlocacaoCateg" style="min-width: auto; max-width: auto; height: 320px; margin: 0 auto"></div>
+                            </div>
+                        </div>
+                        <!-- Div Resumo Portfólio -->
+
+                    </div>
+                    <!-- Div AbaPortGeral -->
+
+                    <!-- Div AbaPortAcoes -->
+                    <div class="tab-pane fade" id="AbaPortAcoes" role="tabpanel">
+                        <!-- Div Resumo ACAO -->
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-right: 2px; border: 0px solid red;">
+                                <div id="DivChartPrincAcao" style="min-width: auto; max-width: auto; height: 330px; margin: 0 auto; border: 0px solid blue; "> </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; padding-right: 2px; border: 0px solid red;">
+<!--                                <h6 class="text-dark text-center text-primary"><a href="{{ url_for('portfolio.index') }}">Ações</a></h6>-->
+                                <table border="0" style="font-size: 14px; width: 100%" class="text-muted text-center">
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Investimento</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincAcaoTotInvest">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> <em>Patrimônio</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincAcaoTotAtual">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Valorização</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincAcaoTotValoriz">R$ 0,00 <small><em>( 0,00% )</em></small></span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Proventos</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincAcaoTotProv">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; border: 0px solid red;">
+                                <div id="DivGraficoACAOAlocacaoAtivos" style="min-width: auto; max-width: auto; height: 320px; margin: 0 auto"></div>
+                            </div>
+                        </div>
+                        <!-- Div Resumo ACAO -->
+                    </div>
+                    <!-- Div AbaPortAcoes -->
+
+                    <!-- Div AbaPortFiis -->
+                    <div class="tab-pane fade" id="AbaPortFiis" role="tabpanel">
+                        <!-- Div Resumo FII -->
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-right: 2px; border: 0px solid red;">
+                                <div id="DivChartPrincFII" style="min-width: auto; max-width: auto; height: 330px; margin: 0 auto; border: 0px solid blue; "> </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; padding-right: 2px; border: 0px solid red;">
+<!--                                <h6 class="text-dark text-center text-primary"><a href="{{ url_for('portfolio.index') }}">FIIs</a></h6>-->
+                                <table border="0" style="font-size: 14px; width: 100%" class="text-muted text-center">
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Investimento</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincFIITotInvest">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> <em>Patrimônio</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincFIITotAtual">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Valorização</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincFIITotValoriz">R$ 0,00 <small><em>( 0,00% )</em></small></span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Proventos</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincFIITotProv">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; border: 0px solid red;">
+                                <div id="DivGraficoFIIAlocacaoAtivos" style="min-width: auto; max-width: auto; height: 320px; margin: 0 auto"></div>
+                            </div>
+                        </div>
+                        <!-- Div Resumo FII -->
+                    </div>
+                    <!-- Div AbaPortFiis -->
+
+                    <!-- Div AbaPortEts -->
+                    <div class="tab-pane fade" id="AbaPortEts" role="tabpanel">
+                        <!-- Div Resumo ETF -->
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-right: 2px; border: 0px solid red;">
+                                <div id="DivChartPrincETF" style="min-width: auto; max-width: auto; height: 330px; margin: 0 auto; border: 0px solid blue; "> </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; padding-right: 2px; border: 0px solid red;">
+<!--                                <h6 class="text-dark text-center text-primary"><a href="{{ url_for('portfolio.index') }}">ETFs</a></h6>-->
+                                <table border="0" style="font-size: 14px; width: 100%" class="text-muted text-center">
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Investimento</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincETFTotInvest">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> <em>Patrimônio</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincETFTotAtual">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Valorização</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincETFTotValoriz">R$ 0,00 <small><em>( 0,00% )</em></small></span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Proventos</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincETFTotProv">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; border: 0px solid red;">
+                                <div id="DivGraficoETFAlocacaoAtivos" style="min-width: auto; max-width: auto; height: 320px; margin: 0 auto"></div>
+                            </div>
+                        </div>
+                        <!-- Div Resumo ETF -->
+                    </div>
+                    <!-- Div AbaPortEts -->
+
+                    <!-- Div AbaPortBdr -->
+                    <div class="tab-pane fade" id="AbaPortBdr" role="tabpanel">
+                        <!-- Div Resumo BDR -->
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-right: 2px; border: 0px solid red;">
+                                <div id="DivChartPrincBDR" style="min-width: auto; max-width: auto; height: 330px; margin: 0 auto; border: 0px solid blue; "> </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; padding-right: 2px; border: 0px solid red;">
+<!--                                <h6 class="text-dark text-center text-primary"><a href="{{ url_for('portfolio.index') }}">BDRs</a></h6>-->
+                                <table border="0" style="font-size: 14px; width: 100%" class="text-muted text-center">
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Investimento</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincBDRTotInvest">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> <em>Patrimônio</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincBDRTotAtual">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Valorização</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincBDRTotValoriz">R$ 0,00 <small><em>( 0,00% )</em></small></span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Proventos</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincBDRTotProv">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; border: 0px solid red;">
+                                <div id="DivGraficoBDRAlocacaoAtivos" style="min-width: auto; max-width: auto; height: 320px; margin: 0 auto"></div>
+                            </div>
+                        </div>
+                        <!-- Div Resumo BDR -->
+                    </div>
+                    <!-- Div AbaPortBdr -->
+
+                    <!-- Div AbaPortCripto -->
+                    <div class="tab-pane fade" id="AbaPortCripto" role="tabpanel">
+                        <!-- Div Resumo CRIPTO -->
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-right: 2px; border: 0px solid red;">
+                                <div id="DivChartPrincCRIPTO" style="min-width: auto; max-width: auto; height: 330px; margin: 0 auto; border: 0px solid blue; "> </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; padding-right: 2px; border: 0px solid red;">
+<!--                                <h6 class="text-dark text-center text-primary"><a href="{{ url_for('portfolio.index') }}">CRIPTOs</a></h6>-->
+                                <table border="0" style="font-size: 14px; width: 100%" class="text-muted text-center">
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Investimento</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincCRIPTOTotInvest">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> <em>Patrimônio</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincCRIPTOTotAtual">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Valorização</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 19px;" id="DivPrincCRIPTOTotValoriz">R$ 0,00 <small><em>( 0,00% )</em></small></span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                    <tr> <td> &nbsp; </td> </tr>
+                                    <tr> <td> <em>Proventos</em> </td> </tr>
+                                    <tr> <td> <a onclick="fMostrarEsconderValores();" href="javascript:void(0);" style="text-decoration:none"> <span class="font-weight-bold text-muted DivTextValor" style="font-size: 17px;" id="DivPrincCRIPTOTotProv">R$ 0,00</span> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> <i class="fa fa-eye-slash text-muted text-center DivIconeValor" style="display: none; font-size: 22px;" aria-hidden="true"></i> </a> </td> </tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12" style="padding-left: 2px; border: 0px solid red;">
+                                <div id="DivGraficoCRIPTOAlocacaoAtivos" style="min-width: auto; max-width: auto; height: 320px; margin: 0 auto"></div>
+                            </div>
+                        </div>
+                        <!-- Div Resumo CRIPTO -->
+                    </div>
+                    <!-- Div AbaPortCripto -->
+
+                </div>
+                <!-- Div tab-content -->
+
+            </div>
+        </div>
+        <!-- Div Row clearfix -->
+
+    </div>
+</div>
+<!-- Div Resumo Carteira -->

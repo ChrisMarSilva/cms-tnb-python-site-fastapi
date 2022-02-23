@@ -1,0 +1,513 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Home {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/baguetteBox.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+    <!-- Div Main Content -->
+    <section class="content">
+        <div class="container">
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header"> </div>
+                        <div class="body">
+                            <h1 class="display-5 text-center">
+                                <a href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='pages/img/iconeP.png') }}" alt="icone" class="mb-4" width="72" height="72" /></a><strong><em>TamoNaBolsa</em></strong>
+                            </h1>
+                            <p style="font-size: 20px;" class="text-center">Acompanhe seus investimentos de forma SIMPLES!!!</p>
+                            <p class="text-center"><a class="btn btn-primary" href="{{ url_for('usuario.criar_conta') }}" role="button">Criar Conta »</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="card border info-box-2" style="height: 90%;">
+                        <div class="body">
+                            <div class="content">
+                                <h4>Portfólio</h4>
+                                <p>Acompanhar sua Carteira de Investimentos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="card border info-box-2" style="height: 90%;">
+                        <div class="body">
+                            <div class="content">
+                                <h4>Operações</h4>
+                                <p class="text-muted">Controle suas Operações de Compra, Venda, Bonificação, Desdobramento e Grupamento. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="card border info-box-2" style="height: 90%;">
+                        <div class="body">
+                            <div class="content">
+                                <h4>Proventos</h4>
+                                <p class="text-muted">Registre todos os seus Dividendos e Juros sobre Capital Próprio.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="card border info-box-2" style="height: 90%;">
+                        <div class="body">
+                            <div class="content">
+                                <h4>Apuração e IRPF</h4>
+                                <p class="text-muted">Apuração: Cálculo de Imposto de Renda(Pessoa Física) a pagar mensalmente para Operação Comum e Day-Trade.</p>
+                                <p class="text-muted">IRPF: Demonstração de Imposto de Renda para Declaração Anual.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7 order-md-2">
+                                    <h2 class="featurette-heading">Suas Operações</h2>
+                                    <p class="lead">Uma visão geral de todas as operações por período e/ou ativo.</p>
+                                </div>
+                                <div class="col-md-5 order-md-1">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa03.png') }}" data-caption="TamoNaBolsa - Operações">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa03.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7">
+                                    <h2 class="featurette-heading">Seus Proventos. </h2>
+                                    <p class="lead">Uma visão geral de todos os proventos por período, ativo e/ou tipo.</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa05.png') }}" data-caption="TamoNaBolsa - Operações">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa05.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7 order-md-2">
+                                    <h2 class="featurette-heading">Análise de Operações. </h2>
+                                    <p class="lead">Analisar todas as operações pra verificar o lucro/prejuízo do ativo</p>
+                                </div>
+                                <div class="col-md-5 order-md-1">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa06.png') }}" data-caption="TamoNaBolsa - Análise de Operações">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa06.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7">
+                                    <h2 class="featurette-heading">Análise de Proventos. </h2>
+                                    <p class="lead">Analisar todos os proventos recebidos por período, ativo e/ou tipo.</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa07.png') }}" data-caption="TamoNaBolsa - Análise de Proventos">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa07.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7 order-md-2">
+                                    <h2 class="featurette-heading">Calendário dos Meus Proventos. </h2>
+                                    <p class="lead">Montamos um calendário anual dos seus proventos</p>
+                                </div>
+                                <div class="col-md-5 order-md-1">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa16.png') }}" data-caption="TamoNaBolsa - Calendário dos Meus Proventos">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa16.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7">
+                                    <h2 class="featurette-heading">Ativos no Radar. </h2>
+                                    <p class="lead">Você pode criar uma lista de Ativos que estão no seu Radar para acompanhamento.</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa17.png') }}" data-caption="TamoNaBolsa - Ativos no Radar">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa17.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7 order-md-2">
+                                    <h2 class="featurette-heading">Apuração. </h2>
+                                    <p class="lead">Um jeito fácil de apurar os Valores a Pagar para a Receita Federal por mês/ano das Operações Comuns e Day Trade </p>
+                                </div>
+                                <div class="col-md-5 order-md-1">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa08.png') }}" data-caption="TamoNaBolsa - Apuração">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa08.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7">
+                                    <h2 class="featurette-heading">Declaração do Imposto sobre a Renda -<span class="text-muted"> IRPF.</span></h2>
+                                    <p class="lead">Toda a sua Declaração do Imposto de Renda sobre sua Operações de Compra e Venda, e todos os Provendos recebidos no ano em uma Única Página.</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa09.png') }}" data-caption="TamoNaBolsa - IRPF">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa09.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7 order-md-2">
+                                    <h2 class="featurette-heading">Sua Carteira - <span class="text-muted">Portfólio.</span> </h2>
+                                    <p class="lead">Uma visão geral da sua carteira, total investido, total atual, valorização, total proventos, apuração do mês anterior e corrente, gráfico do seu Portfólio, Gráfico da Porcentagem de cada Ativo, Valorização do Dia, tudo isso e muito mais...</p>
+                                </div>
+                                <div class="col-md-5 order-md-1">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa10.png') }}" data-caption="TamoNaBolsa - Portfólio">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa10.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7">
+                                    <h2 class="featurette-heading">Calendário dos Proventos dos Ativos</span></h2>
+                                    <p class="lead">Montamos um calendário dos proventos dos Ativos a partir da Data Ex.</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa18.png') }}" data-caption="TamoNaBolsa - Calendário dos Proventos dos Ativos">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa18.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7 order-md-2">
+                                    <h2 class="featurette-heading">Dashboard</h2>
+                                    <p class="lead">Uma visão geral das sua operações realizadas no mês, seus proventos proventos a receber e a apuração resumida.</p>
+                                </div>
+                                <div class="col-md-5 order-md-1">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa15.png') }}" data-caption="TamoNaBolsa - Dashboard">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa15.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7">
+                                    <h2 class="featurette-heading">Calculamos para você - <span class="text-muted">Yield on Cost.</span> </h2>
+                                    <p class="lead">É a relação dos Proventos pagos sobre o Preço Médio do Investidor. Ex: YOC = ( Total Proventos / Preço Médio) x 100.</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa14.png') }}" data-caption="TamoNaBolsa - Yield on Cost">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa14.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7 order-md-2">
+                                    <h2 class="featurette-heading">Calculamos para você - <span class="text-muted">Valor Intrínseco.</span> </h2>
+                                    <p class="lead">É o preço justo estimado da ação, a fórmula de Benjamin Graham, levando em consideração a Margem de Segurança.</p>
+                                </div>
+                                <div class="col-md-5 order-md-1">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa12.png') }}" data-caption="TamoNaBolsa - Valuation Simples">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa12.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong> </strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <div class="row featurette gallery">
+                                <div class="col-md-7">
+                                    <h2 class="featurette-heading">Calculamos para você - <span class="text-muted">Valuation Simples.</span> </h2>
+                                    <p class="lead">Uma Fórmula simples para Preço Teto de um determinado Ativo, levando em consideração a Margem de Segurança. Ex: LPA * 100 / Taxa Selic.</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="baguetteBoxOne gallery">
+                                        <a href="{{ url_for('static', filename='pages/img/TamoNaBolsa13.png') }}" data-caption="TamoNaBolsa - Valor Intrínseco">
+                                            <img class="featurette-image img-fluid mx-auto" src="{{ url_for('static', filename='pages/img/TamoNaBolsa13.png') }}" alt="Imagem TamoNaBolsa">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+            <!-- START THE FEATURETTES -->
+            <div class="container marketing "> </div>
+            <!-- /END THE FEATURETTES -->
+
+			{% include 'component_rodape.html' %}
+
+        </div>
+    </section>
+    <!-- Div Main Content -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='plugins/js/baguetteBox.js') }}"></script>
+    <script>
+        window.onload = function() {
+            baguetteBox.run('.baguetteBoxOne');
+            baguetteBox.run('.baguetteBoxTwo');
+            baguetteBox.run('.baguetteBoxThree', {animation: 'fadeIn',noScrollbars: true});
+            baguetteBox.run('.baguetteBoxFour', {buttons: false});
+            baguetteBox.run('.baguetteBoxFive', {captions: function(element) {return element.getElementsByTagName('img')[0].alt;}});
+            if (typeof oldIE === 'undefined' && Object.keys) {hljs.initHighlighting();}
+            var year = document.getElementById('year');
+            year.innerText = new Date().getFullYear();
+        };
+        $(document).ready(function() {
+            $("#MnHomeInicio").addClass("active open");
+        });
+    </script>
+{% endblock %}

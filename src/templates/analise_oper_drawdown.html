@@ -1,0 +1,74 @@
+
+<!-- AbaOperDrawdown -->
+<div role="tabpanel" class="tab-pane" id="AbaOperDrawdown">
+
+    <!-- Div Conteudo Pag -->
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card border">
+                <div class="header">
+                    <h2><strong>Drawdown</strong></h2>
+                </div>
+                <div class="body">
+
+					<!-- Div Row clearfix -->
+					<div class="row clearfix  align-items-end">
+						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+							<p class="font-weight-bold ">Quant. de Dias:</p>
+                            <input style="font-size:12px;" class="form-control text-right" name="txtFiltroAnaliseOperDrawdownDias" id="txtFiltroAnaliseOperDrawdownDias" type="text" min="0" step="1.00">
+						</div>
+						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+							<p class="font-weight-bold ">Margem (%):</p>
+                            <input style="font-size:12px;" class="form-control text-right" name="txtFiltroAnaliseOperDrawdownMargem" id="txtFiltroAnaliseOperDrawdownMargem" type="text" min="0" step="1.00">
+						</div>
+						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+							<a onclick="fCarregarGridAnaliseOperDrawdown('/');" id="btnAnaliseOperDrawdownPesquisar" name="btnAnaliseOperDrawdownPesquisar" style="width: 170px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefreshOperDrawdown" name="iRefreshOperDrawdown" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+						</div>
+					</div>
+					<!-- Div Row clearfix -->
+
+					<br />
+
+					<!-- Div Row clearfix -->
+					<div class="row clearfix">
+						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrincAnaliseOperDrawdown"> <br /> </div>
+					</div>
+					<!-- Div Row clearfix -->
+
+					<br />
+
+                    <!-- Div table-responsive -->
+                    <div class="table-responsive" id="AreaGrid">
+                        <table id="GridAnaliseOperDrawdown" name="GridAnaliseOperDrawdown" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr class="thead-dark font-weight-bold">
+                                    <th>Origem</th>
+                                    <th>Tipo</th>
+                                    <th>Ativo</th>
+                                    <th>Cotação</th>
+                                    <th>Máxima</th>
+                                    <th>Drawdown</th>
+                                    <th>Margem</th>
+                                    <th>Situação</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                            </tfoot>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Div table-responsive -->
+
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Div Conteudo Pag -->
+
+</div>
+<!-- AbaOperDrawdown -->

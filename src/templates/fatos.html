@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Fatos {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagFatos.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-xl-9 col-lg-9 col-md-8 col-sm-12" style="border: 0px solid red">
+									<h2>Fatos</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Fatos Relevantes</li>
+									</ul>
+								</div>
+								<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 text-right" style="border: 0px solid red; ">
+									<a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+									<a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<div class="row clearfix">
+			   <div class="col-12">
+				  <ul class="nav nav-tabs d-flex justify-content-center font-weight-bold">
+					 <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link active" data-toggle="tab" href="#AbaFatoAcoes">AÇÕES</a></li>
+					 <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link" data-toggle="tab" href="#AbaFatoFIIs">FIIs</a></li>
+					 <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link" data-toggle="tab" href="#AbaFatoETFs">ETFs</a></li>
+					 <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link" data-toggle="tab" href="#AbaFatoBDRs">BDRs</a></li>
+				  </ul>
+			   </div>
+			</div>
+
+			<!-- myAbaFatos -->
+			<div class="tab-content" id="myAbaFatos">
+
+				<!-- AbaFatoAcoes -->
+				<div class="tab-pane fade show active" id="AbaFatoAcoes" role="tabpanel" aria-labelledby="TabFatoAcoes">
+
+					<!-- Div Conteudo Pag -->
+					<div class="row clearfix">
+						<div class="col-lg-12">
+							<div class="card border">
+								<div class="header">
+									<h2><strong>Fatos Relevantes</strong> das Ações</h2>
+								</div>
+								<div class="body">
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix align-items-end">
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+											<!-- <p class="font-weight-bold ">Empresa:</p> -->
+											<select style="font-size:12px;" id="txtFatoEmpresa" name="txtFatoEmpresa" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+										</div>
+										<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 text-left">
+											<a onclick="fCarregarGrid('/', '1');" id="btnFatoPesquisar" name="btnFatoPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+										</div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<br>
+
+									<!-- DivListaFatos -->
+									<div class="row clearfix">
+										<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" id="DivListaFatos"></div>
+									</div>
+									<!-- DivListaFatos -->
+
+									<!-- DivBtnPaginacao -->
+									<div class="row clearfix">
+										<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+											<ul class="body pagination pagination-sm pagination-primary justify-content-center" id="BtnPaginacao"> </ul>
+										</div>
+									</div>
+									<!-- DivBtPaginacao -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Div Conteudo Pag -->
+
+				</div>
+				<!-- AbaFatoAcoes -->
+
+				<!-- AbaFatoFIIs -->
+				<div class="tab-pane fade" id="AbaFatoFIIs" role="tabpanel" aria-labelledby="TabFatoFIIs">
+
+					<!-- Div Conteudo Pag -->
+					<div class="row clearfix">
+						<div class="col-lg-12">
+							<div class="card border">
+								<div class="header">
+									<h2><strong>Fatos Relevantes</strong> dos FIIs</h2>
+								</div>
+								<div class="body">
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix align-items-end">
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+											<!-- <p class="font-weight-bold ">Fundo:</p> -->
+											<select style="font-size:12px;" id="txtFatoFundo" name="txtFatoFundo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+										</div>
+										<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 text-left">
+											<a onclick="fCarregarGridFundo('/', '1');" id="btnFatoFIIPesquisar" name="btnFatoFIIPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefreshFII" name="iRefreshFII" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+										</div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrincFII"> </div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<br>
+
+									<!-- DivListaFatos -->
+									<div class="row clearfix">
+										<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" id="DivListaFatosFII"></div>
+									</div>
+									<!-- DivListaFatos -->
+
+									<!-- DivBtnPaginacao -->
+									<div class="row clearfix">
+										<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+											<ul class="body pagination pagination-sm pagination-primary justify-content-center" id="BtnPaginacaoFII"> </ul>
+										</div>
+									</div>
+									<!-- DivBtPaginacao -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Div Conteudo Pag -->
+
+				</div>
+				<!-- AbaFatoFIIs -->
+
+				<!-- AbaFatoETFs -->
+				<div class="tab-pane fade" id="AbaFatoETFs" role="tabpanel" aria-labelledby="TabFatoETFs">
+
+					<!-- Div Conteudo Pag -->
+					<div class="row clearfix">
+						<div class="col-lg-12">
+							<div class="card border">
+								<div class="header">
+									<h2><strong>Fatos Relevantes</strong> dos ETFs</h2>
+								</div>
+								<div class="body">
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix align-items-end">
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+											<!-- <p class="font-weight-bold ">Indice:</p> -->
+											<select style="font-size:12px;" id="txtFatoIndice" name="txtFatoIndice" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+										</div>
+										<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 text-left">
+											<a onclick="fCarregarGridIndice('/', '1');" id="btnFatoETFPesquisar" name="btnFatoETFPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefreshETF" name="iRefreshETF" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+										</div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrincETF"> </div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<br>
+
+									<!-- DivListaFatos -->
+									<div class="row clearfix">
+										<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" id="DivListaFatosETF"></div>
+									</div>
+									<!-- DivListaFatos -->
+
+									<!-- DivBtnPaginacao -->
+									<div class="row clearfix">
+										<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+											<ul class="body pagination pagination-sm pagination-primary justify-content-center" id="BtnPaginacaoETF"> </ul>
+										</div>
+									</div>
+									<!-- DivBtPaginacao -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Div Conteudo Pag -->
+
+				</div>
+				<!-- AbaFatoETFs -->
+
+				<!-- AbaFatoETFs -->
+				<div class="tab-pane fade" id="AbaFatoBDRs" role="tabpanel" aria-labelledby="TabFatoBDRs">
+
+					<!-- Div Conteudo Pag -->
+					<div class="row clearfix">
+						<div class="col-lg-12">
+							<div class="card border">
+								<div class="header">
+									<h2><strong>Fatos Relevantes</strong> dos BDRs</h2>
+								</div>
+								<div class="body">
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix align-items-end">
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+											<!-- <p class="font-weight-bold ">Indice:</p> -->
+											<select style="font-size:12px;" id="txtFatoBdr" name="txtFatoBdr" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+										</div>
+										<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 text-left">
+											<a onclick="fCarregarGridBdr('/', '1');" id="btnFatoBDRPesquisar" name="btnFatoBDRPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefreshBDR" name="iRefreshBDR" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+										</div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrincBDR"> </div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<br>
+
+									<!-- DivListaFatos -->
+									<div class="row clearfix">
+										<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" id="DivListaFatosBDR"></div>
+									</div>
+									<!-- DivListaFatos -->
+
+									<!-- DivBtnPaginacao -->
+									<div class="row clearfix">
+										<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+											<ul class="body pagination pagination-sm pagination-primary justify-content-center" id="BtnPaginacaoBDR"> </ul>
+										</div>
+									</div>
+									<!-- DivBtPaginacao -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Div Conteudo Pag -->
+
+				</div>
+				<!-- AbaFatoETFs -->
+
+			</div>
+			<!-- myAbaFatos -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+
+	<!-- Div Main Content -->
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ static_autoversion('pages/js/PagFatos.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+
+			buscar_todos_nomes_empresas_acoes('/', 'txtFatoEmpresa', false, true, false);
+			fCarregarGrid('/', '1');
+
+			buscar_todos_nomes_empresas_fiis('/', 'txtFatoFundo', false, true, false);
+			fCarregarGridFundo('/', '1');
+
+			buscar_todos_nomes_empresas_etfs('/', 'txtFatoIndice', false, true, false);
+			fCarregarGridIndice('/', '1');
+
+			buscar_todos_nomes_empresas_bdrs('/', 'txtFatoBdr', false, true, false);
+			fCarregarGridBdr('/', '1');
+
+			$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+				// e.target // newly activated tab
+				// e.relatedTarget // previous active tab
+				// $("#myAbaFatos li a").removeClass("text-dark");
+				// $("#myAbaFatos li a").addClass("text-secondary");
+				$("#myAbaFatos li a").each(function() {
+					if ($(this).hasClass("active") == true) {
+						//$(this).removeClass("text-secondary");
+						//$(this).addClass("text-dark");
+					}
+				});
+			});
+
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,90 @@
+<!-- AbaBalanceNotas -->
+<div role="tabpanel" class="tab-pane in active" id="AbaBalanceNotas">
+
+    <!-- Div Conteudo Pag -->
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card border">
+                <div class="header">
+                    <h2><strong>Balanceamento</strong> Por Notas</h2>
+                </div>
+                <div class="body">
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix justify-content-md-center">
+                        <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 text-center">
+                            <h6 class="text-title">Total</h6>
+                            <p id="TxtBalanceNotas_TotAtual">R$ 0,00</p>
+                            <h6 class="text-title">Ajustado</h6>
+                            <p class="font-weight-bold" id="TxtBalanceNotas_TotAjuste">R$ 0,00</p>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 text-center">
+                            <h6 class="text-title">Total Ações</h6>
+                            <p id="TxtBalanceNotas_TotAtualAcao">R$ 0,00 (0,00%)</p>
+                            <h6 class="text-title">Ajustado Ações</h6>
+                            <p class="font-weight-bold" id="TxtBalanceNotas_TotAjusteAcao">R$ 0,00 (0,00%)</p>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 text-center">
+                            <h6 class="text-title">Total FII</h6>
+                            <p id="TxtBalanceNotas_TotAtualFII">R$ 0,00 (0.00%)</p>
+                            <h6 class="text-title">Ajustado FII</h6>
+                            <p class="font-weight-bold" id="TxtBalanceNotas_TotAjusteFII">R$ 0,00 (0,00%)</p>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 text-center">
+                            <h6 class="text-title">Total ETF</h6>
+                            <p id="TxtBalanceNotas_TotAtualETF">R$ 0,00 (0.00%)</p>
+                            <h6 class="text-title">Ajustado ETF</h6>
+                            <p class="font-weight-bold" id="TxtBalanceNotas_TotAjusteETF">R$ 0,00 (0,00%)</p>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 text-center">
+                            <h6 class="text-title">Total BDR</h6>
+                            <p id="TxtBalanceNotas_TotAtualBDR">R$ 0,00 (0.00%)</p>
+                            <h6 class="text-title">Ajustado BDR</h6>
+                            <p class="font-weight-bold" id="TxtBalanceNotas_TotAjusteBDR">R$ 0,00 (0,00%)</p>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 text-center">
+                            <h6 class="text-title">Total CRIPTO</h6>
+                            <p id="TxtBalanceNotas_TotAtualCRIPTO">R$ 0,00 (0.00%)</p>
+                            <h6 class="text-title">Ajustado CRIPTO</h6>
+                            <p class="font-weight-bold" id="TxtBalanceNotas_TotAjusteCRIPTO">R$ 0,00 (0,00%)</p>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix justify-content-md-center">
+                        <div class="col-sm-12 col-md-4 col-lg-2 col-xl-2">
+                            <select onchange="fCarregarGridBalanceNotas('/');" style="font-size:12px;" id="txtFiltroBalanceNotaPortfolio" name="txtFiltroBalanceNotaPortfolio" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Portfólio..."> </select>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-10 col-xl-10 text-right">
+                            <a onclick="fSalvarValoresBalanceNotas( '/');" style="width: 140px;" class="btn btn-info btn-round font-weight-bold" id="BtnBalanceNotasSalvar" name="BtnBalanceNotasSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iBalanceNotasSalvar" name="iBalanceNotasSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+                            <a onclick="fDividirValoresBalanceNotas('/');" style="width: 140px;" class="btn btn-info btn-round btn-simple" id="BtnBalanceNotasDividir" name="BtnBalanceNotasDividir" href="javascript:void(0);" role="button" aria-pressed="true"> <i class="fa fa-calculator" aria-hidden="true"></i> &nbsp; Dividir Igual </a>
+                            <a onclick="fResetarValoresBalanceNotas('/');" style="width: 140px;" class="btn btn-info btn-round btn-simple" id="BtnBalanceNotasResetar" name="BtnBalanceNotasResetar" href="javascript:void(0);" role="button" aria-pressed="true"> <i class="fa fa-recycle" aria-hidden="true"></i> &nbsp; Resetar </a>
+                            <a onclick="fLimparValoresBalanceNotas( '/');" style="width: 140px;" class="btn btn-info btn-round btn-simple" id="BtnBalanceNotasLimpar" name="BtnBalanceNotasLimpar" href="javascript:void(0);" role="button" aria-pressed="true"> <i class="fa fa-remove" aria-hidden="true"></i> &nbsp; Limpar </a>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <hr />
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div id="DivBalanceNotasGrid"> </div>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Div Conteudo Pag -->
+
+</div>
+<!-- AbaBalanceNotas -->

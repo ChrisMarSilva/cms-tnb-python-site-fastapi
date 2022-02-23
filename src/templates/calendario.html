@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Calendário  {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/fullcalendar.min.css') }}">
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/fullcalendar.print.min.css') }}" media="print">
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagCalendario.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body block-header">
+							<div class="row ">
+								<div class="col-lg-9 col-md-12 col-sm-12">
+									<h2>Calendário</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Calendário</li>
+									</ul>
+								</div>
+								<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+									<a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+									<a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<div class="row clearfix">
+			   <div class="col-12">
+				  <ul class="nav nav-tabs d-flex justify-content-center font-weight-bold" id="myAbaCalend">
+					 <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link active" data-toggle="tab" href="#AbaCalendAcoes">AÇÕES</a></li>
+					 <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link" data-toggle="tab" href="#AbaCalendFIIs">FIIs</a></li>
+					 <li class="nav-item"><a style="font-size: 12px; width: 150px; " class="border border-secondary text-center font-weight-bold nav-link" data-toggle="tab" href="#AbaCalendBDRs">BDRs</a></li>
+				  </ul>
+			   </div>
+			</div>
+
+			<br>
+
+			<!-- Div Row Form -->
+			<div class="row clearfix">
+				<div class="col-1"> </div>
+				<div class="col-2 font-weight-bold" style="font-size: 12px;"> <i class="fa fa-calendar" style="color: #9acfea;"></i> Data Ex do Provento </div>
+				<div class="col-2 font-weight-bold" style="font-size: 12px;"> <i class="fa fa-calendar" style="color: #b2dba1;"></i> Data Pagto do Provento </div>
+				<div class="col-2 font-weight-bold" style="font-size: 12px;"> <i class="fa fa-calendar" style="color: #D4D46A;"></i> Compra de Ativo/Fundo </div>
+				<div class="col-2 font-weight-bold" style="font-size: 12px;"> <i class="fa fa-calendar" style="color: #BE5F7C;"></i> Venda de Ativo/Fundo </div>
+				<div class="col-3 font-weight-bold" style="font-size: 12px;"> <i class="fa fa-calendar" style="color: #3a87ad;"></i> Desdobrar/Grupar/Bonificar Ativo/Fundo </div>
+			</div>
+			<!-- Div Row Form -->
+
+			<!-- Div Row Form -->
+			<div class="row clearfix">
+				<div class="col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+			</div>
+			<!-- Div Row Form -->
+
+			<br />
+
+			<!-- myAbaCalend -->
+			<div class="tab-content" id="myAbaCalend2">
+
+				<!-- AbaCalendAcoes -->
+				<div class="tab-pane fade show active" id="AbaCalendAcoes" role="tabpanel" aria-labelledby="TabCalendAcoes">
+
+					<!-- Div Conteudo Pag -->
+					<div class="row clearfix">
+						<div class="col-md-12 col-lg-9">
+							<div class="card border">
+								<div class="header">
+									<h2><strong>Calendário</strong> de Ações</h2>
+								</div>
+								<div class="body">
+									<div id="calendar" style="border: 0px solid red;" class="m-t-20"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 col-lg-3">
+							<div class="card border" style="height:96%; ">
+								<div class="body">
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix align-items-end">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+											<p class="font-weight-bold text-left">Selecione um Ativo:</p>
+											<select style="font-size:12px;" id="txtFiltroCalendAtivo" name="txtFiltroCalendAtivo" onchange="fBuscarListaProventos('/');" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+										</div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<hr />
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+											<div id="DivListaCalendario" style="border: 0px solid red; overflow-y: auto; overflow-x: hidden; max-height:600px; height:100%; margin-top: 10px; "> </div>
+										</div>
+									</div>
+									<!-- Div Row clearfix -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Div Conteudo Pag -->
+
+				</div>
+				<!-- AbaCalendAcoes -->
+
+				<!-- AbaCalendFIIs -->
+				<div class="tab-pane fade" id="AbaCalendFIIs" role="tabpanel" aria-labelledby="TabCalendFIIs">
+
+					<!-- Div Conteudo Pag -->
+					<div class="row clearfix">
+						<div class="col-md-12 col-lg-9">
+							<div class="card border">
+								<div class="header">
+									<h2><strong>Calendário</strong> de FIIs</h2>
+								</div>
+								<div class="body">
+									<div id="calendarFII" style="border: 0px solid red;" class="m-t-20"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 col-lg-3">
+							<div class="card border" style="height:96%; ">
+								<div class="body">
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix align-items-end">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+											<p class="font-weight-bold text-left">Selecione um ativo:</p>
+											<select style="font-size:12px;" id="txtFiltroCalendFundo" name="txtFiltroCalendFundo" onchange="fBuscarListaProventosFII('/');" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+										</div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<hr />
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+											<div id="DivListaCalendarioFII" style="border: 0px solid red; overflow-y: auto; overflow-x: hidden; max-height:600px; height:100%; margin-top: 10px; "> </div>
+										</div>
+									</div>
+									<!-- Div Row clearfix -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Div Conteudo Pag -->
+
+				</div>
+				<!-- AbaCalendFIIs -->
+
+				<!-- AbaCalendBDRs -->
+				<div class="tab-pane fade" id="AbaCalendBDRs" role="tabpanel" aria-labelledby="TabCalendBDRs">
+
+					<!-- Div Conteudo Pag -->
+					<div class="row clearfix">
+						<div class="col-md-12 col-lg-9">
+							<div class="card border">
+								<div class="header">
+									<h2><strong>Calendário</strong> de BDRs</h2>
+								</div>
+								<div class="body">
+									<div id="calendarBDR" style="border: 0px solid red;" class="m-t-20"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 col-lg-3">
+							<div class="card border" style="height:96%; ">
+								<div class="body">
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix align-items-end">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+											<p class="font-weight-bold text-left">Selecione um ativo:</p>
+											<select style="font-size:12px;" id="txtFiltroCalendBdr" name="txtFiltroCalendBdr" onchange="fBuscarListaProventosBDR('/');" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+										</div>
+									</div>
+									<!-- Div Row clearfix -->
+
+									<hr />
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+											<div id="DivListaCalendarioBDR" style="border: 0px solid red; overflow-y: auto; overflow-x: hidden; max-height:600px; height:100%; margin-top: 10px; "> </div>
+										</div>
+									</div>
+									<!-- Div Row clearfix -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Div Conteudo Pag -->
+
+				</div>
+				<!-- AbaCalendBDRs -->
+
+			</div>
+			<!-- myAbaCalend -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block scripts %}
+
+<!--	<script src="{{ url_for('static', filename='plugins/js/jquery-3.5.1.slim.min.js') }}"></script>-->
+	<script src="{{ url_for('static', filename='plugins/js/defaults-pt_BR.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/moment.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/moment-pt-br.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/fullcalendar.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/fullcalendar-pt-br.js') }}"></script>
+<!--	<script src="{{ url_for('static', filename='plugins/js/fullcalendar-pt-br.min.js') }}"></script>-->
+	<script src="{{ static_autoversion('pages/js/PagCalendario.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagCalendarioACAO.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagCalendarioFII.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagCalendarioBDR.js') }}"></script>
+
+	<script>
+		$(document).ready(function() {
+
+			fCarregarListaProvento('/');
+			buscar_todos_codigos_completos_acoes('/', 'txtFiltroCalendAtivo', false, false, true);
+
+			fCarregarListaProventoFII('/');
+			buscar_todos_codigos_completos_fiis('/', 'txtFiltroCalendFundo', false, false, true);
+
+			fCarregarListaProventoBDR('/');
+			buscar_todos_codigos_completos_bdrs('/', 'txtFiltroCalendBdr', false, false, true);
+
+			$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+				// e.target // newly activated tab
+				// e.relatedTarget // previous active tab
+				//$("#myAbaCalend li a").removeClass("text-dark");
+				//$("#myAbaCalend li a").addClass("text-secondary");
+				$("#myAbaCalend li a").each(function() {
+					if ($(this).hasClass("active") == true) {
+						//$(this).removeClass("text-secondary");
+						//$(this).addClass("text-dark");
+						// if ( $(this).attr('id') == 'TabCalendAcoes' )
+						$('#calendar').fullCalendar('render');
+						//if ( $(this).attr('id') == 'TabCalendFIIs'  )
+						 $('#calendarFII').fullCalendar('render');
+						//if ( $(this).attr('id') == 'TabCalendBDRs'  )
+						$('#calendarBDR').fullCalendar('render');
+					}
+				});
+			});
+
+		});
+	</script>
+
+{% endblock %}

@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Admin - Alerta {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagAlerta.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+    <!-- Div Main Content -->
+    <section class="content">
+        <div class="container">
+
+            <!-- Div Titulo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="body block-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="border: 0px solid blue; ">
+                                    <h2>Admin - Alertas</h2>
+                                    <ul class="breadcrumb p-l-0 p-b-0 ">
+                                        <li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+                                        <li class="breadcrumb-item active">Alertas</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Titulo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="header">
+                            <h2><strong>Alertas</strong></h2>
+                        </div>
+                        <div class="body">
+
+                            <!-- Div Row clearfix -->
+                            <div class="row clearfix">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+                            </div>
+                            <!-- Div Row clearfix -->
+
+                            <!-- Div Row clearfix -->
+                            <div class="row clearfix align-items-end">
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                                    <p class="font-weight-bold ">Data Inicial:</p>
+                                    <input style="font-size:12px;" type="date" class="form-control" name="txtDataIni" id="txtDataIni">
+                                </div>
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                                    <p class="font-weight-bold ">Data Final:</p>
+                                    <input style="font-size:12px;" type="date" class="form-control" name="txtDataFim" id="txtDataFim">
+                                </div>
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+                                    <a onclick="fCarregarGrid('/');" id="btnPesquisar" name="btnPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+                                </div>
+                                <div class="col-xl-6 col-lg-3 col-md-4 col-sm-12 text-right">
+                                    <a onclick="fAbrirModalCriarAlerta('/');" title="Criar Alerta..." id="btnCriarAlerta" name="btnCriarAlerta" style="width: 170px;" class="btn btn-simple btn-info btn-round font-weight-bold" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-lg fa-plus-square" aria-hidden="true"></i>&nbsp;Criar Alerta </a>
+                                    <a onclick="fAbrirModalUserAlerta('/');" title="Usuarios e Alertas..." id="btnUserAlerta" name="btnUserAlerta" style="width: 170px;" class="btn btn-simple btn-info btn-round font-weight-bold" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-lg fa-user" aria-hidden="true"></i>&nbsp;Usuários e Alertas </a>
+                                </div>
+                            </div>
+                            <!-- Div Row clearfix -->
+
+                            <!-- <hr /> -->
+
+                            <!-- Div table-responsive -->
+                            <div class="table-responsive" id="AreaGrid">
+                                <table id="Grid" name="Grid" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr class="thead-dark font-weight-bold">
+                                            <th>DtHr</th>
+                                            <th>Dt. Envio</th>
+                                            <th>Usuário</th>
+                                            <th>Tipo</th>
+                                            <th>Mensagem</th>
+                                            <th>Sit. Telegram</th>
+                                            <th>Sit. E-mail</th>
+                                            <th style="display: none;"></th>
+                                            <th style="display: none;"></th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Div table-responsive -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+        </div>
+    </section>
+    <!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+    <!-- Modal Criar Alertas -->
+    <div class="modal fade" id="PopModalDadosAlerta" name="PopModalDadosAlerta" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h6> <i class="fa fa-lg fa-check-square-o"></i>&nbsp; <strong>Alerta...</strong> </h6>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row clearfix" style="margin-bottom: 4px; ">
+                        <div class="col-1"> </div>
+                        <div class="col-10" id="AlertaModalDadosAlerta"> </div>
+                        <div class="col-1"> </div>
+                    </div>
+
+                    <form id="FormAlerta" name="FormAlerta" role="form" novalidate action="javascript:void(0);" method="POST">
+
+                        <div class="row clearfix" style="margin-bottom: 10px;">
+                            <div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDetAlertaTipo">Tipo:</label> </div>
+                            <div class="col-5">
+                                <select style="font-size:12px;" id="txtDetAlertaTipo" name="txtDetAlertaTipo" title="Selecione o Tipo..." class="form-control">
+                                    <option value="ADMIN-01">Todos</option>
+                                    <option value="ADMIN-02">Alguém</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row clearfix" style="margin-bottom: 10px;">
+                            <div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDetAlertaUser">Usuário:</label> </div>
+                            <div class="col-7">  <select id="txtDetAlertaUser" name="txtDetAlertaUser" style="font-size:12px;" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Usuário..."> </select> </div>
+                        </div>
+
+                        <div class="row clearfix" style="margin-bottom: 10px;">
+                            <div class="col-3 text-right"> <!-- <label style="font-size:12px;" class="font-weight-bold" for="txtDetAlertaMsg">Mensagem:</label> --> </div>
+                            <div class="col-7"> <textarea id="txtDetAlertaMsg" style="font-size:12px;" rows="4" class="form-control no-resize border" placeholder="       Mensagem"></textarea> </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <a onclick="fSalvarDadosAlerta('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDadosAlertaSalvar" name="BtnModalDadosAlertaSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iDadosAlertaSalvar" name="iDadosAlertaSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Enviar </a>
+                    <button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDadosAlertaCancelar" id="BtnModalDadosAlertaCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Criar Alertas -->
+
+    <!-- Modal Usuarios Alertas -->
+    <div class="modal fade" id="PopModalDadosUserAlerta" name="PopModalDadosUserAlerta" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h6> <i class="fa fa-lg fa-check-square-o"></i>&nbsp; <strong>Usuários e Alertas...</strong> </h6>
+                </div>
+                <div class="modal-body" style="overflow-y: auto; max-height:400px; height:400px; max-width: 100%; margin: 2px; padding: 2px;">
+
+                    <div class="row clearfix" style="margin-bottom: 4px; ">
+                        <div class="col-1"> </div>
+                        <div class="col-10" id="AlertaModalDadosUserAlerta"> </div>
+                        <div class="col-1"> </div>
+                    </div>
+
+                    <div class="row clearfix" style="margin: 10px;">
+                        <div class="col-12">
+
+                            <!-- Div table-responsive -->
+                            <div class="table-responsive" id="AreaGridUser">
+                                <table id="GridUser" name="GridUser" style="font-size: 10px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="90%">
+                                    <thead>
+                                        <tr class="thead-dark font-weight-bold">
+                                            <th>Usuário</th>
+                                            <th>Alerta</th>
+                                            <th>Assinatura</th>
+                                            <th style="display: none;"></th>
+                                            <th style="display: none;"></th>
+                                            <th style="display: none;"></th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Div table-responsive -->
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button style="width: 140px" type="button" class="btn btn-light btn-si mple btn-round waves-effect" data-dismiss="modal">&nbsp;Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Usuarios Alertas -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAlerta.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            fLimparGrid(   '/' );
+            fCarregarGrid( '/' );
+            buscar_todos_assinaturas_alertas( '/', 'txtDetAlertaUser', false, false, false, false, false );
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,32 @@
+<!-- AbaProv -->
+<div class="tab-pane fade" id="AbaProv" role="tabpanel" aria-labelledby="prov-tab">
+
+    <!-- Div Row clearfix -->
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs d-flex justify-content-center">
+                <li class="nav-item"><a style="font-size: 12px; width: 220px; " class="border border-secondary text-center font-weight-bold nav-link active" data-toggle="tab" href="#AbaProvPorLanc">     Geral</a></li>
+                <li class="nav-item"><a style="font-size: 12px; width: 220px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaProvCalendAno">   Calendário Por Ano</a></li>
+                <li class="nav-item"><a style="font-size: 12px; width: 220px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaProvCalendAtivo"> Calendário Por Ativo</a></li>
+                <li class="nav-item"><a style="font-size: 12px; width: 220px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaProvYiledOnCost"> Yield on Cost</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- Div Row clearfix -->
+
+    <!-- Tab Prov -->
+    <div class="tab-content">
+
+        {% include 'analise_prov_geral.html' %}
+
+        {% include 'analise_prov_calend_ano.html' %}
+
+        {% include 'analise_prov_calend_ativo.html' %}
+
+        {% include 'analise_prov_yield.html' %}
+
+    </div>
+    <!-- Tab Oper -->
+
+</div>
+<!-- AbaProv -->

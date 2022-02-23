@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Admin - Logs Erros {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagLogErros.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+            <!-- Div Titulo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="body block-header">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6" style="border: 0px solid blue; ">
+                                    <h2>Log Erros</h2>
+                                    <ul class="breadcrumb p-l-0 p-b-0 ">
+                                        <li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+                                        <li class="breadcrumb-item active">Log Erros</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<!-- <div class="header">
+							<h2><strong>Log Erros</strong></h2>
+						</div> -->
+						<div class="body">
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix align-items-end">
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 left">
+									<a onclick="fLimparGrid(); fCarregarGrid('/');" id="btnLogErrPesquisar" name="btnLogErrPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 text-right">
+									<a onclick="fMarcarLog('/', 'Geral');" style="width: 140px;" class="btn btn-secondary btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Marcar Tudo </a>
+									&nbsp;
+									<a onclick="fExcluirLog('/', 'Geral');" style="width: 140px;" class="btn btn-danger btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> &nbsp; Apagar Tudo </a>
+								</div>
+							</div>
+							<!-- Div form-group -->
+
+							<hr />
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<!-- Div table-responsive -->
+							<div class="table-responsive" id="AreaGrid">
+								<table id="GridGeral" name="GridGeral" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+									<thead>
+										<tr class="thead-dark font-weight-bold">
+											<th style="width: 120px; ">Hora</th>
+											<th style="width: 110px; ">Arquivo</th>
+											<th style="width: 110px; ">Usuário</th>
+											<th style="width: 30px; ">Linha</th>
+											<th style="width: 30px; ">Código</th>
+											<th>Texto</th>
+											<th style="display: none;"></th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+									</tfoot>
+								</table>
+							</div>
+							<!-- Div table-responsive -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagLogErros.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			fLimparGrid('/');
+			fCarregarGrid('/');
+		});
+	</script>
+{% endblock %}

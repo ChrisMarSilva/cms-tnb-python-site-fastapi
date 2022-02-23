@@ -1,0 +1,31 @@
+<!-- AbaBalance -->
+<div class="tab-pane fade" id="AbaBalance" role="tabpanel" aria-labelledby="balance-tab">
+
+    <!-- Div Row clearfix -->
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs d-flex justify-content-center">
+                <li class="nav-item"><a style="font-size: 12px; width: 250px; " class="border border-secondary text-center font-weight-bold nav-link active" data-toggle="tab" href="#AbaBalanceNotas">  Balanceamento Por Notas</a></li>
+                <li class="nav-item"><a style="font-size: 12px; width: 250px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaBalancePercent">Balanceamento Por Percentual</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- Div Row clearfix -->
+
+    <!-- Div Row clearfix -->
+    <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrincAnaliseBalance"> </div>
+    </div>
+    <!-- Div Row clearfix -->
+
+    <!-- Tab Balance  -->
+    <div class="tab-content">
+
+        {% include 'analise_balanc_notas.html' %}
+        {% include 'analise_balanc_percent.html' %}
+
+    </div>
+    <!-- Tab Balance  -->
+
+</div>
+<!-- AbaBalance -->

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Login {% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Authentication -->
+	<div class="authentication">
+		<div class="container">
+			<div class="col-md-12 content-center">
+				<div class="row clearfix">
+					<div class="col-lg-6 col-md-12">
+						<div class="company_detail">
+							<h4 class="logo"><a class="text-white" href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='pages/img/iconeB.png') }}" alt=""> <span>TamoNaBolsa</span> </a> </h4>
+							<h3>Acompanhe seus investimentos de forma SIMPLES!!!</h3>
+							<div class="form-group form-row">
+								<div class="col" id="AreaAlertaPrinc"> </div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-5 col-md-12 offset-lg-1">
+						<div class="card-plain">
+							<div class="header">
+								<h5>Log in</h5>
+							</div>
+							<form class="form">
+								<div class="input-group">
+									<input id="txtEmail" name="txtEmail" type="text" class="form-control" placeholder="Login ou E-mail">
+									<span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
+								</div>
+								<div class="input-group">
+									<input type="password" id="txtSenha" name="txtSenha" placeholder="Senha" class="form-control" />
+									<span class="input-group-addon"> <a onclick="fMostrarSenha();" class="text-dark" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="icon-lock" id="iSenha"></i> </a></span>
+								</div>
+								<div class="checkbox text-left">
+									<input id="chkLembrar" name="chkLembrar" type="checkbox">
+									<label for="chkLembrar">Lembrar</label>
+								</div>
+							</form>
+							<div class="footer" style=" padding: 0px 0;">
+								<a href="javascript:void(0);" onclick="loginEntrar('/');" name="btnEntrar" id="btnEntrar" class="btn btn-primary btn-round btn-block"> <i id="iEntrar" name="iEntrar" class="fa fa-sign-in" aria-hidden="true"></i> &nbsp;Entrar</a>
+								<a href="{{ url_for('usuario.criar_conta') }}" class="btn btn-primary btn-simple btn-round btn-block">Criar uma conta</a>
+							</div>
+							<a href="{{ url_for('usuario.esqueceu_senha') }}" class="link">Esqueceu a Senha?</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="particles-js"></div>
+	</div>
+	<!-- Div Main Authentication -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/particles.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='assets/js/particles.js') }}"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>-->
+    <script src="{{ static_autoversion('pages/js/PagLogin.js') }}"></script>
+	<script>
+
+		function fMostrarSenha() {
+			$("#iSenha").toggleClass("icon-lock");
+			$("#iSenha").toggleClass("icon-lock-open");
+			if ($("#iSenha").hasClass("icon-lock-open")) { $("#txtSenha").attr('type', 'text'); } else { $("#txtSenha").attr('type', 'password'); }
+		}
+
+		$(document).ready(function() {
+
+				$("#txtEmail").bind("keyup", function(e) {
+					if (e.keyCode == 13) {
+						var txtEmail = $("#txtEmail").val();
+						var txtSenha = $("#txtSenha").val();
+						if (txtEmail != "" && txtSenha != "") { loginEntrar('/'); }
+					}
+				});
+
+				$("#txtSenha").bind("keyup", function(e) {
+					if (e.keyCode == 13) {
+						var txtEmail = $("#txtEmail").val();
+						var txtSenha = $("#txtSenha").val();
+						if (txtEmail != "" && txtSenha != "") loginEntrar('/');
+					}
+				});
+
+		});
+
+	</script>
+{% endblock %}

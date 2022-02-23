@@ -1,0 +1,29 @@
+<!-- AbaEvoluPratrim -->
+<div class="tab-pane fade" id="AbaEvoluPratrim" role="tabpanel" aria-labelledby="evolpatrim-tab">
+
+    <!-- Div Row clearfix -->
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs d-flex justify-content-center">
+                <li class="nav-item"><a style="font-size: 12px; width: 200px; " class="border border-secondary text-center font-weight-bold nav-link active" data-toggle="tab" href="#AbaEvolucaoPratrimo">Evolução do Patrimônio</a></li>
+                <li class="nav-item"><a style="font-size: 12px; width: 200px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaEvolucaoProvento">Evolução dos Proventos</a></li>
+                <li class="nav-item"><a style="font-size: 12px; width: 200px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaEvolucaoDetalhada">Evolução Detalhada</a></li>
+                <li class="nav-item"><a style="font-size: 12px; width: 200px; " class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaEvolucaoProjetada">Evolução Projetada</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- Div Row clearfix -->
+
+    <!-- Tab aEvoluPratrim  -->
+    <div class="tab-content">
+
+        {% include 'analise_evol_patrimonio.html' %}
+        {% include 'analise_evol_proventos.html' %}
+        {% include 'analise_evol_detalhada.html' %}
+        {% include 'analise_evol_projetada.html' %}
+
+    </div>
+    <!-- Tab aEvoluPratrim  -->
+
+</div>
+<!-- AbaEvoluPratrim -->

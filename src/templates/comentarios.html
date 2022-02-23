@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Comentários {% endblock %}
+
+{% block styles %}
+<!--    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />-->
+<!--    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />-->
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagComentarios.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+    <!-- Div Main Content -->
+    <section class="content">
+        <div class="container">
+
+            <!-- Div Titulo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="body block-header">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-8 col-sm-12">
+                                    <h2>Comentários</h2>
+                                    <ul class="breadcrumb p-l-0 p-b-0 ">
+                                        <li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+                                        <li class="breadcrumb-item active">Comentários</li>
+                                    </ul>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+                                    <a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Titulo Pag -->
+
+            <!-- Div Conteudo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <!-- <div class="header">
+                            <h2><strong>Comentários</strong></h2>
+                        </div> -->
+                        <div class="body">
+
+                            <!-- DivBtNovoComentario -->
+                            <div class="row clearfix mb-4">
+                                <div class="col-sm-12 col-md-6 col-lg-10 col-xl-10">
+                                    <div id="AreaAlertaPrinc"> </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2 text-right">
+                                    <a class="btn btn-sm btn-primary btn-simple btn-round waves-effect" href="javascript:void(0);" style="width: 180px;" role="button" aria-pressed="true" id="BtNovoComentario" onclick="fMostrarNovoComentario();"> <i style="font-size: 15px;" class="fa fa-comments"> </i> &nbsp; Novo Comentário </a>
+                                </div>
+                            </div>
+                            <!-- DivBtNovoComentario -->
+
+                            <!-- DivNovoComentario -->
+                            <div class="row clearfix mb-4" id="DivNovoComentario" style="display: none; ">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row mb-2">
+                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <input type="hidden" id="TxtIdComentario">
+                                            <textarea data-autoresize style="font-size:14px; resize:none; overflow:hidden; box-sizing:border-box;" class="form-control form-control-sm" id="TxtTextoComentario" placeholder="Adicione um novo comentário..."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix mb-2">
+                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="text-right">
+                                                <a class="btn btn-sm btn-primary btn-round waves-effect" href="javascript:void(0);" style="width: 140px;" role="button" aria-pressed="true" id="BtnSalvarNovoComentario" onclick="fSalvarDadosComentario('/');"> <i id="iSalvarNovoComentario" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; SALVAR </a>
+                                                <a class="btn btn-sm btn-light btn-simple btn-round waves-effect" href="javascript:void(0);" style="width: 140px;" role="button" aria-pressed="true" id="BtnCancelarNovoComentario" onclick="fEsconderNovoComentario();"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp; CANCELAR </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- DivNovoComentario -->
+
+                            <!-- DivListaComentarios -->
+                            <div class="row clearfix mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" id="DivListaComentarios"></div>
+                            </div>
+                            <!-- DivListaComentarios -->
+
+                            <!-- DivBtnPaginacao -->
+                            <div class="row clearfix">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <ul class="body pagination pagination-sm pagination-primary justify-content-center" id="BtnPaginacao"> </ul>
+                                </div>
+                            </div>
+                            <!-- DivBtPaginacao -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+        </div>
+    </section>
+    <!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+    <!-- Modal PopModalDenuncia -->
+    <div class="modal fade" id="PopModalDenuncia" tabindex="-1" role="dialog" aria-labelledby="PopModalDenunciaTit" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="PopModalDenunciaTit">Denunciar Comentário</h5>
+                </div>
+                <div class="modal-body">
+
+                    <input type="hidden" id="TxtIdComentarioDenuncia">
+
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="TxtTpDenuncia1" name="TxtTpDenuncia1" class="custom-control-input" value="A">
+                        <label class="custom-control-label" for="TxtTpDenuncia1">Conteúdo Impróprio com Apelo Sexual</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="TxtTpDenuncia2" name="TxtTpDenuncia1" class="custom-control-input" value="B">
+                        <label class="custom-control-label" for="TxtTpDenuncia2">Conteúdo Violento, Repulsivo, Ofensivo ou Proibido</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="TxtTpDenuncia3" name="TxtTpDenuncia1" class="custom-control-input" value="C">
+                        <label class="custom-control-label" for="TxtTpDenuncia3">Conteúdo Enganaso ou é uma Fraude</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="TxtTpDenuncia4" name="TxtTpDenuncia1" class="custom-control-input" value="D">
+                        <label class="custom-control-label" for="TxtTpDenuncia4">Não Concordo com isso</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="TxtTpDenuncia5" name="TxtTpDenuncia1" class="custom-control-input" value="E">
+                        <label class="custom-control-label" for="TxtTpDenuncia5">Conteúdo de Incitação de Ódio ou Abusivo</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="TxtTpDenuncia6" name="TxtTpDenuncia1" class="custom-control-input" value="F">
+                        <label class="custom-control-label" for="TxtTpDenuncia6">Spam</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="TxtTpDenuncia7" name="TxtTpDenuncia1" class="custom-control-input" value="Z">
+                        <label class="custom-control-label" for="TxtTpDenuncia7">Outra coisa</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a style="width: 140px" onclick="fDenunciarComentario('/'); return false;" class="btn btn-primary btn-round waves-effect" href="javascript:void(0);" role="button" aria-pressed="true"><i class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; DENUNCIAR </a>
+                    <button style="width: 140px" type="button" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;CANCELAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal PopModalDenuncia -->
+
+    <!-- Modal PopModalVisualizou -->
+    <div class="modal fade" id="PopModalVisualizou" tabindex="-1" role="dialog" aria-labelledby="PopModalVisualizouTit" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="PopModalVisualizouTit">Visualização de Dados para o Admin</h5>
+                </div>
+                <div class="modal-body" style="overflow-y: auto; max-height:580px;">
+                    <div id="DivComentarioVisualizou"></div>
+                </div>
+                <div class="modal-footer">
+                    <button style="width: 140px" type="button" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;CANCELAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal PopModalVisualizou -->
+
+{% endblock %}
+
+{% block scripts %}
+
+<!--	<script src="{{ url_for('static', filename='assets/js/libscripts.bundle.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='assets/js/vendorscripts.bundle.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='assets/js/mainscripts.bundle.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='assets/js/particles.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='assets/js/particles.js') }}"></script>-->
+
+<!--	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.colVis.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.html5.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.print.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.flash.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/jszip.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/pdfmake.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/vfs_fonts.js') }}"></script>-->
+
+<!--	<script src="{{ url_for('static', filename='plugins/js/highstock.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highstock.exporting.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highstock.export-data.js') }}"></script>-->
+
+<!--	<script src="{{ url_for('static', filename='plugins/js/highcharts.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highcharts.exporting.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highcharts.export-data.js') }}"></script>-->
+
+<!--	<script src="{{ url_for('static', filename='plugins/js/defaults-pt_BR.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/moment.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/moment-pt-br.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/fullcalendar.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/fullcalendar-pt-br.js') }}"></script>-->
+
+<!--	<script src="{{ static_autoversion('pages/js/PagPadrao.js') }}"></script>-->
+<!--	<script src="{{ static_autoversion('pages/js/PagPadraoDatas.js') }}"></script>-->
+<!--	<script src="{{ static_autoversion('pages/js/PagPadraoFormatar.js') }}"></script>-->
+<!--	<script src="{{ static_autoversion('pages/js/PagPadraoSelects.js') }}"></script>-->
+	<script src="{{ static_autoversion('pages/js/PagComentarios.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            fCarregarListaComentarios('/');
+        });
+    </script>
+
+{% endblock %}

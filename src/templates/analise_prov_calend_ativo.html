@@ -1,0 +1,78 @@
+<!-- AbaProvCalendAtivo -->
+<div role="tabpanel" class="tab-pane" id="AbaProvCalendAtivo">
+
+    <!-- Div Conteudo Pag -->
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card border">
+                <div class="header">
+                    <h2><strong>Calendário</strong> dos Provento por Ativo</h2>
+                </div>
+                <div class="body">
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix align-items-end">
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                            <p class="font-weight-bold ">Ativo:</p>
+                            <select onchange="fCarregarGridAnaliseCalendProvAtivo('/');" style="font-size:12px;" id="txtFiltroAnaliseCalendProvAtivoAtivo" name="txtFiltroAnaliseCalendProvAtivoAtivo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+                            <a onclick="fCarregarGridAnaliseCalendProvAtivo('/');" id="btnAnaliseCalendProvAtivoPesquisar" name="btnAnaliseCalendProvAtivoPesquisar" style="width: 170px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefreshCalendProvAtivo" name="iRefreshCalendProvAtivo" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrincAnaliseCalProvAtivo"> </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <div id="DivGraficoAnaliseCalProvAtivo" style="display: none; min-width: auto; max-width: auto; height: 350px; margin: 0 auto; border: 0px solid blue; "> </div>
+
+                    <br />
+
+                    <!-- Div table-responsive -->
+                    <div class="table-responsive" id="AreaGrid">
+                        <table id="GridAnaliseCalProvAtivo" name="GridAnaliseCalProvAtivo" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr class="thead-dark font-weight-bold">
+                                    <th>Ano</th>
+                                    <th>JAN</th>
+                                    <th>FEV</th>
+                                    <th>MAR</th>
+                                    <th>ABR</th>
+                                    <th>MAI</th>
+                                    <th>JUN</th>
+                                    <th>JUL</th>
+                                    <th>AGO</th>
+                                    <th>SET</th>
+                                    <th>OUT</th>
+                                    <th>NOV</th>
+                                    <th>DEZ</th>
+                                    <th>TOTAL</th>
+                                    <th>MÉDIA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Div table-responsive -->
+
+                    <br />
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Div Conteudo Pag -->
+
+</div>
+<!-- AbaProvCalendAtivo -->

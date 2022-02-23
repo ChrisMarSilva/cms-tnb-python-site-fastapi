@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Redefinir Senha {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagRedefinirSenha.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-6 col-md-8 col-sm-12">
+									<h2>Redefinição de senha</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('main.home') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Redefinir Senha</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="header">
+							<h2><strong>Redefinir</strong> Senha</h2>
+						</div>
+						<div class="body">
+
+							<div class="text-center mt-4">
+								<p>Insira sua nova senha nos campos abaixo:</p>
+							</div>
+							<br />
+							<div id="AreaAlertaPrinc"> </div>
+							<form id="frmSenha" name="frmSenha" method="POST" role="form" class="needs-validation" novalidate>
+								<input type="hidden" id="txtUserEmail" name="txtUserEmail" value="{{ email }}">
+								<div class="form-group row">
+									<label for="txtNovaSenha" class="col-sm-4 col-form-label col-form-label-sm font-weight-bold text-right">Nova Senha</label>
+									<div class="col-sm-6">
+										<input class="form-control form-control-sm" id="txtNovaSenha" name="txtNovaSenha" type="password" placeholder="Nova Senha">
+										<div class="invalid-feedback"> Campo obrigatório!</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="txtConfirNovaSenha" class="col-sm-4 col-form-label col-form-label-sm font-weight-bold text-right">Confirmar Senha</label>
+									<div class="col-sm-6">
+										<input class="form-control form-control-sm" id="txtConfirNovaSenha" name="txtConfirNovaSenha" type="password" placeholder="Confirmar Senha">
+										<div class="invalid-feedback"> Campo obrigatório!</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-4"> </div>
+									<div class="col-sm-6">
+										<a onclick="fSalvarSenha('/');" name="btnSalvar" id="btnSalvar" class="btn btn-primary btn-round waves-effect btn-block" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-check" aria-hidden="true" name="iSalvar" id="iSalvar"></i>&nbsp; Salvar Senha </a>
+									</div>
+								</div>
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ static_autoversion('pages/js/PagRedefinirSenha.js') }}"></script>
+{% endblock %}
+

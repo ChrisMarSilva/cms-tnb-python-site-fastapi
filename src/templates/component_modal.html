@@ -1,0 +1,317 @@
+
+<!-- Modal Gerando Portfolio -->
+<div class="modal fade" id="PopModalGerarPortfolio" name="PopModalGerarPortfolio" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal- lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center text-secondary font-weight-bold" style="font-size: 16px; ">
+                    <p> <i id="iRefreshGerarPortfolio" class="fa fa-refresh" aria-hidden="true"></i>&nbsp; Calculando o Portfólio... </p>
+                    <p>Por favor, aguarde.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Gerando Portfolio -->
+
+<!-- Modal Aviso -->
+<div class="modal fade" id="PopModalAviso" name="PopModalAviso" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal- lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h6> <i class="fa fa-lg fa-info-circle"></i>&nbsp; Aviso </h6>
+            </div>
+            <div class="modal-body">
+                <p class="text-secondary" id="PopModalAvisoTexto" name="PopModalAvisoTexto"> </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="width: 140px;" class="btn btn-primary btn-round waves-effect" name="BtnModalAvisoOK" id="BtnModalAvisoOK" data-dismiss="modal">&nbsp;OK&nbsp;</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Aviso -->
+
+<!-- Modal Erro -->
+<div class="modal fade" id="PopModalErro" name="PopModalErro" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h6> <i class="fa fa-lg fa-exclamation-triangle"></i>&nbsp; Erro </h6>
+            </div>
+            <div class="modal-body" style="overflow-y: auto; max-height:300px;" id="PopModalErroTexto" name="PopModalErroTexto">
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="width: 140px;" class="btn btn-primary btn-round waves-effect" name="BtnModalErroOK" id="BtnModalErroOK" data-dismiss="modal">&nbsp;OK&nbsp;</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Erro -->
+
+<!-- Modal Confirmacao -->
+<div class="modal fade" id="PopModalConfirmacao" name="PopModalConfirmacao" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h6> <i class="fa fa-lg fa-check-square-o"></i>&nbsp; Confirma&ccedil;&atilde;o </h6>
+            </div>
+            <div class="modal-body">
+                <p class="text-secondary" id="PopModalConfirmacaoTexto" name="PopModalConfirmacaoTexto"> </p>
+            </div>
+            <div class="modal-footer">
+                <a style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalConfirmacaoSim" name="BtnModalConfirmacaoSim" href="javascript:void(0);" onclick="#" role="button" aria-pressed="true">Sim</a>
+                <button style="width: 140px;" type="button" name="BtnModalConfirmacaoNao" id="BtnModalConfirmacaoNao" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;N&#227;o&nbsp;</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Confirmacao -->
+
+<!-- Modal Aviso Logout -->
+<div class="modal fade" id="PopModalLogout" name="PopModalLogout" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h6><i class="fa fa-lg fa-exclamation-circle"></i>&nbsp; logoff</h6>
+            </div>
+            <div class="modal-body">
+                Tem certeza de que quer sair?
+            </div>
+            <div class="modal-footer">
+                <a style="width: 140px;" onclick="sairSistema('/');" name="btnModalLogoutSair" id="btnModalLogoutSair" class="btn btn-primary btn-round waves-effect" role="button" aria-pressed="true" href="javascript:void(0);"><i id="iSair" name="iSair" class="fa fa-sign-out" aria-hidden="true"></i> &nbsp;Sair</a>
+                <button style="width: 140px;" class="btn btn-light btn-simple btn-round waves-effect" name="btnModalLogoutCancelar" id="btnModalLogoutCancelar" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Aviso Logout -->
+
+<!-- Modal Aviso Doacao -->
+<div class="modal fade" id="PopModalDoacao" name="PopModalDoacao" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h6><i class="fa fa-thumbs-o-up fa-lg"></i>&nbsp; Doação para o Site</h6>
+            </div>
+            <div class="modal-body" style="overflow-y: auto; height:400px; max-height:400px;">
+
+                <!-- div row -->
+                <div class="row clearfix">
+                    <div class="col-12 col-lg-12 text-center">
+                        <ul class="nav nav-tabs d-flex justify-content-center font-weight-bold" role="tablist" id="TabDoar" style="margin: 0px; padding: 0px;">
+                            <li class="nav-item"> <a style="font-size: 11px; " class="border border-secondary nav-link active" data-toggle="tab" href="#TabDoarBanco">     Bancos       </a> </li>
+                            <li class="nav-item"> <a style="font-size: 11px; " class="border border-secondary nav-link"        data-toggle="tab" href="#TabDoarPayPal">    PayPal       </a> </li>
+                            <li class="nav-item"> <a style="font-size: 11px; " class="border border-secondary nav-link"        data-toggle="tab" href="#TabDoaMercPago">   Mercado Pago </a> </li>
+                            <li class="nav-item"> <a style="font-size: 11px; " class="border border-secondary nav-link"        data-toggle="tab" href="#TabDoarPagSeguro"> PagSeguro    </a> </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- div row -->
+
+                <!-- Tab Princ Doar -->
+                <div class="tab-content">
+
+                    <!-- TabDoarBanco -->
+                    <div role="tabpanel" class="tab-pane in active" id="TabDoarBanco">
+                        <br>
+                        <div class="row clearfix">
+                            <div class="col-4 text-right "> <span style="font-size: 14px;" class="font-weight-bold">Nome: </span>         </div>
+                            <div class="col-8 text-left ">  <span style="font-size: 13px;" >Cristiano Martins da Silva </span> </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-4 text-right "> <span style="font-size: 14px;" class="font-weight-bold">CPF: </span>         </div>
+                            <div class="col-8 text-left ">  <span style="font-size: 12px;" >Enviar e-mail  suporte@tamonabolsa.com.br </span> </div>
+                        </div>
+                        <br>
+                        <div class="row clearfix">
+                            <div class="col-4 text-right "> <span style="font-size: 14px;" class="font-weight-bold">Banco Itaú </span>         </div>
+                            <div class="col-4">             <span style="font-size: 12px;" class="font-weight-bold">Agência:   </span> 8553    </div>
+                            <div class="col-4">             <span style="font-size: 12px;" class="font-weight-bold">Conta:     </span> 05245-0 </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-4 text-right "> <span style="font-size: 14px;" class="font-weight-bold">Banco NuBank </span>       </div>
+                            <div class="col-4">             <span style="font-size: 12px;" class="font-weight-bold">Agência:   </span> 0001    </div>
+                            <div class="col-4">             <span style="font-size: 12px;" class="font-weight-bold">Conta:     </span> 6364705-8 </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-4 text-right "> <span style="font-size: 14px;" class="font-weight-bold">Banco ModalMais </span>    </div>
+                            <div class="col-4">             <span style="font-size: 12px;" class="font-weight-bold">Agência:   </span> 0001    </div>
+                            <div class="col-4">             <span style="font-size: 12px;" class="font-weight-bold">Conta:     </span> 57524-4 </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-4 text-right "> <span style="font-size: 14px;" class="font-weight-bold">Iti        </span>    </div>
+                            <div class="col-4">             <span style="font-size: 12px;" class="font-weight-bold">Agência:   </span> 0500    </div>
+                            <div class="col-4">             <span style="font-size: 12px;" class="font-weight-bold">Conta:     </span> 7716-4 </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-4 text-right "> <span style="font-size: 14px;" class="font-weight-bold">PicPay </span>    </div>
+                            <div class="col-8">              @chris.mar.silva    </div>
+                        </div>
+                    </div>
+                    <!-- TabDoarBanco -->
+
+                    <!-- TabDoarPayPal -->
+                    <div role="tabpanel" class="tab-pane" id="TabDoarPayPal">
+
+                        <br>
+
+                        <!-- Div Titulo Pag -->
+                        <div class="row clearfix">
+                            <div class="col-12 text-center">
+
+                                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                                    <input type="hidden" name="cmd" value="_s-xclick">
+                                    <input type="hidden" name="hosted_button_id" value="8PUR8HKFWXM76">
+                                    <table border="0" width="100%">
+                                        <tr>
+                                            <td><input type="hidden" name="on0" value="Valores"><span class="text-dark font-weight-bold" style="font-size: 14px;">Valor Único</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <select name="os0" id="SelDoacaoEscolha" style="font-size:12px;" class="form-control show-menu-arrow">
+                                                    <option value="Escolha 1">Escolha 1 R$10,00</option>
+                                                    <option value="Escolha 2">Escolha 2 R$25,00</option>
+                                                    <option value="Escolha 3">Escolha 3 R$50,00</option>
+                                                    <option value="Escolha 4">Escolha 4 R$100,00</option>
+                                                    <option value="Escolha 5">Escolha 5 R$200,00</option>
+                                                    <option value="Escolha 6">Escolha 6 R$300,00</option>
+                                                    <option value="Escolha 7">Escolha 7 R$400,00</option>
+                                                    <option value="Escolha 8">Escolha 8 R$500,00</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <input type="hidden" name="currency_code" value="BRL">
+                                    <input type="image" src="https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
+                                    <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
+                                </form>
+
+                                <br>
+
+                                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                                    <input type="hidden" name="cmd" value="_s-xclick">
+                                    <input type="hidden" name="hosted_button_id" value="4ZW6LC3ZJX2VE">
+                                    <table border="0" width="100%">
+                                        <tr>
+                                            <td><input type="hidden" name="on0" value=""> <span class="text-dark font-weight-bold" style="font-size: 14px;">Valor Mensal</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <select name="os0" id="SelDoacaoAssinatura" style="font-size:12px;" class="form-control show-menu-arrow">
+                                                    <option value="Assinatura 1" >Assinatura  1 : R$ 5,00 BRL - mensalmente</option>
+                                                    <option value="Assinatura 2" >Assinatura  2 : R$10,00 BRL - mensalmente</option>
+                                                    <option value="Assinatura 3" >Assinatura  3 : R$15,00 BRL - mensalmente</option>
+                                                    <option value="Assinatura 4" >Assinatura  4 : R$20,00 BRL - mensalmente</option>
+                                                    <option value="Assinatura 5" >Assinatura  5 : R$25,00 BRL - mensalmente</option>
+                                                    <option value="Assinatura 6" >Assinatura  6 : R$30,00 BRL - mensalmente</option>
+                                                    <option value="Assinatura 7" >Assinatura  7 : R$35,00 BRL - mensalmente</option>
+                                                    <option value="Assinatura 8" >Assinatura  8 : R$40,00 BRL - mensalmente</option>
+                                                    <option value="Assinatura 9" >Assinatura  9 : R$45,00 BRL - mensalmente</option>
+                                                    <option value="Assinatura 10">Assinatura 10 : R$50,00 BRL - mensalmente</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <input type="hidden" name="currency_code" value="BRL">
+                                    <input type="image" src="https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
+                                    <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- Div Titulo Pag -->
+
+                    </div>
+                    <!-- TabDoarPayPal -->
+
+                    <!-- TabDoaMercPago -->
+                    <div role="tabpanel" class="tab-pane" id="TabDoaMercPago">
+
+                        <br>
+
+                        <!-- Div Titulo Pag -->
+                        <div class="row clearfix">
+                            <div class="col-1 "> </div>
+                            <div class="col-2 text-center"> <a target="_blank" href="https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=253409566-8bcc831a-8527-4fef-9351-7485dbc0e3c3" ><img src="{{ url_for('static', filename='pages/img/BtnDoacao.gif') }}" alt="icone" class="mr-2" /> </a> </div>
+                            <div class="col-9 text-left ">  <span style="font-size: 14px;" >Para Doar <span class="font-weight-bold">R$ 5,00</span> via Mercado Pago</span> </div>
+                        </div>
+                        <!-- Div Titulo Pag -->
+
+                        <!-- Div Titulo Pag -->
+                        <div class="row clearfix">
+                            <div class="col-1 "> </div>
+                            <div class="col-2 text-center"> <a target="_blank" href=https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=253409566-b89f86e1-e331-4d75-950c-f3abfd6c36bf" ><img src="{{ url_for('static', filename='pages/img/BtnDoacao.gif') }}" alt="icone" class="mr-2" /> </a> </div>
+                            <div class="col-9 text-left ">  <span style="font-size: 14px;" >Para Doar <span class="font-weight-bold">R$ 10,00</span> via Mercado Pago</span> </div>
+                        </div>
+                        <!-- Div Titulo Pag -->
+
+                        <!-- Div Titulo Pag -->
+                        <div class="row clearfix">
+                            <div class="col-1 "> </div>
+                            <div class="col-2 text-center"> <a target="_blank" href="https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=253409566-766a45ea-69dd-416d-ae61-cc3472b44e99" ><img src="{{ url_for('static', filename='pages/img/BtnDoacao.gif') }}" alt="icone" class="mr-2" /> </a> </div>
+                            <div class="col-9 text-left ">  <span style="font-size: 14px;" >Para Doar <span class="font-weight-bold">R$ 15,00</span> via Mercado Pago</span> </div>
+                        </div>
+                        <!-- Div Titulo Pag -->
+
+                        <!-- Div Titulo Pag -->
+                        <div class="row clearfix">
+                            <div class="col-1 "> </div>
+                            <div class="col-2 text-center"> <a target="_blank" href="https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=253409566-9832e80d-e053-4db9-aa93-c99f780aadaf" ><img src="{{ url_for('static', filename='pages/img/BtnDoacao.gif') }}" alt="icone" class="mr-2" /> </a> </div>
+                            <div class="col-9 text-left ">  <span style="font-size: 14px;" >Para Doar <span class="font-weight-bold">R$ 20,00</span> via Mercado Pago</span> </div>
+                        </div>
+                        <!-- Div Titulo Pag -->
+
+                        <!-- Div Titulo Pag -->
+                        <div class="row clearfix">
+                            <div class="col-1 "> </div>
+                            <div class="col-2 text-center"> <a target="_blank" href="https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=253409566-aa001bf1-6d17-4b59-b836-98456078c050" ><img src="{{ url_for('static', filename='pages/img/BtnDoacao.gif') }}" alt="icone" class="mr-2" /> </a> </div>
+                            <div class="col-9 text-left ">  <span style="font-size: 14px;" >Para Doar <span class="font-weight-bold">R$ 50,00</span> via Mercado Pago</span> </div>
+                        </div>
+                        <!-- Div Titulo Pag -->
+
+                    </div>
+                    <!-- TabDoaMercPago -->
+
+                    <!-- TabDoarPagSeguro -->
+                    <div role="tabpanel" class="tab-pane" id="TabDoarPagSeguro">
+                        <br>
+                        <div class="row clearfix">
+                            <div class="col-1 "> </div>
+                            <div class="col-2 text-center"> <a target="_blank" href="https://pag.ae/7Vj-utrem" ><img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/84x35-pagar.gif" alt="icone" class="mr-2" /> </a> </div>
+                            <div class="col-9 text-left ">  <span style="font-size: 14px;" >Para Doar <span class="font-weight-bold">R$ 5,00</span> </span> via PagSeguro</div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-1 "> </div>
+                            <div class="col-2 text-center"> <a target="_blank" href="https://pag.ae/7Vj-vapS5" ><img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/84x35-pagar.gif" alt="icone" class="mr-2" /> </a> </div>
+                            <div class="col-9 text-left ">  <span style="font-size: 14px;" >Para Doar <span class="font-weight-bold">R$ 10,00</span> </span> via PagSeguro</div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-1 "> </div>
+                            <div class="col-2 text-center"> <a target="_blank" href="https://pag.ae/7Vj-vpFB5" ><img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/84x35-pagar.gif" alt="icone" class="mr-2" /> </a> </div>
+                            <div class="col-9 text-left ">  <span style="font-size: 14px;" >Para Doar <span class="font-weight-bold">R$ 15,00</span> </span> via PagSeguro</div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-1 "> </div>
+                            <div class="col-2 text-center"> <a target="_blank" href="https://pag.ae/7Vj-vDm7N" ><img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/84x35-pagar.gif" alt="icone" class="mr-2" /> </a> </div>
+                            <div class="col-9 text-left ">  <span style="font-size: 14px;" >Para Doar <span class="font-weight-bold">R$ 20,00</span> </span> via PagSeguro</div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-1 "> </div>
+                            <div class="col-2 text-center"> <a target="_blank" href="https://pag.ae/7Vj-vQvVs" ><img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/84x35-pagar.gif" alt="icone" class="mr-2" /> </a> </div>
+                            <div class="col-9 text-left ">  <span style="font-size: 14px;" >Para Doar <span class="font-weight-bold">R$ 50,00</span> via PagSeguro</span> </div>
+                        </div>
+                    </div>
+                    <!-- TabDoarPagSeguro -->
+
+                </div>
+                <!-- Tab Princ Doar -->
+
+            </div>
+            <div class="modal-footer">
+                <button style="width: 140px;" class="btn btn-light btn-si mple btn-round waves-effect" name="btnModalLogoutCancelar" id="btnModalLogoutCancelar" type="button" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Aviso Doacao -->

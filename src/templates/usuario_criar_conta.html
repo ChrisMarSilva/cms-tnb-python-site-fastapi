@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Cadastro {% endblock %}
+
+{% block content %}
+
+	<!-- Div Main authentication -->
+	<div class="authentication">
+		<div class="container">
+			<div class="col-md-12 content-center">
+				<div class="row clearfix">
+					<div class="col-lg-6 col-md-12">
+						<div class="company_detail">
+							<h4 class="logo"><a class="text-white" href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='pages/img/iconeB.png') }}" alt=""> <span>TamoNaBolsa</span> </a> </h4>
+							<h3>Cadastre-se usando seu E-mail</h3>
+							<div class="form-group form-row">
+								<div class="col" id="AreaAlertaPrinc"> </div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-5 col-md-12 offset-lg-1">
+						<div class="card-plain">
+							<div class="header">
+								<h5>Cadastro</h5>
+							</div>
+							<form class="form">
+								<div class="input-group">
+									<input type="text" class="form-control" id="txtUserNome" name="txtUserNome" placeholder="Nome Completo">
+									<span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
+								</div>
+								<div class="input-group">
+									<input type="text" class="form-control" id="txtUserEmail" name="txtUserEmail" placeholder="E-mail">
+									<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+								</div>
+								<div class="input-group">
+									<input type="password" id="txtUserSenha" name="txtUserSenha" placeholder="Senha" class="form-control" />
+									<span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+								</div>
+								<div class="input-group">
+									<input type="password" id="txtUserConfirmaSenha" name="txtUserConfirmaSenha" placeholder="Confirme a senha" class="form-control" />
+									<span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+								</div>
+								<div class="checkbox">
+									<input id="chkUserTermosAcesso" name="chkUserTermosAcesso" type="checkbox">
+									<label for="chkUserTermosAcesso"> Aceito os <a href="javascript:void(0);" data-toggle="modal" data-target="#Modaltermo">termos e condições de acesso</a> </label>
+								</div>
+							</form>
+							<div class="footer">
+								<a onclick="criarNovaConta('/');" name="btnSalvar" id="btnSalvar" class="btn btn-primary btn-round btn-block" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-check" aria-hidden="true" name="iSalvar" id="iSalvar"></i>&nbsp;Cadastrar </a>
+							</div>
+							<a class="link" href="{{ url_for('login.index') }}">Já tenho uma conta?</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="particles-js"></div>
+	</div>
+	<!-- Div Main authentication -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal -->
+	<div class="modal fade" id="Modaltermo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-lg modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6>Termos e Condições de Acesso</h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:300px;">
+					<p>Ao utilizar e participar de forma ativa na página
+						TamoNaBolsa, de qualquer das formas que o website permite, o Utilizador declara ter lido, entendido e aceitado cumprir os presentes Termos e Condições. A
+						TamoNaBolsa reserva-se ao direito – mas não a obrigação – de, perante o não cumprimento destes Termos e Condições, eliminar todo e qualquer conteúdo que os infrinja, bem como restringir e/ou bloquear o acesso do Utilizador infrator à participação no website, sem qualquer aviso prévio.</p>
+					<br />
+					<p>Na utilização que fizer deste website (incluindo na submissão, envio ou publicação de conteúdos que fizer para a
+						TamoNaBolsa), o Utilizador está obrigado e declara aceitar e cumprir a legislação aplicável, mais especificamente o Código Civil, a Lei n.º 9.610 de 19 de fevereiro de 1998 (Lei dos Direitos Autorais) e a Lei n.º 12.737 de 30 de novembro de 2012 (Lei dos Crimes de informática).</p>
+					<br />
+					<p>O Utilizador está também obrigado e se declara agir de boa-fé e a fazer uma utilização da página
+						TamoNaBolsa que não ofenda quaisquer direitos de terceiros. Particularmente, compromete-se a não submeter qualquer conteúdo ou fazer uma participação que constitua qualquer ataque em função da raça, nacionalidade, origem étnica, religião, convicção política ou sexo; que constitua difamação, incitação ao furto, fraude, violência, terrorismo, sadismo, prostituição, pedofilia, bem como que empregue conteúdos de carácter obsceno, indecoroso ou pornográfico.</p>
+					<br />
+					<p>O Utilizador apenas está autorizado a fazer uso dos conteúdos presentes na
+						TamoNaBolsa para fins estritamente pessoais, e não comerciais, sendo-lhe expressamente proibido publicar, reproduzir, difundir, distribuir ou, por qualquer outra forma, tornar os conteúdos acessíveis a terceiros, para fins de comunicação pública ou de comercialização, como por exemplo colocando-os disponíveis noutro site, serviço on-line ou em cópias de papel. Está igualmente vedada qualquer transformação dos conteúdos.</p>
+					<br />
+					<p>É também expressamente proibido ao Utilizador criar ou introduzir na
+						TamoNaBolsa tipos de vírus ou programas que o danifiquem, direta ou indiretamente.</p>
+					<br />
+					<p>A
+						TamoNaBolsa, e o respectivo conteúdo, tem finalidade exclusivamente informativa, pelo que nada neste website constitui um conselho, não dispensando o conselho profissional, nem estabelece qualquer relação contratual.</p>
+					<br />
+					<p>O conteúdo das publicações da
+						TamoNaBolsa tem cunho meramente informativo e não deve ser entendido como análise, sugestão, material promocional, solicitação de compra ou venda, oferta ou recomendação de qualquer ativo financeiro ou investimento, indicação de alocação ou adoção de estratégias por parte dos destinatários. Os comentários e opiniões apresentados não refletem a visão da
+						TamoNaBolsa.</p>
+					<br />
+					<p>As informações referem-se às datas mencionadas. É recomendada a leitura dos prospectos, regulamentos, editais e demais documentos descritivos dos ativos antes de investir, com especial atenção às partes que detalham o risco do investimento. Muito importante a adequada compreensão da natureza, forma de rentabilidade e riscos dos produtos antes da sua aquisição.</p>
+					<br />
+					<p>Os investidores devem buscar orientação profissional com relação aos aspectos tributários, regulatório e outros que sejam relevantes a sua condição específica, sendo que as publicações não são elaboradas com esta finalidade. Investimentos nos mercados financeiros e de capitais estão sujeitos a riscos de perda superior ao capital investido. A rentabilidade passada não é garantia de rentabilidade futura.</p>
+					<br />
+					<p>A
+						TamoNaBolsa não garante o lucro e não se responsabiliza por decisões de investimentos que venham a ser tomadas com base nas informações divulgadas nesse material. Os dados mencionados nas publicações podem ser extraídos de fonte externa e podem apresentar distorções não se comprometendo a
+						TamoNaBolsa com a veracidade dessas informações. A
+						TamoNaBolsa se exime de qualquer responsabilidade por quaisquer prejuízos, diretos ou indiretos, que venham a decorrer da utilização das informações veiculadas ou de seu conteúdo.</p>
+					<br />
+					<p>O Utilizador é o único responsável pelos prejuízos, diretos ou indiretos, causados a si próprio, à
+						TamoNaBolsa ou a terceiros, relacionados com a utilização que fizer da
+						TamoNaBolsa, comprometendo-se a proceder às indenizações necessárias, em virtude de qualquer ação, reclamação ou condenação a que essa utilização dê origem.</p>
+					<br />
+					<p>A TamoNaBolsa não garante que os serviços prestados por este website funcionem de forma contínua ou que se encontrem livres de erros, vírus ou outros elementos prejudiciais.</p>
+					<br />
+					<p>A TamoNaBolsa não é responsável pela exatidão, qualidade, segurança, legalidade ou licitude, incluindo o cumprimento das regras respeitantes a direitos de autoria, relativamente aos conteúdos, produtos ou serviços contidos neste website que tenham sido criados ou fornecidos por membros, utilizadores, anunciantes ou parceiros comerciais, bem como por qualquer informação contida em sites de terceiros para os quais este website estabeleça ligações.</p>
+					<br />
+					<p>O Utilizador declara autorizar, a título gratuito, a divulgação, publicação, utilização e exploração dos conteúdos, textos, dados, imagens ou programas por si enviados para a
+						TamoNaBolsa.</p>
+					<br />
+					<p>O Utilizador declara igualmente que: tem plena legitimidade para autorizar a utilização previamente mencionada e, concretamente, que obteve e dispõe dos necessários direitos e autorizações a título de direitos de autoria e assegurou os pagamentos eventualmente devidos a terceiros legítimos titulares de direitos sobre os conteúdos, textos, dados, imagens ou programas por si enviados para a
+						TamoNaBolsa, para efeitos da sua utilização nos termos previstos na presente declaração; sobre o direito de autorizar a utilização dos conteúdos, textos, dados, imagens ou programas por si enviados para a
+						TamoNaBolsa constantes da presente declaração, não existe qualquer reclamação ou processo instaurado ou alguma contestação relativamente à sua titularidade por parte de terceiros; não existe nenhum compromisso nem nenhuma condição decorrente de relações jurídicas eventualmente existentes entre o Utilizador e terceiros que impeça ou condicione, de algum modo, a execução total ou parcial da presente declaração nos termos nela definidos. A
+						TamoNaBolsa exime-se de qualquer responsabilidade resultante da falta de veracidade do anteriormente declarado ou da violação pelo Utilizador de quaisquer direitos ou interesses legitimamente protegidos de terceiros. A
+						TamoNaBolsa reserva-se no direito de livremente (sem obrigatoriedade de invocar qualquer motivo) e em qualquer momento, remover ou não publicar, total ou parcialmente, quaisquer conteúdos, textos, dados, imagens, aplicações ou programas, editados por si ou pelo Utilizador, sem que por tal fato advenha qualquer direito de indenização ou compensação para o Utilizador ou quaisquer terceiros.</p>
+					<br />
+					<p>Não existe qualquer obrigação da
+						TamoNaBolsa em guardar os conteúdos, textos, dados, imagens ou programas publicados neste website, podendo os mesmos ser destruídos a qualquer momento, sem que por tal fato advenha qualquer direito de indenização para o Utilizador ou quaisquer terceiros.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light btn-s imple btn-round waves-effect" data-dismiss="modal">Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/particles.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='assets/js/particles.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagCriarConta.js') }}"></script>
+{% endblock %}

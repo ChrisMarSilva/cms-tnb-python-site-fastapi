@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Admin - FII {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagFIIFundoImob.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-6 col-md-8 col-sm-12" style="border: 0px solid red; ">
+									<h2>FII</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">FII - Fundos de Investimento Imobiliário</li>
+									</ul>
+								</div>
+								<div class="col-lg-6 col-md-8 col-sm-12  text-right clearfix align-items-end" style="border: 0px solid blue; ">
+									<a onclick="fAbrirModalDetalheFundoImob('/', '', 'Novo');" id="btnFundoNovo" name="btnFundoNovo" style="width: 170px;" class="btn btn-info btn-round btn-s imple" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Novo Fundo Imob. </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="header">
+							<h2><strong>FII</strong> - Fundos de Investimento Imobiliário</h2>
+						</div>
+						<div class="body">
+
+							<!-- Div Row Form -->
+							<div class="form-group form-row">
+								<div class="col" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row Form -->
+
+							<!-- Div table-responsive -->
+							<div class="table-responsive" id="AreaGrid">
+								<table id="Grid" name="Grid" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+									<thead>
+										<tr class="bg-secondary text-white">
+											<th>Código</th>
+											<th>Nome</th>
+											<th>Razão Social</th>
+											<th>CNPJ</th>
+											<th>Situação</th>
+											<th style="display: none;"></th>
+											<th>Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<!-- Div table-responsive -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Detalhe -->
+	<div class="modal fade" id="PopModalDetalheFundo" name="PopModalDetalheFundo" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Fundo Imob <span id="PopModalDetalheFundoTit" name="PopModalDetalheFundoTit"></span></strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: inherit; max-height:600px;">
+
+					<div class="form-group form-row" style="margin-bottom: 6px;!important; ">
+						<div class="col-12" id="AreaAlertaModalCad"></div>
+					</div>
+
+					<form id="FormEmpr" name="FormEmpr" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<input id="txtCadFundoId" name="txtCadFundoId" type="hidden">
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" for="txtCadFundoAdmin" class="font-weight-bold">Administrador:</label> </div>
+							<div class="col-6">
+								<select style="font-size:12px;" id="txtCadFundoAdmin" name="txtCadFundoAdmin" class="form-control z-index show-menu-arrow"></select>
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" for="txtCadFundoTipo" class="font-weight-bold">Tipo:</label> </div>
+							<div class="col-6">
+								<select style="font-size:12px;" id="txtCadFundoTipo" name="txtCadFundoTipo" class="form-control z-index show-menu-arrow"></select>
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadFundoNome">Nome:</label> </div>
+							<div class="col-6">
+								<input style="font-size:12px;" class="form-control form-control-sm" id="txtCadFundoNome" name="txtCadFundoNome" type="text">
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadFundoRazao">Razão Social:</label> </div>
+							<div class="col-6">
+								<input style="font-size:12px;" class="form-control form-control-sm" id="txtCadFundoRazao" name="txtCadFundoRazao" type="text">
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadFundoCNPJ">CNPJ:</label> </div>
+							<div class="col-6">
+								<input style="font-size:12px;" class="form-control form-control-sm" id="txtCadFundoCNPJ" name="txtCadFundoCNPJ" type="text">
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadFundoCodigo">Código:</label> </div>
+							<div class="col-6">
+								<input style="font-size:12px;" class="form-control form-control-sm" id="txtCadFundoCodigo" name="txtCadFundoCodigo" type="text">
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadFundoIsin">ISIN:</label> </div>
+							<div class="col-6">
+								<input style="font-size:12px;" class="form-control form-control-sm" id="txtCadFundoIsin" name="txtCadFundoIsin" type="text">
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" for="txtCadFundoSituacao" class="font-weight-bold">Situação:</label> </div>
+							<div class="col-6">
+								<select style="font-size:12px;" id="txtCadFundoSituacao" name="txtCadFundoSituacao" class="form-control z-index show-menu-arrow">
+									<option value="A" selected>Ativa</option>
+									<option value="E">Encerrado</option>
+									<option value="I">Inativa</option>
+								</select>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosFundoImob('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheFundoImobSalvar" name="BtnModalDetalheFundoImobSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheFundoImobCancelar" id="BtnModalDetalheFundoImobCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagFIIFundoImob.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			fLimparGrid('/');
+			fCarregarGrid('/');
+			buscar_todos_tipos_fii('/', 'txtCadFundoAdmin', false, false, true);
+			buscar_todos_admins_fii('/', 'txtCadFundoTipo', false, false, true);
+			fDefinirPadraoSelect('txtCadFundoAdmin');
+			fDefinirPadraoSelect('txtCadFundoTipo');
+		});
+	</script>
+{% endblock %}
+

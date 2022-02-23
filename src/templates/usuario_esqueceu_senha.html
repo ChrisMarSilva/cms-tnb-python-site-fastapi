@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Esqueceu a Senha {% endblock %}
+
+{% block content %}
+
+    <!-- Div Main authentication -->
+    <div class="authentication">
+        <div class="container">
+            <div class="col-md-12 content-center">
+                <div class="row clearfix">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="company_detail">
+                            <h4 class="logo"><a class="text-white" href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='pages/img/iconeB.png') }}" alt=""> <span>TamoNaBolsa</span> </a> </h4>
+                            <h3>Esqueceu a senha?</h3>
+                            <p>Digite seu e-mail cadastrado e nós lhe enviaremos instruções sobre como redefinir sua senha.</p>
+                            <div class="form-group form-row">
+                                <div class="col" id="AreaAlertaPrinc"> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-12 offset-lg-1">
+                        <div class="card-plain">
+                            <div class="header">
+                                <h5>Esqueceu a senha?</h5>
+                            </div>
+                            <form class="form">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtEmail" name="txtEmail" maxlength="100" placeholder="E-mail" autofocus>
+                                    <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                                </div>
+                            </form>
+                            <div class="footer">
+                                <a onclick="enviarEmailSenha('/');" name="btnSalvar" id="btnSalvar" class="btn btn-primary btn-round btn-block" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-check" aria-hidden="true" name="iSalvar" id="iSalvar"></i>&nbsp;Enviar </a>
+                            </div>
+                            <a class="link" href="{{ url_for('login.index') }}">Ir para o Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="particles-js"></div>
+    </div>
+    <!-- Div Main authentication -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/particles.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='assets/js/particles.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagEsqueceuSenha.js') }}"></script>
+{% endblock %}

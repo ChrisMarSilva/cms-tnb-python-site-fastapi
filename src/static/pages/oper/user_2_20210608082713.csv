@@ -1,0 +1,9 @@
+Data; Tipo; Ativo; Quantidade; Preco; Corretagem; Taxas Liquidação; Emolumentos; ISS; IRRF; Outras Taxas; Corretora;
+DATA;TIPO;MOEDA;QTDE_AJUSTADA;PRECO;TAXA_AJUSTADA
+08/06/2021;Compra;LTC/BRL;12,07963685;819,26;49,7304665494; 0,00; 0,00; 0,00; 0,00; 0,00; 'Foxbit - Foxbit Servicos Digitais S.A.'
+08/06/2021;Compra;XRP/BRL;39,8;4,443;0,8886; 0,00; 0,00; 0,00; 0,00; 0,00; 'Foxbit - Foxbit Servicos Digitais S.A.'
+08/06/2021;Compra;XRP/BRL;1830,21494;4,443;40,86253758; 0,00; 0,00; 0,00; 0,00; 0,00; 'Foxbit - Foxbit Servicos Digitais S.A.'
+08/06/2021;Compra;XRP/BRL;368,881713;4,45;8,2488582; 0,00; 0,00; 0,00; 0,00; 0,00; 'Foxbit - Foxbit Servicos Digitais S.A.'
+08/06/2021;Compra;LINK/BRL;6,929379;123,02;4,2836794199999995; 0,00; 0,00; 0,00; 0,00; 0,00; 'Foxbit - Foxbit Servicos Digitais S.A.'
+08/06/2021;Compra;LINK/BRL;73,81709497;123,63;45,8593332171; 0,00; 0,00; 0,00; 0,00; 0,00; 'Foxbit - Foxbit Servicos Digitais S.A.'
+08/06/2021;Compra;ETH/BRL;0,39080992000000003;12787,5;25,11285975; 0,00; 0,00; 0,00; 0,00; 0,00; 'Foxbit - Foxbit Servicos Digitais S.A.'

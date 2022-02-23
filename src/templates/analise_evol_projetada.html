@@ -1,0 +1,54 @@
+<!-- AbaEvolucaoProjetada -->
+<div role="tabpanel" class="tab-pane" id="AbaEvolucaoProjetada">
+
+    <!-- Div Conteudo Pag -->
+    <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card border">
+                <div class="header">
+                    <h2><strong>Evolução</strong> Projetada</h2>
+                </div>
+                <div class="body">
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix justify-content-md-center">
+                        <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <select onchange="BuscarDadosProjecao('/');" style="font-size:12px;" id="txtFiltroProjecaoDescricao" name="txtFiltroProjecaoDescricao" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione uma Projeção..."> </select>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-8 col-xl-8 text-right">
+                            <a onclick="fAlterarDadosProjecao( '/');"     style="width: 170px; display: none;" class="btn btn-info btn-round btn-simple font-weight-bold disabled" id="BtnProjecaoSalvar"  name="BtnProjecaoSalvar"  href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iAlterarProjecao" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar Projeção </a>
+                            <!-- <a onclick="BuscarDadosProjecao( '/');"       style="width: 170px; display: none;" class="btn btn-default btn-round btn-simple disabled"               id="BtnProjecaoResetar" name="BtnProjecaoResetar" href="javascript:void(0);" role="button" aria-pressed="true"> <i class="fa fa-recycle" aria-hidden="true"></i> &nbsp; Resetar Projeção </a> -->
+                            <a onclick="AbrirModalExcluirProjecao( '/');" style="width: 170px; display: none;" class="btn btn-default btn-round btn-simple disabled"               id="BtnProjecaoExcluir" name="BtnProjecaoExcluir" href="javascript:void(0);" role="button" aria-pressed="true"> <i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; Excluir Projeção </a>
+                            <a onclick="fAbrirDadosModalProjecao('/');"   style="width: 170px;"                class="btn btn-info btn-round"                                      id="BtnProjecaoCriar"   name="BtnProjecaoCriar"   href="javascript:void(0);" role="button" aria-pressed="true"> <i class="fa fa-calculator" aria-hidden="true"></i> &nbsp; Nova Projeção </a>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+                    <hr />
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrincAnaliseEvoluProjetada"> </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <!-- <br /> -->
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix">
+                        <div id="DivEvolucaoProjetada" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center" style="padding-left: 5px; padding-right: 5px;" >  </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Div Conteudo Pag -->
+
+</div>
+<!-- AbaEvolucaoProjetada -->

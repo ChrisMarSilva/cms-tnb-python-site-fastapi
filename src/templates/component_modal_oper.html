@@ -1,0 +1,113 @@
+<!-- Modal Oper -->
+
+<div class="modal fade" id="PopModalDetalheOper" name="PopModalDetalheOper" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-md  modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header" style="padding-top: 5px; border: 0px solid red; ">
+                <h4 class="title" id="defaultModalLabel"><strong id="PopModalDetalheOperTit"></strong> </h4>
+            </div>
+			<div class="modal-body" style="overflow-y: inherit; max-height: 650px; padding-top: 0px; padding-bottom: 5px; border: 0px solid blue;">
+
+				<!-- Div Row clearfix -->
+<!--				<div class="row clearfix">-->
+<!--					<div class="col-12">-->
+<!--						<ul class="nav nav-tabs d-flex justify-content-center" style="padding-top: 2px; padding-bottom: 2px; ">-->
+<!--							<li class="nav-item"><a style="font-size: 12px; width: 80px; padding: 5px 5px;" class="border border-secondary text-center font-weight-bold nav-link active" data-toggle="tab" href="#AbaPortAcoes">AÇÕES</a></li>-->
+<!--							<li class="nav-item"><a style="font-size: 12px; width: 80px; padding: 5px 5px;" class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaPortFiis">FII</a></li>-->
+<!--							<li class="nav-item"><a style="font-size: 12px; width: 80px; padding: 5px 5px;" class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaPortEts">ETF</a></li>-->
+<!--							<li class="nav-item"><a style="font-size: 12px; width: 80px; padding: 5px 5px;" class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaPortBdr">BDR</a></li>-->
+<!--							<li class="nav-item"><a style="font-size: 12px; width: 80px; padding: 5px 5px;" class="border border-secondary text-center font-weight-bold nav-link"        data-toggle="tab" href="#AbaPortBdr">CRIPTO</a></li>-->
+<!--						</ul>-->
+<!--					</div>-->
+<!--				</div>-->
+				<!-- Div Row clearfix -->
+
+				<form id="FormOper" name="FormOper" role="form" novalidate action="javascript:void(0);" method="POST">
+
+					<input type="hidden" name="txtDetOperId" id="txtDetOperId">
+					<input type="hidden" name="txtDetOperCod" id="txtDetOperCod">
+					<input type="hidden" name="txtDetOperTipo" id="txtDetOperTipo">
+
+					<div class="row clearfix" style="margin-bottom: 5px; ">
+						<div class="col-lg-5 col-md-12">
+							<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Data</span>
+							<input type="date" style="font-size:12px;" class="form-control" id="txtDetOperData" name="txtDetOperData">
+						</div>
+						<div class="col-lg-7 col-md-12">
+							<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Código</span>
+							<select onchange="fBuscarPrecoAtualOper('/');" style="font-size:12px;" id="selDetOperAtivo" name="selDetOperAtivo" class="form-control " data-live-search="true" ></select>
+						</div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 5px; " id="DivDetOperCorretora" name="DivDetOperCorretora">
+						<div class="col-lg-12 col-md-12">
+							<span style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Corretora</span>
+							<select onchange="fBuscarVlrCorretagem('/');" style="font-size:12px;" id="selDetOperCorretora" name="selDetOperCorretora" class="form-control " data-live-search="true" title="Selecione..."></select>
+						</div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 5px; ">
+						<div class="col-lg-4 col-md-12" style="padding-right: 5px;">
+							 <span onclick="fBuscarQuantAtualOper('/');" style="font-size:12px;" class="font-weight-bold" id="lblDetOperQuant" name="lblDetOperQuant">&nbsp;&nbsp;Quant. </span>
+							 <span onclick="fBuscarQuantAtualOper('/');" id="BtnDetOperQuantAtual" name="BtnDetOperQuantAtual" > <i class="zmdi zmdi-search"></i> </span>
+							 <input style="font-size:12px;" class="form-control text-right" id="txtDetOperQuant" name="txtDetOperQuant" type="text" >
+						</div>
+						<div class="col-lg-8 col-md-12" id="DivDetOperPreco" name="DivDetOperPreco" style="padding-left: 5px;">
+							<span style="font-size:12px;" id="lblDetOperPreco" name="lblDetOperPreco" class="font-weight-bold">&nbsp;&nbsp;Preço:</span>
+							<input style="font-size:12px;" class="form-control text-right" id="txtDetOperPreco" name="txtDetOperPreco" type="text" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)">
+						</div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 5px; ">
+						<div class="col-lg-4 col-md-12" id="DivDetOperTxCorret" name="DivDetOperTxCorret" style="padding-right: 5px;">
+							<span onclick="fBuscarVlrCorretagem('/');" style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Tx. Corretagem</span>
+							<span onclick="fBuscarVlrCorretagem('/');" id="BtnDetOperCorretagem" name="BtnDetOperCorretagem"> <i class="zmdi zmdi-search"></i> </span>
+							<input style="font-size:12px;" class="form-control text-right" id="txtDetOperTxCorret" name="txtDetOperTxCorret" type="text" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)">
+						</div>
+						<div class="col-lg-4 col-md-12" id="DivDetOperTxLiquid" name="DivDetOperTxLiquid" style="padding-right: 5px; padding-left: 5px;">
+							<span onclick="fCalcularTaxaLiquid();" style="font-size:12px;" class="font-weight-bold">&nbsp;&nbsp;Tx. Liquid.</span>
+							<span onclick="fCalcularTaxaLiquid();" id="BtnDetOperTxLiquid" name="BtnDetOperTxLiquid"> <i class="zmdi zmdi-search"></i> </span>
+							<input style="font-size:12px;" class="form-control text-right" id="txtDetOperTxLiquid" name="txtDetOperTxLiquid" type="text" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)">
+						</div>
+						<div class="col-lg-4 col-md-12" id="DivDetOperTxEmol" name="DivDetOperTxEmol" style="padding-left: 5px;">
+							<span onclick="fCalcularTaxaEmol();" style="font-size:12px;" class="font-weight-bold" id="lblDetOperTxEmol" name="lblDetOperTxEmol">&nbsp;&nbsp;Tx. Emol.</span>
+							<span onclick="fCalcularTaxaEmol();" id="BtnDetOperTxEmol" name="BtnDetOperTxEmol"> <i class="zmdi zmdi-search"></i> </span>
+							<input style="font-size:12px;" class="form-control text-right" id="txtDetOperTxEmol" name="txtDetOperTxEmol" type="text" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)">
+						</div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 15px; ">
+						<div class="col-lg-4 col-md-12" id="DivDetOperTxISS" name="DivDetOperTxISS" style="padding-right: 5px;">
+							<span onclick="fCalcularTaxaISS();" style="font-size:12px;" id="lblDetOperTxISS" name="lblDetOperTxISS" class="font-weight-bold">&nbsp;&nbsp;Tx. ISS</span>
+							<span onclick="fCalcularTaxaISS();" id="BtnDetOperTxISS" name="BtnDetOperTxISS"> <i class="zmdi zmdi-search"></i> </span>
+							<input style="font-size:12px;" class="form-control text-right" id="txtDetOperTxISS" name="txtDetOperTxISS" type="text" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)">
+						</div>
+						<div class="col-lg-4 col-md-12" id="DivDetOperTxOutros" name="DivDetOperTxOutros" style="padding-right: 5px; padding-left: 5px;">
+							<span style="font-size:12px;" id="lblDetOperTxOutros" name="lblDetOperTxOutros" class="font-weight-bold">&nbsp;&nbsp;Tx Outros</span>
+							<input style="font-size:12px;" class="form-control text-right" id="txtDetOperTxOutros" name="txtDetOperTxOutros" type="text" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)">
+						</div>
+						<div class="col-lg-4 col-md-12" id="DivDetOperTxIRRF" name="DivDetOperTxIRRF" style="padding-left: 5px;">
+							<span onclick="fCalcularTaxaIRRF();" style="font-size:12px;" id="lblDetOperTxIRRF" name="lblDetOperTxIRRF" class="font-weight-bold">&nbsp;&nbsp;Tx. IRRF</span>
+							<span onclick="fCalcularTaxaIRRF();" id="BtnDetOperTxIRRF" name="BtnDetOperTxIRRF"> <i class="zmdi zmdi-search"></i> </span>
+							<input style="font-size:12px;" class="form-control text-right" id="txtDetOperTxIRRF" name="txtDetOperTxIRRF" type="text" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)">
+						</div>
+					</div>
+
+					<div class="row clearfix"  id="DivDetOperTotal" name="DivDetOperTotal" style="margin-bottom: 10px; ">
+						<div class="col-lg-12 col-md-12 text-right" >
+							<input style="font-size:18px;" class="form-control text-right font-weight-bold disabled" id="txtDetOperTotal" name="txtDetOperTotal" type="text" disabled value="0,00">
+						</div>
+					</div>
+
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<a onclick="fSalvarDadosOper('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheOperSalvar" name="BtnModalDetalheOperSalvar" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar</a>
+				<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheOperCancelar" id="BtnModalDetalheOperCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal Oper -->

@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Ações - {{ codigo }} {% endblock %}
+
+{% block styles %}
+<!--    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />-->
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/jquery.dataTables.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/vue2-datatable-component.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagFinanAcoesCodigo.css') }}" />
+	<script>
+		var codigo = '{{ codigo|safe }}';
+	</script>
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+            <!-- Div Titulo Pag -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card border">
+                        <div class="body block-header">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6" style="border: 0px solid blue; ">
+                                    <h2>Ações</h2>
+                                    <ul class="breadcrumb p-l-0 p-b-0 ">
+                                        <li class="breadcrumb-item"> <a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a> </li>
+                                        <li class="breadcrumb-item active"> Análise Financeira </li>
+                                        <li class="breadcrumb-item"> <a href="{{ url_for('finan_acoes.index') }}">Ações</a> </li>
+                                        <li class="breadcrumb-item active">{{ codigo }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-xl-3 col-lg-6 col-md-12" style="padding-right: 4px; border: 0px solid red;">
+					<div class="card border">
+						<div class="body" style="overflow-y: auto; min-height:550px; max-height:550px; height:550px;">
+							<div id="AppDados"> </div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-9 col-lg-12 col-md-12" style="padding-left: 4px; border: 0px solid red;">
+					<div class="card border">
+						<div class="body" style="overflow-y: auto; min-height:550px; max-height:550px; height:550px;">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="DivGraficoTradingViewCodigo"> </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			<div id="AppCot"> </div>
+
+			<div id="AppProv"> </div>
+
+<!--			<div id="AppProvBonif"> BONIFICAÇÃO # NÃO HÁ BONIFICAÇÃO </div>-->
+
+<!--			<div id="AppProvDesdGrud"> DESDOBRAMENTO/GRUPAMENTO # NÃO HÁ DESDOBRAMENTO/GRUPAMENTO </div>-->
+
+<!--			<div id="AppProvSub"> SUBSCRIÇÃO  # NÃO HÁ SUBSCRIÇÃO </div>-->
+
+			<div id="AppDRE"> </div>
+
+			<div id="AppDFC"> </div>
+
+			<div id="AppBP"> </div>
+
+<!--			<div id="AppPosAcionaria"> POSIÇÃO ACIONÁRIA </div>-->
+
+			<div id="AppFatos"> </div>
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="https://s3.amazonaws.com/tradingview/tv.js"></script>
+    <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>>
+<!--	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>-->
+	<script src="{{ url_for('static', filename='plugins/js/vue2-datatable-component.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highstock.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highcharts.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highcharts.heatmap.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highcharts.accessibility.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highstock.exporting.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highstock.export-data.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highcharts-vue.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagFinanAcoesCodigo.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagFinanAcoesCodigo.Dados.js') }}"></script>
+<!--	<script src="{{ static_autoversion('pages/js/PagFinanAcoesCodigo.Cot.js') }}"></script>-->
+	<script src="{{ static_autoversion('pages/js/PagFinanAcoesCodigo.Prov.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagFinanAcoesCodigo.DRE.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagFinanAcoesCodigo.BP.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagFinanAcoesCodigo.DFC.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagFinanAcoesCodigo.Fatos.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			$("#TxtTipoDRE").val('T');
+			$("#TxtTipoDFC").val('T');
+			$("#TxtTipoBP").val('T');
+			fCarregarGraficoTradingViewCodigo( '/', codigo );
+		});
+	</script>
+{% endblock %}

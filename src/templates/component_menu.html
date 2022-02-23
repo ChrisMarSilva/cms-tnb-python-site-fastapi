@@ -1,0 +1,160 @@
+
+{% if request.path == "/login/" or request.path == "/usuario/esqueceusenha" or request.path == "/usuario/criarconta" %}
+
+{% else %}
+    {% if current_user.is_authenticated %}
+		<!-- Top Bar -->
+		<nav class="top_navbar">
+			<div class="container">
+				<div class="row clearfix">
+					<div class="col-12">
+						<div class="navbar-logo">
+							<a href="javascript:void(0);" class="bars"></a>
+							<a class="navbar-brand" href="{{ url_for('principal.index') }}"><img src="{{ url_for('static', filename='pages/img/iconeB.png') }}" width="30" alt=""><span class="m-l-10" style="text-transform: none;">TamoNaBolsa</span></a>
+						</div>
+						<ul class="nav navbar-nav">
+
+							{% if current_user.tipo == 'A' %}
+							<li class="dropdown task" id="MnPrincLogErros" name="MnPrincLogErros" style="visibility: hidden">
+								<a href="{{ url_for('logerro.index') }}" >
+									<i class="icon-flag"></i>
+									<span id="MnPrincLogErrosCount" name="MnPrincLogErrosCount" class="label-count">0</span>
+								</a>
+							</li>
+							{% endif %}
+
+							<li class="dropdown notifications" id="MnPrincAlertaMsg" name="MnPrincAlertaMsg" style="visibility: hidden">
+								<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="icon-bell"></i><span id="MnPrincAlertaMsgCount" name="MnPrincAlertaMsgCount" class="label-count">0</span></a>
+								<ul class="dropdown-menu dropdown-menu-right pullDown" role="menu" style="left: auto; right: 0px;">
+									<li class="header">Novos Comentários</li>
+									<li class="body">
+										<div class="slimScrollDiv" style="position: relative; overflow: y:auto; -webkit-overflow-scrolling: touch; width: auto; max-height: 280px; height: 280px;">
+											<ul id="DivMenuAlertaMsg" name="DivMenuAlertaMsg"  class="menu list-unstyled" style="overflow: y:auto; -webkit-overflow-scrolling: touch; width: auto; max-height: 280px; height: 280px;"> </ul>
+											<div class="slimScrollBar" style="background: rgba(0, 0, 0, 0.2); width: 3px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 3px; z-index: 99; right: 1px;"></div>
+											<div class="slimScrollRail" style="width: 3px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 0px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+										</div>
+									</li>
+									<li class="footer"> <a href="{{ url_for('comentarios.index') }}">Ver todos...</a> </li>
+								</ul>
+							</li>
+
+							<li class=""> <a href="{{ url_for('finan_acoes.index') }}">FINAN</a> </li>
+							{% if current_user.tipo == 'A' %}
+<!--							<li class="search_bar hidden-xs" style="width: 450px;"> <div class="input-group"> <input id="txtPrincAtivoBusca" name="txtPrincAtivoBusca" type="text" class="form-control" placeholder="Buscar ativo..."> </div> </li>-->
+<!--							<li class=""> <a href="{{ url_for('finan_acoes.index') }}">FIIs</a> </li>-->
+<!--							<li class=""> <a href="{{ url_for('finan_acoes.index') }}">ETFs</a> </li>-->
+<!--							<li class=""> <a href="{{ url_for('finan_acoes.filtros') }}">Filtros</a> </li>-->
+							{% endif %}
+
+							{% if current_user.tipo == 'A' %}
+							<li class="dropdown app_menu hidden-sm"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="icon-settings"></i></a>
+							    <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; right: 1px; transform: translate3d(0px, 65px, 0px);">
+							        <li>
+							            <ul>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_empresa.index') }}">             <i style="line-height: 30px; font-size: 15px;" class="icon-briefcase"></i> <span class="font-weight-bold" style="font-size: 12px;">Empresa   </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_empresa_cotacao.index') }}">     <i style="line-height: 30px; font-size: 15px;" class="icon-graph"></i>     <span class="font-weight-bold" style="font-size: 12px;">Cotação   </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_fundoimob.index') }}">           <i style="line-height: 30px; font-size: 15px;" class="icon-briefcase"></i> <span class="font-weight-bold" style="font-size: 12px;">FII       </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_fundoimob_cotacao.index') }}">   <i style="line-height: 30px; font-size: 15px;" class="icon-graph"></i>     <span class="font-weight-bold" style="font-size: 12px;">Cotação   </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_empresa_proventos.index') }}">   <i style="line-height: 30px; font-size: 15px;" class="icon-calendar"></i>  <span class="font-weight-bold" style="font-size: 12px;">E. Prov.  </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_fundoimob_proventos.index') }}"> <i style="line-height: 30px; font-size: 15px;" class="icon-calendar"></i>  <span class="font-weight-bold" style="font-size: 12px;">FII Prov. </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_etf.index') }}">                 <i style="line-height: 30px; font-size: 15px;" class="icon-briefcase"></i> <span class="font-weight-bold" style="font-size: 12px;">ETF       </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_bdr.index') }}">                 <i style="line-height: 30px; font-size: 15px;" class="icon-briefcase"></i> <span class="font-weight-bold" style="font-size: 12px;">BDR       </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_cripto.index') }}">              <i style="line-height: 30px; font-size: 15px;" class="icon-briefcase"></i> <span class="font-weight-bold" style="font-size: 12px;">CRIPTO    </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_consulta.index') }}">            <i style="line-height: 30px; font-size: 15px;" class="icon-book-open"></i> <span class="font-weight-bold" style="font-size: 12px;">Consulta  </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_investidor.index') }}">          <i style="line-height: 30px; font-size: 15px;" class="icon-user"></i>      <span class="font-weight-bold" style="font-size: 12px;">User      </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_investidor_log.index') }}">      <i style="line-height: 30px; font-size: 15px;" class="icon-book-open"></i> <span class="font-weight-bold" style="font-size: 12px;">User Log  </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_alerta.index') }}">              <i style="line-height: 30px; font-size: 15px;" class="icon-bell"></i>      <span class="font-weight-bold" style="font-size: 12px;">Alertas   </span> </a> </li>
+							                <li><a style="height: 50px;" class="text-muted" href="{{ url_for('admin_cripto_foxbit.index') }}">       <i style="line-height: 30px; font-size: 15px;" class="icon-diamond"></i>   <span class="font-weight-bold" style="font-size: 12px;">Foxbit    </span> </a> </li>
+							            </ul>
+							        </li>
+							    </ul>
+							</li>
+							{% endif %}
+
+							<li> <a title="Fatos" href="{{ url_for('fatos.index') }}"><i class="fa fa-bullhorn"></i></a> </li>
+
+							<li> <a title="Calendário" href="{{ url_for('calendario.index') }}"><i class="icon-calendar"></i></a> </li>
+
+							<li> <a title="Comentários" href="{{ url_for('comentarios.index') }}"><i class="icon-speech"></i></a> </li>
+
+							<li class="dropdown profile">
+								<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+									{% if current_user.foto and current_user.foto != '' %}
+									<img width="36" height="36" id="imgPerfilPag" class="rounded-circle" src="{{ url_for('static', filename='pages/profile/'+current_user.foto) }}" onerror="this.src='{{ url_for('static', filename='pages/img/pessoa-icon.png') }}'" alt="User">
+									{% else %}
+									<img width="36" height="36" id="imgPerfilPag" class="rounded-circle" src="{{ url_for('static', filename='pages/img/pessoa-icon.png') }}" onerror="this.src='{{ url_for('static', filename='pages/img/pessoa-icon.png') }}'" alt="User">
+									{% endif %}
+								</a>
+								<ul class="dropdown-menu dropdown-menu-right pullDown" role="menu" style="left: auto; right: 0px;">
+									<li><div class="user-info"> <h6 class="user-name m-b-0">{{ current_user.nome }}</h6> </div> </li>
+									<hr>
+									<li id="MnPrincPerfil">    <a href="{{ url_for('perfil.index') }}">    <i class="fa fa-fw fa-user-circle m-r-10"></i> <span>Minha Conta</span> </a></li>
+									<li id="MnPrincCorretora"> <a href="{{ url_for('corretora.index') }}"> <i class="fa fa-bank m-r-10"></i> <span>Corretora</span> </a></li>
+									<li id="MnPrincAluguel">   <a href="{{ url_for('aluguel.index') }}">   <i class="fa fa-retweet m-r-10"></i> <span>Aluguel</span> </a></li>
+									<li id="MnPrincAtivos">    <a href="{{ url_for('ativo.index') }}">     <i class="fa fa-bullseye m-r-10"></i> <span>Radar</span> </a></li>
+									<hr>
+									<li><a href="javascript:void(0);" onclick="sairSistema('/');"><i class="icon-power m-r-10"></i><span>Sair</span></a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!-- Top Bar -->
+		<!-- Top Menu -->
+		<aside id="leftsidebar" class="sidebar h_menu">
+			<div class="container">
+				<div class="row clearfix text-right">
+					<div class="col-12">
+						<div class="menu">
+							<ul class="list">
+								<li id="MnPrincPortfolio">  <a href="{{ url_for('portfolio.index') }}"><i class="fa fa-bar-chart"></i> <span>Portfólio</span></a></li>
+								<li id="MnPrincOperacoes">  <a href="{{ url_for('operacoes.index') }}"><i class="fa fa-book"></i> <span>Operações</span></a></li>
+								<li id="MnPrincRedimentos"> <a href="{{ url_for('proventos.index') }}"><i class="fa fa-dollar"></i> <span>Proventos</span></a></li>
+<!--								<li id="MnPrincCei">        <a href="{{ url_for('cei.index') }}"><i class="fa fa-database"></i><span>CEI</span></a></li>-->
+								<li id="MnPrincAnalise">    <a href="{{ url_for('analise.index') }}"><i class="fa fa-line-chart"></i><span>Análise</span></a></li>
+								<li id="MnPrincApuracao">   <a href="{{ url_for('apuracao.index') }}"><i class="fa fa-calculator"></i><span>Apuração</span></a></li>
+								<li id="MnPrincIR">         <a href="{{ url_for('irpf.index') }}"><i class="fa fa-calculator"></i><span>IRPF</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</aside>
+		<!-- Top Menu -->
+	{% else %}
+		<!-- Top Bar -->
+		<nav class="top_navbar">
+			<div class="container">
+				<div class="row clearfix">
+					<div class="col-12">
+						<div class="navbar-logo">
+							<a href="javascript:void(0);" class="bars"></a>
+							<a class="navbar-brand" href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='pages/img/iconeB.png') }}" width="30" alt=""><span class="m-l-10" style="text-transform: none;">TamoNaBolsa</span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!-- Top Bar -->
+		<!-- Top Menu -->
+		<aside id="leftsidebar" class="sidebar h_menu">
+			<div class="container">
+				<div class="row clearfix text-right">
+					<div class="col-12">
+						<div class="menu">
+							<ul class="list">
+								<li id="MnHomeInicio"> <a href="{{ url_for('main.home') }}"> <i class="fa fa-home"></i> <span>Home</span> </a></li>
+								<li id="MnHomeContato"> <a href="{{ url_for('contato.index') }}"> <i class="fa fa-envelope"></i> <span>Contato</span> </a></li>
+								<li id="MnHomeConta"> <a href="{{ url_for('usuario.criar_conta') }}"><i class="fa fa-user-circle-o"></i><span>Criar Conta</span></a></li>
+								<li id="MnHomeLogin"> <a href="{{ url_for('login.index') }}"> <i class="fa fa-fw fa-sign-in"></i><span>Entrar</span> </a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</aside>
+		<!-- Top Menu -->
+	{% endif %}
+{% endif %}

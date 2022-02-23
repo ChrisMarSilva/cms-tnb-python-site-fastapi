@@ -1,0 +1,141 @@
+<!-- Modal Prov -->
+<div class="modal fade" id="PopModalDetalheRend" name="PopModalDetalheRend" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-dark text-white">
+				<h6> <strong>Proventos</strong> <strong id="PopModalDetalheRendTit"></strong> </h6>
+			</div>
+			<div class="modal-body" style="overflow-y: inherit; max-height:550px;">
+
+				<div class="row clearfix" style="margin-bottom: 4px; " id="DivAlertaModalCadProv" name="DivAlertaModalCadProv">
+					<div class="col-1"> </div>
+					<div class="col-10" id="AreaAlertaModalCadProv"></div>
+				</div>
+
+				<form id="FormRend" name="FormRend" role="form" novalidate action="javascript:void(0);" method="POST">
+
+					<input type="hidden" name="txtDivId" id="txtDivId">
+
+					<div class="row clearfix" style="margin-bottom: 4px; ">
+						<div class="col-1"> </div>
+						<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDivDataEx">Data Ex:</label> </div>
+						<div class="col-5"> <input onchange=" $('#txtDivDataPagto').val($('#txtDivDataEx').val());" type="date" style="font-size:12px;" class="form-control" id="txtDivDataEx" name="txtDivDataEx"> </div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 4px; ">
+						<div class="col-1"> </div>
+						<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDivDataPagto">Data Pagto:</label> </div>
+						<div class="col-5"> <input type="date" style="font-size:12px;" class="form-control" id="txtDivDataPagto" name="txtDivDataPagto"> </div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 6px; ">
+						<div class="col-1"> </div>
+						<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="selDivAtivo">Ativo:</label> </div>
+						{% if current_user.id == '261' or current_user.id == 261 %}
+						<div class="col-5"> <select onchange="$('#txtDivQuant').val('1');" style="font-size:12px;" class="form-control " data-live-search="true" title="Selecione..." id="selDivAtivo" name="selDivAtivo"></select> </div>
+						{% else %}
+						<div class="col-5"> <select onchange="fBuscarQuantAtualRend('/');"  style="font-size:12px;" class="form-control " data-live-search="true" title="Selecione..." id="selDivAtivo" name="selDivAtivo"></select> </div>
+						{% endif %}
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 6px; ">
+						<div class="col-1"> </div>
+						<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="selDivTipo">Tipo:</label> </div>
+						<div class="col-5">
+							<select style="font-size:12px;" id="selDivTipo" name="selDivTipo" title="Selecione..." class="form-control">
+								<option value="">Selecione...</option>
+								<option value="D">Dividendos</option>
+								<option value="J">Juros s/ Capital</option>
+								<option value="R">Restituição de Capital</option>
+								<option value="FR">Rendimento</option>
+							</select>
+							<div class="invalid-feedback"> Campo obrigatório!</div>
+						</div>
+						<div class="col-3">
+							<div class="input-group input-group-sm custom-control custom-checkbox mb-3" id="DivCalcVlrLiq" name="DivCalcVlrLiq" style="display: none; ">
+								<input type="checkbox" class="custom-control-input" id="txtDivCalcVlrLiq" name="txtDivCalcVlrLiq">
+								<label class="custom-control-label text-dark font-weight-bold" for="txtDivCalcVlrLiq" style="font-size:10px;"> Add. Vlr Líquido</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 6px; ">
+						<div class="col-1"> </div>
+						<div class="col-3 text-right"> <label style="font-size:12px;" for="selDivCorretora" class="font-weight-bold">Corretora:</label> </div>
+						<div class="col-5"> <select style="font-size:12px;" class="form-control" data-live-search="true" title="Selecione..." id="selDivCorretora" name="selDivCorretora"></select> </div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 4px; ">
+						<div class="col-1"> </div>
+						<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDivQuant">Quant.:</label> </div>
+						<div class="col-5">
+							<input style="font-size:12px;" class="form-control text-right" id="txtDivQuant" name="txtDivQuant" type="text">
+						</div>
+						<div class="col-2 text-left"> <a onclick="fBuscarQuantAtualRend('/');" class="text-left btn btn-sm btn-light btn-simple waves-effect" id="BtnDivQuantAtual" name="BtnDivQuantAtual" href="javascript:void(0);" role="button" aria-pressed="true" title='Buscar Quantidade Atual' style="display: none;"> <i class="fa fa-search" aria-hidden="true"></i> </a> </div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 4px; " id="DivPrecoBruto" name="DivPrecoBruto">
+						<div class="col-1"> </div>
+						<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDivPrecoBruto">Preço Bruto:</label> </div>
+						<div class="col-5">
+							<input style="font-size:12px;" class="form-control text-right font-weight-bold" id="txtDivPrecoBruto" name="txtDivPrecoBruto" type="text">
+						</div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 4px; ">
+						<div class="col-1"> </div>
+						<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDivPreco">Preço Líquido:</label> </div>
+						<div class="col-5">
+							<input style="font-size:12px;" class="form-control text-right" id="txtDivPreco" name="txtDivPreco" type="text">
+						</div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 4px; " id="DivTotalBruto" name="DivTotalBruto">
+						<div class="col-1"> </div>
+						<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDivTotal">Total Bruto:</label> </div>
+						<div class="col-5">
+							<input style="font-size:12px;" class="form-control text-right font-weight-bold" id="txtDivTotalBruto" name="txtDivTotalBruto" type="text" readonly>
+						</div>
+					</div>
+
+					<div class="row clearfix" style="margin-bottom: 4px; ">
+						<div class="col-1"> </div>
+						<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtDivTotal">Total Líquido:</label> </div>
+						<div class="col-5">
+							<input style="font-size:12px;" class="form-control text-right font-weight-bold" id="txtDivTotal" name="txtDivTotal" type="text" readonly>
+						</div>
+					</div>
+
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<a onclick="fSalvarDadosRend('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheRendSalvar" name="BtnModalDetalheRendSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+				<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheRendCancelar" id="BtnModalDetalheRendCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal Prov -->
+
+<!-- Modal Confirmacao Excluir Provent -->
+<div class="modal fade" id="PopModalDelRend" name="PopModalDelRend" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-dark text-white">
+				<h6> <i class="fa fa-lg fa-check-square-o"></i>&nbsp; <strong>Exclusão...</strong> </h6>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" id="txtIdRendDel" name="txtIdRendDel">
+				<input type="hidden" id="txtCodRendDel" name="txtCodRendDel">
+				<p class="text-secondary">Você realmente deseja excluir o Provento?</p>
+				<div id="AreaAlertaModalExc"> </div>
+			</div>
+			<div class="modal-footer">
+				<a onclick="fExcluirDadosRendimento('/'); return false;" class="btn btn-primary btn-round waves-effect" id="BtnModalDelRendSim" style="width: 140px" name="BtnModalDelRendSim" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iExcluir" name="iExcluir" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Sim </a>
+				<button style="width: 140px" type="button" name="BtnModalDelRendNao" id="BtnModalDelRendNao" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;Não&nbsp;</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal Confirmacao Excluir Provent -->

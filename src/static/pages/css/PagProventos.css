@@ -1,0 +1,25 @@
+
+table {
+  table-layout: fixed;
+}
+
+table td {
+  word-wrap: break-word;
+  white-space: normal !important;
+}
+
+table th,
+table td {
+  overflow: hidden;
+}
+
+.paginate_button {
+ font-size: 11px;
+}
+.dataTables_info {
+ font-size: 11px;
+}
+
+.dt-buttons {
+ font-size: 11px;
+}

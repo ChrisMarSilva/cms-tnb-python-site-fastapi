@@ -1,0 +1,830 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - IRPF {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagIR.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-6 col-md-8 col-sm-12">
+									<h2>IRPF</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">IRPF - Declaração do Imposto sobre a Renda</li>
+									</ul>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right" style="border: 0px solid blue; ">
+									<a href="https://apoia.se/tamonabolsa" target="_blank"><img width="120" height="45" src="{{ url_for('static', filename='pages/img/apoia_se_02.jpg') }}" alt="IconeDoar"  /> </a>
+									&nbsp;
+									<a href="javascript:void(0);" data-toggle="modal" data-target="#PopModalDoacao"><img width="120" height="50" src="{{ url_for('static', filename='pages/img/BtnDoacao02.png') }}" alt="IconeDoar"  /> </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<!-- <div class="header">
+							<h2><strong>IRPF</strong> - Declaração do Imposto sobre a Renda</h2>
+						</div>     -->
+						<div class="body">
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix align-items-end">
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+									<p class="font-weight-bold ">Ano Base:</p>
+									<select style="font-size:12px;" id="selIRPFAno" name="selIRPFAno" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+								</div>
+								<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+									<a onclick="fCarregarDeclaracao('/');" id="btnIRPFPesquisar" name="btnIRPFPesquisar" style="width: 140px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+								</div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<br/>
+
+							<!-- Div Row clearfix -->
+							<div class="row clearfix">
+								<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+									<div class="custom-control custom-control-sm custom-checkbox">
+										<input onclick="fSalvarConfigApuracao('/', this);"  type="checkbox" class="custom-control-input" id="chkIRPFVlrSuperior20Mil">
+										<label style="font-size:12px;" class="custom-control-label font-w eight-bold" for="chkIRPFVlrSuperior20Mil">Somente Compensar Prejuízos quando Valor Total da Venda for Superior a R$ 20.000,00.</label>
+									</div>
+								</div>
+							</div>
+							<!-- Div Row clearfix -->
+
+							<!-- Nav Tabs -->
+							<ul class="nav nav-tabs nav-justified" id="TabIRPF">
+								<li class="nav-item"> <a class="border border-secondary nav-link active" title="Isentos e Não Tributáveis"       id="TabIsentos"       data-toggle="tab" aria-selected="true"  href="#AbaIsentos">       Isentos/Não Tributáveis         </a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        title="Tributação Exclusiva/Definitiva" id="TabTributacao"    data-toggle="tab" aria-selected="false" href="#AbaTributacao">    Tributação Exclusiva            </a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        title="Bens e Direitos"                 id="TabABensDireitos" data-toggle="tab" aria-selected="false" href="#AbaABensDireitos"> Bens e Direitos                 </a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        title="Renda Variável - Ações/ETF/BDR"  id="TabMensalAcoes"   data-toggle="tab" aria-selected="false" href="#AbaMensalAcoes">   Renda Variável - Ações/ETFs     </a> </li>
+								<li class="nav-item"> <a class="border border-secondary nav-link"        title="Renda Variável - FIIs"           id="TabMensalFIIs"    data-toggle="tab" aria-selected="false" href="#AbaMensalFIIs">    Renda Variável - FIIs           </a> </li>
+							</ul>
+							<!-- Nav Tabs -->
+
+							<br/>
+
+							<!-- Div tab-content -->
+							<div class="tab-content" id="TabIRPFContent">
+
+								<!-- Div AbaIsentos -->
+								<div class="tab-pane fade show active" id="AbaIsentos" role="tabpanel" aria-labelledby="TabIsentos">
+
+									<h5 class="text-dark font-weight-bold text-center">Rendimentos Isentos e Não Tributáveis</h5>
+
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGridRendIsentos">
+										<table id="GridRendIsentos" name="GridRendIsentos" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+												<tr class="thead-dark font-weight-bold">
+													<th>Tipo Rendimento</th>
+													<th>CNPJ Fonte Pagadora</th>
+													<th>Fonte Pagadora</th>
+													<th>Valor</th>
+													<th style="display: none;">CodAtivo</th>
+													<th style="display: none;">TpRendIsento</th>
+													<th>Ação</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+
+								</div>
+								<!-- Div AbaIsentos -->
+
+								<!-- Div AbaTributacao -->
+								<div class="tab-pane fade" id="AbaTributacao" role="tabpanel" aria-labelledby="TabTributacao">
+
+									<h5 class="text-dark font-weight-bold text-center">Rendimentos Sujeitos á Tributação Exclusiva/Definitiva</h5>
+
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGridRendTributavel">
+										<table id="GridRendTributavel" name="GridRendTributavel" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+												<tr class="thead-dark font-weight-bold">
+													<th>Tipo Rendimento</th>
+													<th>CNPJ Fonte Pagadora</th>
+													<th>Fonte Pagadora</th>
+													<th>Valor</th>
+													<th style="display: none;">CodAtivo</th>
+													<th style="display: none;">TpRendTributavel</th>
+													<th>Ação</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+
+								</div>
+								<!-- Div AbaTributacao -->
+
+								<!-- Div AbaABensDireitos -->
+								<div class="tab-pane fade" id="AbaABensDireitos" role="tabpanel" aria-labelledby="TabABensDireitos">
+
+									<h5 class="text-dark font-weight-bold text-center">Bens e Direitos</h5>
+
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGridBensDireitos">
+										<table id="GridBensDireitos" name="GridBensDireitos" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+											<thead>
+												<tr class="thead-dark font-weight-bold">
+													<th>Código</th>
+													<th>CNPJ Fonte Pagadora</th>
+													<th>Discriminação</th>
+													<th>Valor Anterior</th>
+													<th>Valor Atual</th>
+													<th style="display: none;">CodAtivo</th>
+													<th style="display: none;">TpBensDireitos</th>
+													<th>Ação</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+
+								</div>
+								<!-- Div AbaABensDireitos -->
+
+								<!-- Div AbaMensalAcoes -->
+								<div class="tab-pane fade" id="AbaMensalAcoes" role="tabpanel" aria-labelledby="TabMensalAcoes">
+
+									<h5 class="text-dark font-weight-bold text-center">Renda Variável - Ganhos/Perdas Líquidos em Operações Comuns/Day-Trade</h5>
+
+									<!-- Div Row clearfix -->
+									<div class="row clearfix">
+
+										<!-- Div col-->
+										<div class="col-sm-12 col-md-12 col-lg-2 col-xl-2">
+											<!-- Nav Tabs -->
+											<ul class="nav nav-tabs flex-column text-center pull-center " style="width:200px;  border: 0px solid red;" id="v-pills-tab" aria-orientation="vertical">
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border active" id="TabMesJAN" data-toggle="pill" href="#AbaMesJAN" aria-selected="true" >JAN</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesFEV" data-toggle="pill" href="#AbaMesFEV" aria-selected="false">FEV</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesMAR" data-toggle="pill" href="#AbaMesMAR" aria-selected="false">MAR</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesABR" data-toggle="pill" href="#AbaMesABR" aria-selected="false">ABR</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesMAI" data-toggle="pill" href="#AbaMesMAI" aria-selected="false">MAI</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesJUN" data-toggle="pill" href="#AbaMesJUN" aria-selected="false">JUN</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesJUL" data-toggle="pill" href="#AbaMesJUL" aria-selected="false">JUL</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesAGO" data-toggle="pill" href="#AbaMesAGO" aria-selected="false">AGO</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesSET" data-toggle="pill" href="#AbaMesSET" aria-selected="false">SET</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesOUT" data-toggle="pill" href="#AbaMesOUT" aria-selected="false">OUT</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesNOV" data-toggle="pill" href="#AbaMesNOV" aria-selected="false">NOV</a> </li>
+												<li class="nav-item"> <a style="height:35px;  margin-bottom:5px;" class="border border-secondary text-center nav-link border"        id="TabMesDEZ" data-toggle="pill" href="#AbaMesDEZ" aria-selected="false">DEZ</a> </li>
+											</ul>
+											<!-- Nav Tabs -->
+										</div>
+										<!-- Div col-->
+
+										<!-- Div col-->
+										<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+											<div class="tab-content " id="AbaMes" name="AbaMes">
+												<br/>
+												<!-- Div AbaMesJAN-->
+												<div class="tab-pane fade show active" id="AbaMesJAN" role="tabpanel" aria-labelledby="TabMesJAN">
+													<table id="GridMesJAN" name="GridMesJAN" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-JAN"> </td> <td class="text-center" id="MercAvst-DayTrade-JAN"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-JAN">     </td> <td class="text-center" id="ResultLiq-DayTrade-JAN">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-JAN">     </td> <td class="text-center" id="ResultNeg-DayTrade-JAN">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-JAN">    </td> <td class="text-center" id="ResultBase-DayTrade-JAN">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-JAN">    </td> <td class="text-center" id="ResultPrej-DayTrade-JAN">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-JAN">     </td> <td class="text-center" id="ResultDev-DayTrade-JAN">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-JAN">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-JAN">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-JAN">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-JAN"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-JAN">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-JAN">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-JAN">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-JAN">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div AbaMesJAN-->
+
+												<!-- Div AbaMesFEV-->
+												<div class="tab-pane fade" id="AbaMesFEV" role="tabpanel" aria-labelledby="TabMesFEV">
+													<table id="GridMesFEV" name="GridMesFEV" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-FEV"> </td> <td class="text-center" id="MercAvst-DayTrade-FEV"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-FEV">     </td> <td class="text-center" id="ResultLiq-DayTrade-FEV">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-FEV">     </td> <td class="text-center" id="ResultNeg-DayTrade-FEV">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-FEV">    </td> <td class="text-center" id="ResultBase-DayTrade-FEV">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-FEV">    </td> <td class="text-center" id="ResultPrej-DayTrade-FEV">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-FEV">     </td> <td class="text-center" id="ResultDev-DayTrade-FEV">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-FEV">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-FEV">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-FEV">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-FEV"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-FEV">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-FEV">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-FEV">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-FEV">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div AbaMesFEV-->
+
+												<!-- Div TabMesMAR-->
+												<div class="tab-pane fade" id="AbaMesMAR" role="tabpanel" aria-labelledby="TabMesMAR">
+													<table id="GridMesMAR" name="GridMesMAR" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-MAR"> </td> <td class="text-center" id="MercAvst-DayTrade-MAR"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-MAR">     </td> <td class="text-center" id="ResultLiq-DayTrade-MAR">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-MAR">     </td> <td class="text-center" id="ResultNeg-DayTrade-MAR">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-MAR">    </td> <td class="text-center" id="ResultBase-DayTrade-MAR">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-MAR">    </td> <td class="text-center" id="ResultPrej-DayTrade-MAR">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-MAR">     </td> <td class="text-center" id="ResultDev-DayTrade-MAR">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-MAR">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-MAR">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-MAR">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-MAR"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-MAR">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-MAR">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-MAR">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-MAR">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div TabMesMAR-->
+
+												<!-- Div TabMesABR-->
+												<div class="tab-pane fade" id="AbaMesABR" role="tabpanel" aria-labelledby="TabMesABR">
+													<table id="GridMesABR" name="GridMesABR" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-ABR"> </td> <td class="text-center" id="MercAvst-DayTrade-ABR"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-ABR">     </td> <td class="text-center" id="ResultLiq-DayTrade-ABR">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-ABR">     </td> <td class="text-center" id="ResultNeg-DayTrade-ABR">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-ABR">    </td> <td class="text-center" id="ResultBase-DayTrade-ABR">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-ABR">    </td> <td class="text-center" id="ResultPrej-DayTrade-ABR">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-ABR">     </td> <td class="text-center" id="ResultDev-DayTrade-ABR">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-ABR">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-ABR">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-ABR">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-ABR"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-ABR">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-ABR">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-ABR">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-ABR">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div TabMesABR-->
+
+												<!-- Div TabMesMAI-->
+												<div class="tab-pane fade" id="AbaMesMAI" role="tabpanel" aria-labelledby="TabMesMAI">
+													<table id="GridMesMAI" name="GridMesMAI" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-MAI"> </td> <td class="text-center" id="MercAvst-DayTrade-MAI"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-MAI">     </td> <td class="text-center" id="ResultLiq-DayTrade-MAI">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-MAI">     </td> <td class="text-center" id="ResultNeg-DayTrade-MAI">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-MAI">    </td> <td class="text-center" id="ResultBase-DayTrade-MAI">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-MAI">    </td> <td class="text-center" id="ResultPrej-DayTrade-MAI">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-MAI">     </td> <td class="text-center" id="ResultDev-DayTrade-MAI">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-MAI">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-MAI">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-MAI">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-MAI"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-MAI">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-MAI">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-MAI">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-MAI">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div TabMesMAI-->
+
+												<!-- Div TabMesJUN-->
+												<div class="tab-pane fade" id="AbaMesJUN" role="tabpanel" aria-labelledby="TabMesJUN">
+													<table id="GridMesJUN" name="GridMesJUN" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-JUN"> </td> <td class="text-center" id="MercAvst-DayTrade-JUN"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-JUN">     </td> <td class="text-center" id="ResultLiq-DayTrade-JUN">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-JUN">     </td> <td class="text-center" id="ResultNeg-DayTrade-JUN">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-JUN">    </td> <td class="text-center" id="ResultBase-DayTrade-JUN">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-JUN">    </td> <td class="text-center" id="ResultPrej-DayTrade-JUN">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-JUN">     </td> <td class="text-center" id="ResultDev-DayTrade-JUN">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-JUN">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-JUN">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-JUN">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-JUN"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-JUN">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-JUN">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-JUN">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-JUN">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div TabMesJUN-->
+
+												<!-- Div TabMesJUL-->
+												<div class="tab-pane fade" id="AbaMesJUL" role="tabpanel" aria-labelledby="TabMesJUL">
+													<table id="GridMesJUL" name="GridMesJUL" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-JUL"> </td> <td class="text-center" id="MercAvst-DayTrade-JUL"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-JUL">     </td> <td class="text-center" id="ResultLiq-DayTrade-JUL">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-JUL">     </td> <td class="text-center" id="ResultNeg-DayTrade-JUL">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-JUL">    </td> <td class="text-center" id="ResultBase-DayTrade-JUL">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-JUL">    </td> <td class="text-center" id="ResultPrej-DayTrade-JUL">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-JUL">     </td> <td class="text-center" id="ResultDev-DayTrade-JUL">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-JUL">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-JUL">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-JUL">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-JUL"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-JUL">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-JUL">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-JUL">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-JUL">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div TabMesJUL-->
+
+												<!-- Div TabMesAGO-->
+												<div class="tab-pane fade" id="AbaMesAGO" role="tabpanel" aria-labelledby="TabMesAGO">
+													<table id="GridMesAGO" name="GridMesAGO" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-AGO"> </td> <td class="text-center" id="MercAvst-DayTrade-AGO"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-AGO">     </td> <td class="text-center" id="ResultLiq-DayTrade-AGO">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-AGO">     </td> <td class="text-center" id="ResultNeg-DayTrade-AGO">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-AGO">    </td> <td class="text-center" id="ResultBase-DayTrade-AGO">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-AGO">    </td> <td class="text-center" id="ResultPrej-DayTrade-AGO">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-AGO">     </td> <td class="text-center" id="ResultDev-DayTrade-AGO">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-AGO">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-AGO">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-AGO">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-AGO"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-AGO">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-AGO">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-AGO">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-AGO">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div TabMesAGO-->
+
+												<!-- Div AbaMesSET-->
+												<div class="tab-pane fade" id="AbaMesSET" role="tabpanel" aria-labelledby="TabMesSET">
+													<table id="GridMesSET" name="GridMesSET" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-SET"> </td> <td class="text-center" id="MercAvst-DayTrade-SET"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-SET">     </td> <td class="text-center" id="ResultLiq-DayTrade-SET">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-SET">     </td> <td class="text-center" id="ResultNeg-DayTrade-SET">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-SET">    </td> <td class="text-center" id="ResultBase-DayTrade-SET">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-SET">    </td> <td class="text-center" id="ResultPrej-DayTrade-SET">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-SET">     </td> <td class="text-center" id="ResultDev-DayTrade-SET">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-SET">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-SET">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-SET">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-SET"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-SET">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-SET">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-SET">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-SET">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div AbaMesSET-->
+
+												<!-- Div TabMesOUT-->
+												<div class="tab-pane fade" id="AbaMesOUT" role="tabpanel" aria-labelledby="TabMesOUT">
+													<table id="GridMesOUT" name="GridMesOUT" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-OUT"> </td> <td class="text-center" id="MercAvst-DayTrade-OUT"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-OUT">     </td> <td class="text-center" id="ResultLiq-DayTrade-OUT">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-OUT">     </td> <td class="text-center" id="ResultNeg-DayTrade-OUT">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-OUT">    </td> <td class="text-center" id="ResultBase-DayTrade-OUT">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-OUT">    </td> <td class="text-center" id="ResultPrej-DayTrade-OUT">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-OUT">     </td> <td class="text-center" id="ResultDev-DayTrade-OUT">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-OUT">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-OUT">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-OUT">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-OUT"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-OUT">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-OUT">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-OUT">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-OUT">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div TabMesOUT-->
+
+												<!-- Div TabMesNOV-->
+												<div class="tab-pane fade" id="AbaMesNOV" role="tabpanel" aria-labelledby="TabMesNOV">
+													<table id="GridMesNOV" name="GridMesNOV" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-NOV"> </td> <td class="text-center" id="MercAvst-DayTrade-NOV"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-NOV">     </td> <td class="text-center" id="ResultLiq-DayTrade-NOV">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-NOV">     </td> <td class="text-center" id="ResultNeg-DayTrade-NOV">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-NOV">    </td> <td class="text-center" id="ResultBase-DayTrade-NOV">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-NOV">    </td> <td class="text-center" id="ResultPrej-DayTrade-NOV">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-NOV">     </td> <td class="text-center" id="ResultDev-DayTrade-NOV">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-NOV">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-NOV">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-NOV">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-NOV"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-NOV">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-NOV">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-NOV">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-NOV">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div TabMesNOV-->
+
+												<!-- Div TabMesDEZ-->
+												<div class="tab-pane fade" id="AbaMesDEZ" role="tabpanel" aria-labelledby="TabMesDEZ">
+													<table id="GridMesDEZ" name="GridMesDEZ" style="font-size: 12px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+														<thead> <tr class="thead-dark font-weight-bold"> <th></th> <th>Operações Comums</th> <th>Day-Trade</th> </tr> </thead>
+														<tfoot> <tr> <th></th> <th> </th> <th> </th> </tr> </tfoot>
+														<tbody>
+															<tr> <td> <h6 class="text-dark">Mercado à vista</h6> </td> <td></td> <td></td> </tr>
+															<tr> <td>Mercado à vista - ações</td> <td class="text-center" id="MercAvst-Comum-DEZ" class="text-center"> </td> <td class="text-center" id="MercAvst-DayTrade-DEZ"></td> </tr>
+
+															<tr> <td> <h6 class="text-dark">Resultados</h6>             </td> <td></td> <td></td> </tr>
+															<tr> <td>RESULTADO LÍQUIDO DO MÊS                           </td> <td class="text-center" id="ResultLiq-Comum-DEZ">     </td> <td class="text-center" id="ResultLiq-DayTrade-DEZ">      </td> </tr>
+															<tr> <td>Resultado negativo aé o mês anterior               </td> <td class="text-center" id="ResultNeg-Comum-DEZ">     </td> <td class="text-center" id="ResultNeg-DayTrade-DEZ">      </td> </tr>
+															<tr> <td>BASE DE CáLCULO DO IMPOSTO                         </td> <td class="text-center" id="ResultBase-Comum-DEZ">    </td> <td class="text-center" id="ResultBase-DayTrade-DEZ">     </td> </tr>
+															<tr> <td>PrejuÍzo a compensar                               </td> <td class="text-center" id="ResultPrej-Comum-DEZ">    </td> <td class="text-center" id="ResultPrej-DayTrade-DEZ">     </td> </tr>
+															<tr> <td>AlÍquota de imposto                                </td> <td class="text-center">                          15% </td> <td class="text-center">                              20% </td> </tr>
+															<tr> <td>IMPOSTO DEVIDO                                     </td> <td class="text-center" id="ResultDev-Comum-DEZ">     </td> <td class="text-center" id="ResultDev-DayTrade-DEZ">      </td> </tr>
+
+															<tr> <td><h6 class="text-dark">Consolidação do Mês</h6>     </td> <td></td> <td></td> </tr>
+															<tr> <td>Total de imposto devido                            </td> <td></td> <td class="text-center" id="Consolid-Devido-DEZ">             </td> </tr>
+															<tr> <td>IR fonte de Day-Trade no mês                       </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAtual-DEZ">  </td> </tr>
+															<tr> <td>IR fonte de Day-Trade nos meses anteriores         </td> <td></td> <td class="text-center" id="Consolid-DayTrade-MesAnt-DEZ">    </td> </tr>
+															<tr> <td>IR fonte de Day-Trade a compensar                  </td> <td></td> <td class="text-center" id="Consolid-DayTrade-Compensar-DEZ"> </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) no mês               </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAtual-DEZ">     </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) nos meses anteriores </td> <td></td> <td class="text-center" id="Consolid-Comum-MesAnt-DEZ">       </td> </tr>
+															<tr> <td>IR fonte (Lei no 11.033/2004) a compensar          </td> <td></td> <td class="text-center" id="Consolid-Comum-Compensar-DEZ">    </td> </tr>
+															<tr> <td>Imposto a pagar                                    </td> <td></td> <td class="text-center" id="Consolid-Pagar-DEZ">              </td> </tr>
+														</tbody>
+													</table>
+												</div>
+												<!-- Div TabMesDEZ-->
+											</div>
+										</div>
+										<!-- Div col-->
+
+										<!-- Div col-->
+										<div class="col-sm-12 col-md-12 col-lg-1 col-xl-1">
+											&nbsp;
+										</div>
+										<!-- Div col-->
+
+									</div>
+									<!-- Div Row clearfix -->
+
+								</div>
+								<!-- Div AbaMensalAcoes -->
+
+								<!-- Div AbaMensalFIIs -->
+								<div class="tab-pane fade" id="AbaMensalFIIs" role="tabpanel" aria-labelledby="TabMensalFIIs">
+
+									<h5 class="text-dark font-weight-bold text-center">Renda Variável - Operações de Fundos de Investimento Imobiliário</h5>
+
+									<!-- Div table-responsive -->
+									<div class="table-responsive" id="AreaGridRendVarFII">
+										<table id="GridRendVarFII" name="GridRendVarFII" style="font-size: 12px" class="table table-sm table-hover table-bordered nowrap" border='0' cellspacing="0" width="100%">
+											<thead>
+												<tr class="thead-dark font-weight-bold">
+													<th>Mês</th>
+													<th>Resultado <br>Líquido do Mês</th>
+													<th>Resultado Negativo <br>até o Mês Anterior</th>
+													<th>Base de Cálculo <br>do Imposto</th>
+													<th>Prejuízo a <br>Compensar</th>
+													<th>Alíquota do <br>Imposto</th>
+													<th>Imposto <br>Devido</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="text-center">
+													<td>JAN</td>
+													<td id="FII-RENDA-VAR-JAN-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-JAN-ResultNegMesAnt" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-JAN-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-JAN-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-JAN-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-JAN-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>FEV</td>
+													<td id="FII-RENDA-VAR-FEV-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-FEV-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-FEV-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-FEV-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-FEV-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-FEV-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>MAR</td>
+													<td id="FII-RENDA-VAR-MAR-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-MAR-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-MAR-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-MAR-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-MAR-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-MAR-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>ABR</td>
+													<td id="FII-RENDA-VAR-ABR-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-ABR-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-ABR-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-ABR-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-ABR-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-ABR-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>MAI</td>
+													<td id="FII-RENDA-VAR-MAI-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-MAI-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-MAI-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-MAI-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-MAI-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-MAI-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>JUN</td>
+													<td id="FII-RENDA-VAR-JUN-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-JUN-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-JUN-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-JUN-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-JUN-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-JUN-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>JUL</td>
+													<td id="FII-RENDA-VAR-JUL-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-JUL-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-JUL-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-JUL-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-JUL-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-JUL-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>AGO</td>
+													<td id="FII-RENDA-VAR-AGO-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-AGO-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-AGO-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-AGO-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-AGO-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-AGO-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>SET</td>
+													<td id="FII-RENDA-VAR-SET-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-SET-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-SET-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-SET-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-SET-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-SET-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>OUT</td>
+													<td id="FII-RENDA-VAR-OUT-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-OUT-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-OUT-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-OUT-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-OUT-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-OUT-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>NOV</td>
+													<td id="FII-RENDA-VAR-NOV-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-NOV-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-NOV-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-NOV-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-NOV-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-NOV-IRDevido" >0,00</td>
+												</tr>
+												<tr class="text-center">
+													<td>DEZ</td>
+													<td id="FII-RENDA-VAR-DEZ-ResultLiqMes" class="text-dark font-weight-bold">0,00</td>
+													<td id="FII-RENDA-VAR-DEZ-ResultNegMesAnt">0,00</td>
+													<td id="FII-RENDA-VAR-DEZ-BaseCaclIR" >0,00</td>
+													<td id="FII-RENDA-VAR-DEZ-PrejuAComp" >0,00</td>
+													<td id="FII-RENDA-VAR-DEZ-AliquotaIR" >0,00</td>
+													<td id="FII-RENDA-VAR-DEZ-IRDevido" >0,00</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<!-- Div table-responsive -->
+
+								</div>
+								<!-- Div AbaMensalFIIs -->
+
+							</div>
+							<!-- Div tab-content -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Detalhe RendIsentos -->
+	<div class="modal fade" id="PopModalDetalheIRPFRendIsentos" name="PopModalDetalheIRPFRendIsentos" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Rendimentos Isentos e Não Tributáveis</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+					<div id="DivGridIRPFRendIsentos">  </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheIRPFRendIsentosCancelar" id="BtnModalDetalheIRPFRendIsentosCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe RendIsentos -->
+
+	<!-- Modal Detalhe RendTributaveis -->
+	<div class="modal fade" id="PopModalDetalheIRPFRendTributaveis" name="PopModalDetalheIRPFRendTributaveis" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Rendimentos Sujeitos á Tributação Exclusiva/Definitiva</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+					<div id="DivGridIRPFRendTributaveis">  </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheIRPFRendTributaveisCancelar" id="BtnModalDetalheIRPFRendTributaveisCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe RendTributaveis -->
+
+	<!-- Modal Detalhe BensDireitos -->
+	<div class="modal fade" id="PopModalDetalheIRPFBensDireitos" name="PopModalDetalheIRPFBensDireitos" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Bens e Direitos</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+					<div id="DivGridIRPFBensDireitos">  </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheIRPFBensDireitosCancelar" id="BtnModalDetalheIRPFBensDireitosCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe BensDireitos -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.colVis.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.html5.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.print.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.flash.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/jszip.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/pdfmake.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/vfs_fonts.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagIR.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			fLimparDeclaracao('/');
+			fCarregarConfigApuracao('/');
+            {% if gerar_portoflio %}
+                fAbrirModalGerarPortfolio("/");
+            {% else %}
+                fCarregarAnoDecalracao('/');
+            {% endif %}
+		});
+	</script>
+{% endblock %}

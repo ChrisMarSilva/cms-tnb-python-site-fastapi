@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Admin - Empresa - Proventos {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagEmpresaProv.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-lg-6 col-md-8 col-sm-12">
+									<h2>Empresa - Proventos</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Empresa - Proventos</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="header">
+							<h2><strong>Empresa</strong> - Proventos</h2>
+						</div>
+						<div class="body">
+
+							<!-- Div Row Form -->
+							<div class="row clearfix align-items-end">
+								<div class="col-sm-12 col-md-4 col-lg-2 col-xl-2">
+									<label style="font-size:12px;" for="txtFiltroEmprProvDataIni" class="font-weight-bold ">Data Ex. Inicial:</label>
+									<input style="font-size:12px;" type="date" class="form-control" name="txtFiltroEmprProvDataIni" id="txtFiltroEmprProvDataIni">
+								</div>
+								<div class="col-sm-12 col-md-4 col-lg-2 col-xl-2">
+									<label style="font-size:12px;" for="txtFiltroEmprProvDataFim" class="font-weight-bold">Data Ex. Final:</label>
+									<input style="font-size:12px;" type="date" class="form-control" name="txtFiltroEmprProvDataFim" id="txtFiltroEmprProvDataFim">
+								</div>
+								<div class="col-sm-12 col-md-4 col-lg-2 col-xl-2">
+									<label style="font-size:12px;" for="txtFiltroEmprProvAtivo" class="font-weight-bold">Ativo:</label>
+									<select style="font-size:12px; width: 180px;" id="txtFiltroEmprProvAtivo" name="txtFiltroEmprProvAtivo" class="form-control z-index show-menu-arrow" data-live-search="true"></select>
+								</div>
+								<div class="col-sm-12 col-md-4 col-lg-2 col-xl-2">
+									<label style="font-size:12px;" for="txtFiltroEmprProvTipo" class="font-weight-bold">Tipo:</label>
+									<select style="font-size:12px; width: 180px;" id="txtFiltroEmprProvTipo" name="txtFiltroEmprProvTipo" class="form-control z-index show-menu-arrow" data-live-search="true">
+										<option value="">Todos</option>
+										<option value="D">Dividendos</option>
+										<option value="J">Juros s/ Capital</option>
+										<option value="R">Restituição de Capital</option>
+										<option value="S">Subscrição</option>
+										<option value="B">Bonificação</option>
+										<option value="E">Desdobramento</option>
+										<option value="G">Grupamento</option>
+									</select>
+								</div>
+								<div class="col-sm-12 col-md-4 col-lg-2 col-xl-2 text-left">
+									<br />
+									<a onclick="fCarregarGrid('/');" id="btnEmprProvPesquisar" name="btnEmprProvPesquisar" style="width: 140px;" class="btn btn-info btn-round btn-simple" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefresh" name="iRefresh" class="fa fa-refresh" aria-hidden="true"></i> &nbsp;Pesquisar </a>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-2 col-xl-2 text-right">
+									<a onclick="fAbrirModalDetalheEmprProv('/', '', 'Novo');" id="btnEmprProvNovo" name="btnEmprProvNovo" style="width: 160px;" class="btn btn-success btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Novo Provento</a>
+								</div>
+							</div>
+							<!-- Div Row Form -->
+
+							<!-- Div Row Form -->
+							<div class="row clearfix align-items-end">
+								<div class="col" id="AreaAlertaPrinc"> </div>
+							</div>
+							<!-- Div Row Form -->
+
+							<!-- Div table-responsive -->
+							<div class="table-responsive" id="AreaGrid">
+								<table id="Grid" name="Grid" style="font-size: 11px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+									<thead>
+										<tr class="bg-secondary text-white">
+											<th>Data Ex</th>
+											<th>Data Pagto</th>
+											<th>Ativo</th>
+											<th>Tipo</th>
+											<th>Preço</th>
+											<th style="display: none;"></th>
+											<th>Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+									</tfoot>
+								</table>
+							</div>
+							<!-- Div table-responsive -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Empr Prov -->
+	<div class="modal fade" id="PopModalDetalheEmprProv" name="PopModalDetalheEmprProv" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header btn-secondary">
+					<h6 class="modal-title"> <strong>Empresa Provento</strong> <strong id="PopModalDetalheEmprProvTit" name="PopModalDetalheEmprProvTit"></strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+
+					<form id="FormEmprProv" name="FormEmprProv" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<input type="hidden" name="txtCadEmprProvId" id="txtCadEmprProvId">
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprProvAtivo">Ativo</label> </div>
+							<div class="col-5"> <select style="font-size:12px; width: 180px;" id="txtCadEmprProvAtivo" name="txtCadEmprProvAtivo" class="form-control form-control-sm" required></select> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprProvTipo">Tipo</label> </div>
+							<div class="col-5">
+								<select style="font-size:12px; width: 180px;" id="txtCadEmprProvTipo" name="txtCadEmprProvTipo" class="form-control form-control-sm" required>
+									<option value="">Selecione...</option>
+									<option value="D">Dividendos</option>
+									<option value="J">Juros s/ Capital</option>
+									<option value="R">Restituição de Capital</option>
+									<option value="S">Subscrição</option>
+									<option value="B">Bonificação</option>
+									<option value="E">Desdobramento</option>
+									<option value="G">Grupamento</option>
+								</select>
+								<div class="invalid-feedback"> Campo obrigatório!</div>
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprProvCateg">Categoria</label> </div>
+							<div class="col-5">
+								<select style="font-size:12px; width: 180px;" id="txtCadEmprProvCateg" name="txtCadEmprProvCateg" class="form-control form-control-sm">
+									<option value="">Selecione...</option>
+									<option value="ON">ON</option>
+									<option value="PN">PN</option>
+									<option value="PNA">PNA</option>
+									<option value="PNB">PNB</option>
+									<option value="UNT">UNT</option>
+									<option value="UN">UN</option>
+								</select>
+								<div class="invalid-feedback"> Campo obrigatório!</div>
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprProvDtAprov">Data Aprov.</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control form-control-sm" id="txtCadEmprProvDtAprov" name="txtCadEmprProvDtAprov" type="date" required> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprProvDtCom">Data Com.</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control form-control-sm" id="txtCadEmprProvDtCom" name="txtCadEmprProvDtCom" type="date"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprProvDtEx">Data Ex.</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control form-control-sm" id="txtCadEmprProvDtEx" name="txtCadEmprProvDtEx" type="date"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprProvDtPagto">Data Pagto</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control form-control-sm" id="txtCadEmprProvDtPagto" name="txtCadEmprProvDtPagto" type="date"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" for="txtCadEmprProvPreco">Preço Bruto</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control form-control-sm text-right" id="txtCadEmprProvPreco" name="txtCadEmprProvPreco" type="text" required /> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-10" id="AreaAlertaModalCad"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosEmprProv('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheEmprProvSalvar" name="BtnModalDetalheEmprProvSalvar" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iSalvar" name="iSalvar" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Salvar </a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheEmprProvCancelar" id="BtnModalDetalheEmprProvCancelar" data-dismiss="modal"> <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Empr Prov -->
+
+	<!-- Modal Confirmacao -->
+	<div class="modal fade" id="PopModalDelEmprProv" name="PopModalDelEmprProv" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6 class="modal-title" id="exampleModalLabel3"><i class="fa fa-lg fa-check-square-o"></i>&nbsp; Exclusão... </h6>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="txtDelEmprProvId" name="txtDelEmprProvId">
+					<p class="text-secondary">Você realmente deseja excluir o Provento da Empresa?</p>
+					<div id="AreaAlertaModalExc"> </div>
+				</div>
+				<div class="modal-footer">
+					<a onclick="fExcluirDadosEmprProv('/'); return false;" class="btn btn-primary btn-round waves-effect" id="BtnModalDelEmprProvSim" style="width: 140px" name="BtnModalDelEmprProvSim" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iExcluir" name="iExcluir" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Sim </a>
+					<button style="width: 140px" type="button" name="BtnModalDelEmprProvNao" id="BtnModalDelEmprProvNao" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;Não&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Confirmacao -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagEmpresaProv.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+			buscar_todos_codigos_completos_acoes('/', 'txtFiltroEmprProvAtivo', false, true, false);
+			buscar_todos_codigos_completos_acoes('/', 'txtCadEmprProvAtivo', false, false, true);
+			fLimparGrid('/');
+			fCarregarGrid('/');
+		});
+	</script>
+{% endblock %}

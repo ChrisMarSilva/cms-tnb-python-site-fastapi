@@ -1,0 +1,100 @@
+<!-- AbaProvPorLanc -->
+<div role="tabpanel" class="tab-pane in active" id="AbaProvPorLanc">
+
+    <!-- Div Conteudo Pag -->
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card border">
+                <div class="header">
+                    <h2><strong>Proventos</strong> Por Lançamentos</h2>
+                </div>
+                <div class="body">
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix align-items-end">
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                            <p class="font-weight-bold ">Data Pagto Inicial:</p>
+                            <input style="font-size:12px;" type="date" class="form-control" name="txtFiltroAnaliseProvDataIni" id="txtFiltroAnaliseProvDataIni">
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                            <p class="font-weight-bold ">Data Pagto Final:</p>
+                            <input style="font-size:12px;" type="date" class="form-control" name="txtFiltroAnaliseProvDataFim" id="txtFiltroAnaliseProvDataFim">
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                            <p class="font-weight-bold ">Ativo:</p>
+                            <select style="font-size:12px;" id="txtFiltroAnaliseProvAtivo" name="txtFiltroAnaliseProvAtivo" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione um Ativo..."> </select>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                            <p class="font-weight-bold ">Tipo:</p>
+                            <select style="font-size:12px;" id="txtFiltroAnaliseProvTipo" name="txtFiltroAnaliseProvTipo" class="form-control z-index show-menu-arrow">
+                                <option value="">Todos</option>
+                                <option value="D">Dividendos</option>
+                                <option value="J">Juros s/ Capital</option>
+                                <option value="R">Restituição de Capital</option>
+                                <option value="FR">Rendimento</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                            <p class="font-weight-bold ">Corretora:</p>
+                            <select style="font-size:12px;" id="txtFiltroAnaliseProvCorretora" name="txtFiltroAnaliseProvCorretora" class="form-control z-index show-menu-arrow" data-live-search="true" title="Selecione uma Corretora..."> </select>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 text-left">
+                            <a onclick="fCarregarGridAnaliseProv('/');" id="btnAnaliseProvPesquisar" name="btnAnaliseProvPesquisar" style="width: 170px;" class="btn btn-info btn-round" role="button" aria-pressed="true" href="javascript:void(0);"> <i id="iRefreshProv" name="iRefreshProv" class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Pesquisar </a>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="AreaAlertaPrincAnaliseProv"> </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div Row clearfix -->
+                    <div class="row clearfix justify-content-md-center">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+                            <h5 class="text-title">Total Proventos</h5>
+                            <div class="font-weight-bold " id="DivAnaliseProvTotal" style="font-size: 24px">R$ 0,00</div>
+                        </div>
+                    </div>
+                    <!-- Div Row clearfix -->
+
+                    <br />
+
+                    <!-- Div table-responsive -->
+                    <div class="table-responsive" id="AreaGrid">
+                        <table id="GridAnaliseProv" name="GridAnaliseProv" style="font-size: 14px" class="table table-sm table-hover table-condensed nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr class="thead-dark font-weight-bold">
+                                    <th>Data Pagto</th>
+                                    <th>Ativo</th>
+                                    <th>Tipo</th>
+                                    <th>Corretora</th>
+                                    <th>Quant.</th>
+                                    <th>Preço</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                            </tfoot>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Div table-responsive -->
+
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Div Conteudo Pag -->
+
+</div>
+<!-- AbaProvPorLanc -->

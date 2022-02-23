@@ -1,0 +1,485 @@
+{% extends 'base.html' %}
+
+{% block subtitulo %} - Análises {% endblock %}
+
+{% block styles %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/dataTables.bootstrap4.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap-select.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagAnalise.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<!-- Div Main Content -->
+	<section class="content">
+		<div class="container">
+
+			<!-- Div Titulo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card border">
+						<div class="body block-header">
+							<div class="row">
+								<div class="col-xl-2 col-lg-12 col-md-12 col-sm-12" style="border: 0px solid red; ">
+									<h2>Análise</h2>
+									<ul class="breadcrumb p-l-0 p-b-0 ">
+										<li class="breadcrumb-item"><a href="{{ url_for('principal.index') }}"><i class="icon-home"></i></a></li>
+										<li class="breadcrumb-item active">Análise</li>
+									</ul>
+								</div>
+								<div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 text-right align-items-end" style="border: 0px solid blue; ">
+									<!-- Nav Tabs -->
+									<ul class="nav nav-tabs" id="myTab">
+										<li class="nav-item"> <a style="font-size: 12px; width: 160px; " title="Extrato das Movimentações"          class="border border-secondary text-center font-weight-bold nav-link active"  id="extrato-tab"      data-toggle="tab" aria-selected="true"  href="#AbaExtrato">      Extrato           </a></li>
+										<li class="nav-item"> <a style="font-size: 12px; width: 160px; " title="Operações"                          class="border border-secondary text-center font-weight-bold nav-link"         id="oper-tab"         data-toggle="tab" aria-selected="false" href="#AbaOper">         Operações         </a></li>
+										<li class="nav-item"> <a style="font-size: 12px; width: 160px; " title="Proventos"                          class="border border-secondary text-center font-weight-bold nav-link"         id="prov-tab"         data-toggle="tab" aria-selected="false" href="#AbaProv">         Proventos         </a></li>
+										<li class="nav-item"> <a style="font-size: 12px; width: 160px; " title="Evolução do Patrimônio"             class="border border-secondary text-center font-weight-bold nav-link"         id="evolpatrim-tab"   data-toggle="tab" aria-selected="false" href="#AbaEvoluPratrim"> Evolução          </a></li>
+										<li class="nav-item"> <a style="font-size: 12px; width: 160px; " title="Balanceamento da Carteira"          class="border border-secondary text-center font-weight-bold nav-link "        id="balance-tab"      data-toggle="tab" aria-selected="false" href="#AbaBalance">      Balanceamento     </a></li>
+									</ul>
+									<!-- Nav Tabs -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Div Titulo Pag -->
+
+			<!-- Div Conteudo Pag -->
+			<div class="row clearfix">
+				<div class="col-lg-12">
+
+					<!-- myAbaAnalise -->
+					<div class="tab-content" id="myAbaAnalise">
+
+						{% include 'analise_extrato.html' %}
+						{% include 'analise_oper.html' %}
+						{% include 'analise_prov.html' %}
+						{% include 'analise_evol.html' %}
+						{% include 'analise_balanc.html' %}
+
+					</div>
+					<!-- myAbaAnalise -->
+
+				</div>
+			</div>
+			<!-- Div Conteudo Pag -->
+
+			{% include 'component_rodape.html' %}
+
+		</div>
+	</section>
+	<!-- Div Main Content -->
+
+{% endblock %}
+
+{% block modal %}
+
+	<!-- Modal Detalhe Analise Proventos -->
+	<div class="modal fade" id="PopModalDetalheAnaliseCalProv" name="PopModalDetalheAnaliseCalProv" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Provendos Pagos no Período</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:500px;">
+					<div id="DivGridModalDetalheAnaliseCalProv">  </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheAnaliseCalProvCancelar" id="BtnModalDetalheAnaliseCalProvCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe Analise Proventos -->
+
+	<!-- Modal Detalhe Analise Operacao Resumo -->
+	<div class="modal fade" id="PopModalDetalheAnaliseOperResumo" name="PopModalDetalheAnaliseOperResumo" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <span>OPERAÇÕES/PROVENTOS  - <span id="PopModalDetalheAnaliseOperResumoTit"></span> </strong>  </h6>
+				</div>
+				<div class="modal-body" style="margin: 0px; padding: 0px; padding-left: 15px; padding-right: 15px; overflow-y: auto; max-height:500px; min-height:500px; height:500px; ">
+
+					<!-- Div Row clearfix -->
+					<div class="row clearfix" style="margin: 0px; padding: 0px;">
+						<div class="col-lg-12">
+							<ul class="nav nav-tabs d-flex justify-content-center" style="margin: 0px; padding: 0px; padding-top: 10px; padding-bottom: 10px; ">
+								<li class="nav-item"><a style="font-size: 12px; " class="font-weight-bold nav-link active" data-toggle="tab" href="#AbaDetalheOperResumoOperac">  Operações</a></li>
+								<li class="nav-item"><a style="font-size: 12px; " class="font-weight-bold nav-link"        data-toggle="tab" href="#AbaDetalheOperResumoProvent"> Proventos</a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- Div Row clearfix -->
+
+					<!-- Tab Detalhe Oper Resumo -->
+					<div class="tab-content">
+
+						<!-- AbaDetalheOperResumoOperac -->
+						<div role="tabpanel" class="tab-pane in active" id="AbaDetalheOperResumoOperac">
+							<div id="DivGridModalDetalheAnaliseOperResumoOperac">  </div>
+						</div>
+						<!-- AbaDetalheOperResumoOperac -->
+
+						<!-- AbaDetalheOperResumoProvent -->
+						<div role="tabpanel" class="tab-pane" id="AbaDetalheOperResumoProvent">
+							<div id="DivGridModalDetalheAnaliseOperResumoProvent">  </div>
+						</div>
+						<!-- AbaDetalheOperResumoProvent -->
+
+					</div>
+					<!-- Tab Detalhe Oper Resumo -->
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheAnaliseOperResumoCancelar" id="BtnModalDetalheAnaliseOperResumoCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe Analise Operacao Resumo -->
+
+	<!-- Modal Detalhe Analise Evolução Projeção -->
+	<div class="modal fade" id="PopModalDetalheEvolucaoProjecao" name="PopModalDetalheEvolucaoProjecao" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <strong>Projeção</strong> </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: inherit; max-height:500px;">
+
+					<form id="FormProj" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-12" id="AreaAlertaModalAnaliseEvoluProjetada"></div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold">Descrição:</label> </div>
+							<div class="col-7"> <input style="font-size:12px;" class="form-control" id="txtAnaliseEvoluProjetDescricao" name="txtAnaliseEvoluProjetDescricao" type="text" maxlength="150"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold">Ano Início:</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control text-right" id="txtAnaliseEvoluProjetAnoInicial" name="txtAnaliseEvoluProjetAnoInicial" maxlength="4" type="number" step="1" min="1900" max="9999"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" >Mês Início:</label> </div>
+							<div class="col-5">
+								<select style="font-size:12px;" id="txtAnaliseEvoluProjetMesInicial" name="txtAnaliseEvoluProjetMesInicial" title="Selecione..." class="form-control">
+									<option value="1">Janeiro</option>
+									<option value="2">Fevereiro</option>
+									<option value="3">Março</option>
+									<option value="4">Abril</option>
+									<option value="5">Maio</option>
+									<option value="6">Junho</option>
+									<option value="7">Julho</option>
+									<option value="8">Agosto</option>
+									<option value="9">Setembro</option>
+									<option value="10">Outubro</option>
+									<option value="11">Novembro</option>
+									<option value="12">Dezembro</option>
+								</select>
+								<div class="invalid-feedback"> Campo obrigatório!</div>
+							</div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" >Vlr. Inicial:</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control text-right" id="txtAnaliseEvoluProjetTotInicial" name="txtAnaliseEvoluProjetTotInicial" type="text" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2);" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" >Vlr. Mensal:</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control text-right" id="txtAnaliseEvoluProjetInvestMensal" name="txtAnaliseEvoluProjetInvestMensal" type="text" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2);" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" >Rend. Mensal:</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control text-right" id="txtAnaliseEvoluProjetRendMensal" name="txtAnaliseEvoluProjetRendMensal" type="text" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2);" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)"> </div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold">Qtd. Meses:</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control text-right" id="txtAnaliseEvoluProjetQtdeMeses" name="txtAnaliseEvoluProjetQtdeMeses" type="number" step="1" min="1" max="1200"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<a onclick="fSalvarDadosProjecao('/');" style="width: 140px;" class="btn btn-primary btn-round waves-effect" id="BtnModalDetalheProjecaoSalvar" name="BtnModalDetalheProjecaoSalvar" href="javascript:void(0);" role="button" aria-pressed="true"> <i id="iSalvarProjecao" name="iSalvarProjecao" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Criar </a>
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheProjecaoCancelar" id="BtnModalDetalheProjecaoCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp; </button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe Analise Evolução Projeção -->
+
+	<!-- Modal Excluir Analise Evolução Projeção -->
+	<div class="modal fade" id="PopModalExcluirEvolucaoProjecao" name="PopModalExcluirEvolucaoProjecao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><i class="fa fa-lg fa-check-square-o"></i>&nbsp; Exclusão... </h6>
+				</div>
+				<div class="modal-body">
+					<p class="text-secondary">Você realmente deseja excluir a Projeção?</p>
+					<div id="AreaAlertaModalAnaliseEvoluProjetadaExc"> </div>
+				</div>
+				<div class="modal-footer">
+					<a onclick="fExcluirDadosProjecao('/'); return false;" class="btn btn-primary btn-round waves-effect" id="BtnModalExcluirProjecaoSim" style="width: 140px" name="BtnModalExcluirProjecaoSim" href="javascript:void(0);" role="button" aria-pressed="true"><i id="iExcluirProjecao" name="iExcluirProjecao" class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Sim </a>
+					<button style="width: 140px" type="button" name="BtnModalExcluirProjecaoNao" id="BtnModalExcluirProjecaoNao" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;Não&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Excluir Analise Evolução Projeção -->
+
+	<!-- Modal Grafico Analise Evolução Projeção -->
+	<div class="modal fade" id="PopModalGraficoEvolucaoProjecao" name="PopModalGraficoEvolucaoProjecao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><i class="fa fa-lg fa-area-chart"></i>&nbsp; <strong id="TitModalGraficoEvolucaoProjecao">Projeção</strong>   </h6>
+				</div>
+				<div class="modal-body" style="overflow-y: auto; max-height:400px; height:400px; margin: 2px; padding: 2px;">
+					<div id="DivGraficoEvolucaoProjecao" style="display: flex; justify-content: center; align-items: center;   height: 395px; min-width: 395px; max-height: 395px; border: 0px solid red;"> </div>
+				</div>
+				<div class="modal-footer" style="height: 45px; margin: 0px; padding: 4px;">
+					<button style="width: 140px" type="button" class="btn btn-light btn-si mple btn-round waves-effect" data-dismiss="modal">&nbsp;Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Grafico Analise Evolução Projeção -->
+
+	<!-- Modal Ajustar Valor Atual Analise Evolução Projeção -->
+	<div class="modal fade" id="PopModalAjustarVlrAtualEvolucaoProjecao" name="PopModalAjustarVlrAtualEvolucaoProjecao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6><i class="fa fa-lg fa-area-chart"></i>&nbsp; <strong>Ajutar Valor Atual</strong>   </h6>
+				</div>
+				<div class="modal-body">  <!--  style="margin: 2px; padding: 2px;" -->
+
+					<input id="txtAnaliseEvoluProjetAjusteVlrAtualNroMes" type="hidden">
+
+					<form id="FormProj1" role="form" novalidate action="javascript:void(0);" method="POST">
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-12" id="AreaAlertaModalAnaliseEvoluProjetadaAjusteVlrAtual"></div>
+						</div>
+
+						<div class="row clearfix" style="margin-bottom: 4px; ">
+							<div class="col-1"> </div>
+							<div class="col-3 text-right"> <label style="font-size:12px;" class="font-weight-bold" >Tot. Atual:</label> </div>
+							<div class="col-5"> <input style="font-size:12px;" class="form-control text-right" id="txtAnaliseEvoluProjetAjusteVlrAtualVlrMesFinal" name="txtAnaliseEvoluProjetAjusteVlrAtualVlrMesFinal" type="text" onkeyup="javascript:validaKey(this, FMT_DECIMAL,2);" onfocus="javascript:desformataCampo(this, FMT_DECIMAL,2)" onblur="javascript:formataCampo(this, FMT_DECIMAL,2)"> </div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">  <!-- style="height: 45px; margin: 0px; padding: 4px;" -->
+					<a onclick="AjustarValorAtualProjecao('/'); return false;" class="btn btn-primary btn-round waves-effect" id="BtnModalAjustarVlrAtualProjecaoSim" style="width: 140px" name="BtnModalAjustarVlrAtualProjecaoSim" href="javascript:void(0);" role="button" aria-pressed="true"><i class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp; Ajustar </a>
+					<button style="width: 140px" type="button" name="BtnModalAjustarVlrAtualProjecaoNao" id="BtnModalAjustarVlrAtualProjecaoNao" class="btn btn-light btn-simple btn-round waves-effect" data-dismiss="modal">&nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Ajustar Valor Atual Analise Evolução Projeção -->
+
+	<!-- Modal Detalhe Analise Operacao Drawdown -->
+	<div class="modal fade" id="PopModalDetalheAnaliseOperDrawdown" name="PopModalDetalheAnaliseOperDrawdown" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h6> <span>DRAWDOWN - <span id="PopModalDetalheAnaliseOperDrawdownTit"></span> </strong>  </h6>
+				</div>
+				<div class="modal-body" style="margin: 0px; padding: 0px; padding-left: 15px; padding-right: 15px; overflow-y: auto; max-height:500px; min-height:500px; height:500px; ">
+
+					<!-- Div Row clearfix -->
+					<div class="row clearfix" style="margin: 0px; padding: 0px;">
+						<div class="col-lg-12">
+							<ul class="nav nav-tabs d-flex justify-content-center" style="margin: 0px; padding: 0px; padding-top: 10px; padding-bottom: 10px; ">
+								<li class="nav-item"><a style="font-size: 12px; " class="font-weight-bold nav-link active" data-toggle="tab" href="#AbaDetalheOperDrawdownGrafico"> Gráfico </a></li>
+								<li class="nav-item"><a style="font-size: 12px; " class="font-weight-bold nav-link"        data-toggle="tab" href="#AbaDetalheOperDrawdownDados">   Dados   </a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- Div Row clearfix -->
+
+					<!-- Tab Detalhe Oper Drawdown -->
+					<div class="tab-content">
+
+						<!-- AbaDetalheOperDrawdownGrafico -->
+						<div role="tabpanel" class="tab-pane in active" id="AbaDetalheOperDrawdownGrafico">
+							<div id="DivGridModalDetalheAnaliseOperDrawdownGrafico">  </div>
+						</div>
+						<!-- AbaDetalheOperDrawdownGrafico -->
+
+						<!-- AbaDetalheOperDrawdownDados -->
+						<div role="tabpanel" class="tab-pane" id="AbaDetalheOperDrawdownDados">
+							<div id="DivGridModalDetalheAnaliseOperDrawdownDados">  </div>
+						</div>
+						<!-- AbaDetalheOperDrawdownDados -->
+
+					</div>
+					<!-- Tab Detalhe Oper Drawdown -->
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light btn-simple btn-round waves-effect" style="width: 140px;" name="BtnModalDetalheAnaliseOperDrawdownCancelar" id="BtnModalDetalheAnaliseOperDrawdownCancelar" data-dismiss="modal"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Cancelar&nbsp;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Detalhe Analise Operacao Drawdown -->
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="{{ url_for('static', filename='assets/js/datatablescripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.colVis.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.html5.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.print.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/buttons.flash.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/jszip.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/pdfmake.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/vfs_fonts.js') }}"></script>
+<!--	<script src="{{ url_for('static', filename='plugins/js/highstock.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highstock.exporting.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highstock.export-data.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highcharts.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highcharts.exporting.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', filename='plugins/js/highcharts.export-data.js') }}"></script>-->
+	<script src="{{ url_for('static', filename='plugins/js/highstock.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highcharts.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highstock.exporting.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/highstock.export-data.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/moment.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='plugins/js/moment-pt-br.min.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnalise.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseExtrato.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseResumoOper.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseOper.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseOperDrawdown.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseProv.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseCalend.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseCalendAtivo.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseChart.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseYOC.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseEvoluPratrim.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseEvoluDetalhada.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseEvoluProjetada.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseBalancePercent.js') }}"></script>
+	<script src="{{ static_autoversion('pages/js/PagAnaliseBalanceNotas.js') }}"></script>
+	<script>
+		$(document).ready(function() {
+
+            {% if gerar_portoflio %}
+                fAbrirModalGerarPortfolio("/");
+            {% endif %}
+
+			// Aba Extrato
+			fLimparGridAnaliseExtrat('/');
+
+			// Aba Oper --> Aba Oper por Ativos
+			fLimparGridAnaliseOper('/');
+			buscar_todos_codigos_comprados('/', 'txtFiltroAnaliseOperAtivo', false, false, true, false);
+
+			// Aba Oper --> Aba Resumo Oper.
+			fCarregarGridResumoOper('/');
+			fCarregarListaPortfolioResumoOper('/');
+
+			// Aba Oper --> Aba Drawdown
+			fLimparGridAnaliseOperDrawdown('/');
+			fCarregarConfigAnaliseOperDrawdown('/');
+			fCarregarGridAnaliseOperDrawdown('/');
+
+			//Aba Prov
+			buscar_todos_codigos_proventos('/', 'txtFiltroAnaliseProvAtivo', false, true, false, true, true, false, true);
+			buscar_todos_corretora('/', 'txtFiltroAnaliseProvCorretora', false, true, false, false);
+			fLimparGridAnaliseProv('/');
+			fDefinirPadraoSelect('txtFiltroAnaliseProvTipo');
+
+			//Aba Calendario Prov Ativo
+			buscar_todos_codigos_proventos('/', 'txtFiltroAnaliseCalendProvAtivoAtivo', false, true, false, true, true, false, true);
+			fLimparGridAnaliseCalendProvAtivo('/');
+
+			//Aba Calendario Prov Anual
+			fCarregarListaDeAnosProventosLocal('/');
+
+			$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+				// e.target // newly activated tab
+				// e.relatedTarget // previous active tab
+				// $("#myTab li a").removeClass("text-dark");
+				// $("#myTab li a").addClass("text-secondary");
+				$("#myTab li a").each(function() {
+					if ($(this).hasClass("active") == true) {
+						// $(this).removeClass("text-secondary");
+						// $(this).addClass("text-dark");
+						// if ( $(this).attr('id') == "calprovmensal-tab" )  fCarregarListaDeAnosProventosLocal( '/' );
+					}
+				});
+			});
+
+			// Aba Evolução Patrimonio
+
+			buscar_todos_codigos_comprados('/', 'txtFiltroAnaliseEvoluPratrimAtivo', false, true, false, true, true, true, true, true);
+			fDefinirPadraoSelect('txtFiltroAnaliseEvoluPratrimTipo');
+
+			// Aba Evolução Proventos
+
+			buscar_todos_codigos_proventos('/', 'txtFiltroAnaliseGrafProvAno', false, true, false, true, true, false, true);
+			fLimparGridAnaliseCalProv('/');
+
+			// Aba Evolução Patrimonio
+
+			fCarregarGridEvoluDetalhada('/');
+
+			$('.btn-filter-cms').on('click', function() {
+				$('.btn-filter-cms').addClass("btn-simple");
+				$(this).removeClass("btn-simple");
+				var $target = $(this).data('target');
+				if ($target != 'todos') {
+					$('.table-filter-cms td').css('display', 'none');
+					$('.table-filter-cms td[data-tipo="' + $target + '"]').show()
+				} else {
+					$('.table-filter-cms td').css('display', 'none').show()
+				}
+			});
+
+			// Aba Evolução Projetada
+
+			buscar_todos_nomes_projecoes('/', 'txtFiltroProjecaoDescricao', false, false, true);
+
+			// Aba Yiled on Cost
+
+			buscar_todos_codigos_proventos('/', 'txtFiltroAnaliseYiledCostAtivo', false, true, false, true, true, false, true);
+			buscar_todos_anos_proventos('/', 'txtFiltroAnaliseYiledCostAno', false, true, false, true);
+			fLimparGridAnaliseYiedlCost('/');
+
+			// Aba Balanceamento
+
+			fLimparGridBalanceNotas('/');
+			fLimparGridBalancePercent('/');
+			fCarregarListaPortfolioBalanc('/');
+			fCarregarGridBalanceNotas('/');
+			fCarregarGridBalancePercent('/');
+
+		});
+	</script>
+
+{% endblock %}
