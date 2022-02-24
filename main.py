@@ -62,6 +62,7 @@ if __name__ == "__main__":
 # pip install Pillow --upgrade
 # pip install mysql-connector-python --upgrade
 # pip install pymysql --upgrade
+# pip install sqltap
 
 # uvicorn main:app --reload
 # hypercorn main:app --worker-class trio
