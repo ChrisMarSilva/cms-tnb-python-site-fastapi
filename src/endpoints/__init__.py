@@ -1,8 +1,8 @@
 import fastapi as _fastapi
-from src.endpoints import UserEndpoint
-from src.endpoints import AuthEndpoint
+from src.endpoints import AAUserEndpoint
+from src.endpoints import AAuthEndpoint
 
 
 def init_routers(app: _fastapi.FastAPI):
-    app.include_router(AuthEndpoint.router)
-    app.include_router(UserEndpoint.router)
+    app.include_router(AAuthEndpoint.router)
+    app.include_router(AAUserEndpoint.router)

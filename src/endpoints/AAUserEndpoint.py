@@ -3,11 +3,11 @@ import inspect
 import os
 import fastapi as _fastapi
 import sqlalchemy.orm as _orm
+from sqlalchemy.ext.asyncio import AsyncSession
 import src.services as _services
 import src.schemas as _schemas
 import src.database as _database
 import src.config.config_trace as _tracer
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 router = _fastapi.APIRouter(prefix="/users", tags=['users'])

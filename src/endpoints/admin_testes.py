@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# import sys
-# import os
-# from time import perf_counter
-# import pandas as pd
-# from flask import Blueprint, render_template, make_response, redirect, url_for
+import sys
+import os
+from time import perf_counter
+import pandas as pd
+import fastapi as _fastapi
 # from flask_login import login_required, current_user
 # from app.banco import db
 # #from app.tracing import tracing

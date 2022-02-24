@@ -1,7 +1,7 @@
-# # -*- coding: utf-8 -*-
-# import os
-# import sys
-# from flask import Blueprint, make_response
+# -*- coding: utf-8 -*-
+import sys
+import os
+import fastapi as _fastapi
 # from flask_login import login_required, current_user
 # from app.optimize import flask_optimize
 # from app.models.alerta import Alerta
