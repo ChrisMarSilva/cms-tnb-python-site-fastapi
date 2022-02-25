@@ -43,50 +43,28 @@ import fastapi as _fastapi
 # from app.util.util_formatacao import decimal_to_str, decimal_prov_to_str, decimal_cripto_curto_to_str, inteiro_to_str
 # from app.util.util_datahora import pegar_data_atual
 # #import memory_profiler as mp
-#
-#
-# bp_portfolio = Blueprint('portfolio', __name__, url_prefix='/portfolio')
-#
-#
-# @bp_portfolio.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/portfolio", tags=['portfolio'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#
-#     id_usuario = current_user.id
-#
-#     # qtd_ativos = 0
-#     # if qtd_ativos == 0 and UsuarioACAOEmpresaOperacao.buscar_quant_ativo(id_usuario=id_usuario) > 0: qtd_ativos = 1
-#     # if qtd_ativos == 0 and UsuarioFiiFundoImobLancamento.buscar_quant_ativo(id_usuario=id_usuario) > 0: qtd_ativos = 1
-#     # if qtd_ativos == 0 and UsuarioETFIndiceOperacao.buscar_quant_ativo(id_usuario=id_usuario) > 0: qtd_ativos = 1
-#     # if qtd_ativos == 0 and UsuarioBDREmpresaOperacao.buscar_quant_ativo(id_usuario=id_usuario) > 0: qtd_ativos = 1
-#     # if qtd_ativos == 0 and UsuarioCriptoLancamento.buscar_quant_ativo(id_usuario=id_usuario) > 0: qtd_ativos = 1
-#     # if qtd_ativos == 0.0: return render_template(template_name_or_list="portfolio_sem_ativo.html")
-#
-#     lista_nomes = get_lista_nome_portfolio()
-#     if lista_nomes: lista_nomes.sort(reverse=True)
-#     # lista_nomes = sorted(lista_nomes, reverse=True, key=lambda k: k[0])
-#
-#     # lista_data_set_pagina = get_json_data_set_pagina()
-#     # lista_data_set_radar = get_json_ativos_no_radar()
-#
-#     gerar_portoflio = False
-#     if not gerar_portoflio and UsuarioACAOEmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioFiiFundoImobLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioETFIndiceLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioBDREmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioCriptoLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#
-#     return render_template(
-#         template_name_or_list="portfolio.html",
-#         gerar_portoflio=gerar_portoflio,
-#         lista_nomes=lista_nomes
-#         # lista_data_set_pagina=lista_data_set_pagina
-#         # lista_data_set_radar=lista_data_set_radar
-#     )
-#
+async def get_index():
+    # id_usuario = current_user.id
+    # lista_nomes = get_lista_nome_portfolio()
+    # if lista_nomes: lista_nomes.sort(reverse=True)
+    # gerar_portoflio = False
+    # if not gerar_portoflio and UsuarioACAOEmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioFiiFundoImobLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioETFIndiceLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioBDREmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioCriptoLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # return render_template(template_name_or_list="portfolio.html", gerar_portoflio=gerar_portoflio, lista_nomes=lista_nomes)
+    return {"result": "ok"}
+
+
 # @bp_portfolio.route('/grid', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

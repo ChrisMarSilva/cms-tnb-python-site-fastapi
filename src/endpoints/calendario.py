@@ -17,11 +17,11 @@ import fastapi as _fastapi
 # from app.util.util_json import get_json_retorno_grid
 # from app.util.util_formatacao import decimal_to_str, inteiro_to_str
 # from app.util.util_datahora import converter_str_to_datetime, converter_datetime_str
-#
-#
-# bp_calendario = Blueprint('calendario', __name__, url_prefix='/calendario')
-#
-#
+
+
+router = _fastapi.APIRouter(prefix="/calendario", tags=['calendario'])
+
+
 # @bp_calendario.route('/')
 # @login_required
 # # @tracing.trace()

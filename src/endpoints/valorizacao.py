@@ -20,21 +20,19 @@ import fastapi as _fastapi
 # from app.models.usuario_radar_cripto import UsuarioRadarCripto
 # from app.util.util_json import get_json_retorno_grid
 # from app.util.util_datahora import converter_datetime_str, pegar_data_atual, adicionar_dias, adicionar_meses
-#
-#
-# bp_valorizacao = Blueprint('valorizacao', __name__, url_prefix='/valorizacao')
-#
-#
-# @bp_valorizacao.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/valorizacao", tags=['valorizacao'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
-# # @flask_optimize.optimize(cache='GET-600')  # 600seg/10Min
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#     return render_template(template_name_or_list="valorizacao.html")
-#
-#
+async def get_index():
+    # return render_template(template_name_or_list="valorizacao.html")
+    return {"result": "ok"}
+
+
 # @bp_valorizacao.route('/grid', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

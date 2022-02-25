@@ -12,22 +12,21 @@ import fastapi as _fastapi
 # from app.models.acao_empresa_ativo_cotacao import ACAOEmpresaAtivoCotacao
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados, get_json_retorno_grid
 # from app.util.util_datahora import pegar_data_atual, pegar_data_hora_atual
-#
-#
-# bp_admin_empresa = Blueprint('admin_empresa', __name__, url_prefix='/empresa')
-#
-#
-# @bp_admin_empresa.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/empresa", tags=['admin_empresa'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
 # @flask_optimize.optimize(cache='GET-84600')  # 84600seg/1410Min/23,5Hr
-# def index():
-#     if str(current_user.tipo) != 'A':
-#         return redirect(location=url_for('principal.index'))
-#     return render_template(template_name_or_list="admin_empresa.html")
-#
-#
+async def get_index():
+    # if str(current_user.tipo) != 'A':
+    #     return redirect(location=url_for('principal.index'))
+    # return render_template(template_name_or_list="admin_empresa.html")
+    return {"result": "ok"}
+
+
 # @bp_admin_empresa.route('/grid', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

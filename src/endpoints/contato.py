@@ -10,22 +10,20 @@ import fastapi as _fastapi
 # from app.models.log_erro import LogErro
 # from app.mail import mail
 # from app.util.util_json import get_json_retorno_metodo
-#
-#
-# bp_contato = Blueprint('contato', __name__, url_prefix='/contato')
-#
-#
-# @bp_contato.route('/')
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
-# # @flask_optimize.optimize(cache='GET-600')  # 600seg/10Min
+
+
+router = _fastapi.APIRouter(prefix="/contato", tags=['contato'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#     if current_user.is_authenticated:
-#         return redirect(location=url_for('principal.index'))
-#     return render_template(template_name_or_list="contato.html")
-#
-#
+async def get_index():
+    # if current_user.is_authenticated:
+    #     return redirect(location=url_for('principal.index'))
+    # return render_template(template_name_or_list="contato.html")
+    return {"result": "ok"}
+
+
 # @bp_contato.route('/enviarMensagem', methods=['GET', 'POST'])
 # # @tracing.trace()
 # @flask_optimize.optimize('json')

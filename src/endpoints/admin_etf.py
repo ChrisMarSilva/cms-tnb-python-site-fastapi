@@ -11,11 +11,11 @@ import fastapi as _fastapi
 # from app.models.etf_indice_cotacao import ETFIndiceCotacao
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados, get_json_retorno_grid
 # from app.util.util_datahora import pegar_data_atual, pegar_data_hora_atual
-#
-#
-# bp_admin_etf = Blueprint('admin_etf', __name__, url_prefix='/etf')
-#
-#
+
+
+router = _fastapi.APIRouter(prefix="/etf", tags=['admin_etf'])
+
+
 # @bp_admin_etf.route('/')
 # @login_required
 # # @tracing.trace()

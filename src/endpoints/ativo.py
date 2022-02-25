@@ -26,11 +26,11 @@ import fastapi as _fastapi
 # from app.models.usuario_radar_cripto import UsuarioRadarCripto
 # from app.util.util_json import get_json_retorno_grid, get_json_retorno_metodo, get_json_retorno_dados
 # from app.util.util_formatacao import decimal_to_str, decimal_cripto_to_str, decimal_prov_to_str
-#
-#
-# bp_ativo = Blueprint('ativo', __name__, url_prefix='/ativo')
-#
-#
+
+
+router = _fastapi.APIRouter(prefix="/ativo", tags=['ativo'])
+
+
 # @bp_ativo.route('/')
 # @login_required
 # # @tracing.trace()

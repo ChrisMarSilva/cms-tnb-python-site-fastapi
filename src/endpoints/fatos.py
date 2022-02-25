@@ -13,21 +13,19 @@ import fastapi as _fastapi
 # from app.models.etf_indice_fato_relevante import ETFIndiceFatoRelevante
 # from app.models.bdr_empresa_fato_relevante import BDREmpresaFatoRelevante
 # from app.util.util_json import get_json_retorno_lista_coment
-#
-#
-# bp_fatos = Blueprint('fatos', __name__, url_prefix='/fatos')
-#
-#
-# @bp_fatos.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/fatos", tags=['fatos'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
-# # @flask_optimize.optimize(cache='GET-600')  # 600seg/10Min
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#     return render_template(template_name_or_list="fatos.html")
-#
-#
+async def get_index():
+    # return render_template(template_name_or_list="fatos.html")
+    return {"result": "ok"}
+
+
 # @bp_fatos.route('/grid', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

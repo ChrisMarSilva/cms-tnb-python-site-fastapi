@@ -30,29 +30,26 @@ import fastapi as _fastapi
 # from app.util.util_json import get_json_retorno_dados, get_json_retorno_grid, get_json_retorno_lista
 # from app.util.util_formatacao import decimal_to_str, inteiro_to_str, decimal_prov_to_str, decimal_cripto_to_str
 # from app.util.util_datahora import pegar_data_atual, buscar_nome_mes_resumido
-#
-#
-# bp_irpf = Blueprint('irpf', __name__, url_prefix='/IRPF')
-#
-#
-# @bp_irpf.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/IRPF", tags=['irpf'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#
-#     id_usuario = current_user.id
-#     gerar_portoflio = False
-#     if not gerar_portoflio and UsuarioACAOEmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioFiiFundoImobLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioETFIndiceLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioBDREmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and  UsuarioCriptoLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#
-#     return render_template(template_name_or_list="irpf.html", gerar_portoflio=gerar_portoflio)
-#
-#
+async def get_index():
+    # id_usuario = current_user.id
+    # gerar_portoflio = False
+    # if not gerar_portoflio and UsuarioACAOEmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioFiiFundoImobLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioETFIndiceLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioBDREmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and  UsuarioCriptoLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # return render_template(template_name_or_list="irpf.html", gerar_portoflio=gerar_portoflio)
+    return {"result": "ok"}
+
+
 # @bp_irpf.route('/listaAno', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

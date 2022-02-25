@@ -12,46 +12,21 @@ import fastapi as _fastapi
 # from app.models.usuario_alerta_assinatura import UsuarioAlertaAssinatura
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_grid
 # from app.util.util_datahora import pegar_data_hora_atual
-#
-#
-# bp_admin_alerta = Blueprint('admin_alerta', __name__, url_prefix='/alerta')
-#
-#
-# # span1 = tracing.start_span('top_level_function')
-# # try:
-# # finally:
-# #     span1.finish()
-# # span2 = get_current_span().start_child('function2') \
-# #     if get_current_span() else None
-# # try:
-# # finally:
-# #     if span2:
-# #         span2.finish()
-# #  parent_span = get_current_span()
-# # # with tracing.scope_manager.active() as parent_span:
-# # with tracing.get_span() as parent_span:
-# #     with opentracing.tracer.start_span('principal', child_of=parent_span) as span:
-# #         with opentracing.tracer.start_span('pegar_user_atual', child_of=span) as span_child:
-# #             id_usuario = current_user.id
-# #         with opentracing.tracer.start_span('pegar_todas_assinaturas', child_of=span) as span_child:
-# #             rows = UsuarioAlertaAssinatura.find_all_by_usuario(id_usuario=id_usuario)
-# #         with opentracing.tracer.start_span('montar_lista', child_of=span) as span_child:
-# #             lista = [[assinatura.tipo_assinatura, assinatura.tipo_alerta, assinatura.situacao, str(assinatura.id)] for assinatura in rows]
-# #         with opentracing.tracer.start_span('montar_json', child_of=span) as span_child:
-# #             return make_response(get_json_retorno_grid(rslt='OK', lista=lista), 200)
-#
-#
-# @bp_admin_alerta.route('/')
-# @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
-# @flask_optimize.optimize(cache='GET-84600')  # 84600seg/1410Min/23,5Hr
-# def index():
-#     if str(current_user.tipo) != 'A':
-#         return redirect(location=url_for('principal.index'))
-#     return render_template(template_name_or_list="admin_alerta.html")
-#
-#
+
+
+router = _fastapi.APIRouter(prefix="/alerta", tags=['admin_alerta'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+#@login_required
+#@flask_optimize.optimize(cache='GET-84600')
+async def get_index():
+    # if str(current_user.tipo) != 'A':
+    #     return redirect(location=url_for('principal.index'))
+    # return render_template(template_name_or_list="admin_alerta.html")
+    return {"result": "ok"}
+
+
 # @bp_admin_alerta.route('/grid', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

@@ -13,22 +13,21 @@ import fastapi as _fastapi
 # from app.models.usuario_carteira import UsuarioCarteira
 # from app.util.util_datahora import pegar_data_atual
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_grid
-#
-#
-# bp_admin_investidor = Blueprint('admin_investidor', __name__, url_prefix='/investidor')
-#
-#
-# @bp_admin_investidor.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/investidor", tags=['admin_investidor'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
 # @flask_optimize.optimize(cache='GET-1')  # 600seg/10Min
-# def index():
-#     if str(current_user.tipo) != 'A':
-#         return redirect(location=url_for('principal.index'))
-#     return render_template(template_name_or_list="admin_investidor.html")
-#
-#
+async def get_index():
+    # if str(current_user.tipo) != 'A':
+    #     return redirect(location=url_for('principal.index'))
+    # return render_template(template_name_or_list="admin_investidor.html")
+    return {"result": "ok"}
+
+
 # @bp_admin_investidor.route('/grid', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

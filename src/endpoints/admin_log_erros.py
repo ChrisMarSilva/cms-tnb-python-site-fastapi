@@ -9,22 +9,21 @@ import fastapi as _fastapi
 # from app.models.log_erro import LogErro
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_grid, get_json_retorno_lista_erro
 # from app.util.util_datahora import converter_str_to_datetime, converter_datetime_str
-#
-#
-# bp_admin_log_erros = Blueprint('logerro', __name__, url_prefix='/logErro')
-#
-#
-# @bp_admin_log_erros.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/logErro", tags=['admim_log_erro'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
 # @flask_optimize.optimize(cache='GET-84600')  # 84600seg/1410Min/23,5Hr
-# def index():
-#     if str(current_user.tipo) != 'A':
-#         return redirect(location=url_for('principal.index'))
-#     return render_template(template_name_or_list="admin_log_erros.html")
-#
-#
+async def get_index():
+    # if str(current_user.tipo) != 'A':
+    #     return redirect(location=url_for('principal.index'))
+    # return render_template(template_name_or_list="admin_log_erros.html")
+    return {"result": "ok"}
+
+
 # @bp_admin_log_erros.route('/montarMenu', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

@@ -26,20 +26,19 @@ import fastapi as _fastapi
 # from app.util.util_formatacao import decimal_to_str, decimal_resumido, decimal_prov_to_str
 # from app.util.util_json import get_json_retorno_grid, get_json_retorno_dados
 # from app.util.util_datahora import  converter_datetime_str, pegar_data_atual, adicionar_meses
-#
-#
-# bp_finan_acoes = Blueprint('finan_acoes', __name__, url_prefix='/finan/acoes')
-#
-#
-# @bp_finan_acoes.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/finan/acoe", tags=['finan_acoes'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#     return render_template(template_name_or_list="finan_acoes.html")
-#
-#
+async def get_index():
+    # return render_template(template_name_or_list="finan_acoes.html")
+    return {"result": "ok"}
+
+
 # @bp_finan_acoes.route("/<codigo>", methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

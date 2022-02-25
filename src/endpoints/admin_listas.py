@@ -40,14 +40,18 @@ import fastapi as _fastapi
 # from app.models.log_erro import LogErro
 # from app.util.util_datahora import pegar_data_atual
 # from app.util.util_json import get_json_retorno_lista
-#
-#
-# bp_admin_listas = Blueprint('admin_listas', __name__, url_prefix='/listas')
-#
-#
+
+
+router = _fastapi.APIRouter(prefix="/listas", tags=['admin_listas'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+async def get_index():
+    return {"result": "ok"}
+
+
 # @bp_admin_listas.route('/lista_codigo_completo', methods=['GET', 'POST'])
 # @login_required
-# # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
 # def lista_codigo_completo():
 #     try:
@@ -57,8 +61,8 @@ import fastapi as _fastapi
 #     except Exception as e:
 #         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
-#
-#
+
+
 # @bp_admin_listas.route('/lista_codigo_completo_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

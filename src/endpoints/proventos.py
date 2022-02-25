@@ -18,21 +18,19 @@ import fastapi as _fastapi
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados, get_json_retorno_grid
 # from app.util.util_formatacao import decimal_to_str, decimal_prov_to_str
 # from app.util.util_datahora import converter_datetime_str, converter_str_to_datetime, pegar_data_hora_atual
-#
-#
-# bp_proventos = Blueprint('proventos', __name__, url_prefix='/proventos')
-#
-#
-# @bp_proventos.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/proventos", tags=['proventos'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
-# # @flask_optimize.optimize(cache='GET-600')  # 600seg/10Min
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#     return render_template(template_name_or_list="proventos.html")
-#
-#
+async def get_index():
+    # return render_template(template_name_or_list="proventos.html")
+    return {"result": "ok"}
+
+
 # @bp_proventos.route('/grid', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

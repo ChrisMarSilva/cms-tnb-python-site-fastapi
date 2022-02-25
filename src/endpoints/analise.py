@@ -46,10 +46,11 @@ import fastapi as _fastapi
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados, get_json_retorno_grid
 # from app.util.util_formatacao import decimal_to_str, decimal_cripto_to_str, decimal_prov_to_str, inteiro_to_str
 # from app.util.util_datahora import converter_str_to_datetime, converter_datetime_str, pegar_data_atual, buscar_nome_mes_resumido, adicionar_dias
-#
-# bp_analise = Blueprint('analise', __name__, url_prefix='/Analise')
-#
-#
+
+
+router = _fastapi.APIRouter(prefix="/Analise", tags=['analise'])
+
+
 # @bp_analise.route('/')
 # @login_required
 # # @tracing.trace()

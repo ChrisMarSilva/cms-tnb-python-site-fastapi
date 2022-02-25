@@ -12,21 +12,20 @@ import fastapi as _fastapi
 # from app.models.usuario import Usuario
 # from app.models.usuario_log import UsuarioLog
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados
-#
-#
-# bp_login = Blueprint('login', __name__, url_prefix='/login')
-#
-#
-# @bp_login.route('/')
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
+
+
+router = _fastapi.APIRouter(prefix="/login", tags=['login'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @flask_optimize.optimize(cache='GET-10')  # 10seg
-# def index():
-#     if current_user.is_authenticated:
-#         return redirect(location=url_for('principal.index'))
-#     return render_template(template_name_or_list="login.html")
-#
-#
+async def get_index():
+    # if current_user.is_authenticated:
+    #     return redirect(location=url_for('principal.index'))
+    # return render_template(template_name_or_list="login.html")
+    return {"result": "ok"}
+
+
 # @bp_login.route("/entrar", methods=['GET', 'POST'])
 # # @tracing.trace()
 # @flask_optimize.optimize('json')

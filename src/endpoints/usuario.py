@@ -15,14 +15,17 @@ import fastapi as _fastapi
 # from app.models.usuario_hash import UsuarioHash
 # from app.util.util_json import get_json_retorno_metodo
 # from app.util.util_datahora import pegar_data_atual
-#
-#
-# bp_usuario = Blueprint('usuario', __name__, url_prefix='/usuario')
-#
-#
+
+
+router = _fastapi.APIRouter(prefix="/usuario", tags=['usuario'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+async def get_index():
+    return {"result": "ok"}
+
+
 # @bp_usuario.route("/criarconta")
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
 # @flask_optimize.optimize(cache='GET-600')  # 600seg/10Min
 # def criar_conta():
 #     if current_user.is_authenticated:

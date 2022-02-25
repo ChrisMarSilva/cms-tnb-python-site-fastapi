@@ -11,22 +11,21 @@ import fastapi as _fastapi
 # from app.models.fii_fundoimob_provento import FiiFundoImobProvento
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados, get_json_retorno_grid
 # from app.util.util_datahora import converter_str_to_datetime, converter_datetime_str
-#
-#
-# bp_admin_fundoimob_proventos = Blueprint('admin_fundoimob_proventos', __name__, url_prefix='/FiiFundoImobProv')
-#
-#
-# @bp_admin_fundoimob_proventos.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/FiiFundoImobProv", tags=['admin_fundoimob_proventos'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
 # @flask_optimize.optimize(cache='GET-84600')  # 84600seg/1410Min/23,5Hr
-# def index():
-#     if str(current_user.tipo) != 'A':
-#         return redirect(location=url_for('principal.index'))
-#     return render_template(template_name_or_list="admin_fundoimob_proventos.html")
-#
-#
+async def get_index():
+    # if str(current_user.tipo) != 'A':
+    #     return redirect(location=url_for('principal.index'))
+    # return render_template(template_name_or_list="admin_fundoimob_proventos.html")
+    return {"result": "ok"}
+
+
 # @bp_admin_fundoimob_proventos.route('/grid', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

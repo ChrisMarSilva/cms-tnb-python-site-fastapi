@@ -12,11 +12,11 @@ import fastapi as _fastapi
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados, get_json_retorno_grid
 # from app.util.util_formatacao import decimal_to_str
 # from app.util.util_datahora import converter_str_to_datetime, converter_datetime_str
-#
-#
-# bp_aluguel = Blueprint('aluguel', __name__, url_prefix='/aluguel')
-#
-#
+
+
+router = _fastapi.APIRouter(prefix="/aluguel", tags=['aluguel'])
+
+
 # @bp_aluguel.route('/')
 # @login_required
 # # @tracing.trace()

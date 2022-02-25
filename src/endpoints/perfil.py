@@ -14,21 +14,19 @@ import fastapi as _fastapi
 # from app.models.usuario_cei import UsuarioCei
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados
 # from app.util.util_datahora import pegar_data_hora_atual
-#
-#
-# bp_perfil = Blueprint('perfil', __name__, url_prefix='/perfil')
-#
-#
-# @bp_perfil.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/perfil", tags=['perfil'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# #@cache.cached(timeout=60)
-# # @flask_optimize.optimize(cache='GET-600')  # 600seg/10Min
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#     return render_template(template_name_or_list="perfil.html")
-#
-#
+async def get_index():
+    # return render_template(template_name_or_list="perfil.html")
+    return {"result": "ok"}
+
+
 # @bp_perfil.route('/carregar', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

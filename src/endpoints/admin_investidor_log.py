@@ -18,47 +18,15 @@ import fastapi as _fastapi
 # from app.models.log_erro import LogErro
 # from app.util.util_datahora import pegar_data_atual, converter_datetime_str, adicionar_dias, buscar_nome_semana
 # from app.util.util_json import get_json_retorno_metodo
-#
-#
-# bp_admin_investidor_log = Blueprint('admin_investidor_log', __name__, url_prefix='/admin_investidor_log')
-#
-#
-# def install_00():
-#     try:
-#         os.system('pip install --upgrade pip')
-#     except Exception as e:
-#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
-#
-#
-# def install_01(package):
-#     try:
-#         os.system('pip install ' + package)
-#     except Exception as e:
-#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
-#
-#
-# def install_02(package):
-#     try:
-#         subprocess.call(['pip', 'install', package])
-#         subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-#     except Exception as e:
-#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
-#
-#
-# def install_03(package):
-#     try:
-#         import pip
-#         pip.main(['install', package])
-#     except Exception as e:
-#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
-#
-#
-# @bp_admin_investidor_log.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/admin_investidor_log", tags=['admin_investidor_log'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
-# #@flask_optimize.optimize(cache='GET-84600')  # 84600seg/1410Min/23,5Hr
-# def index():
+async def get_index():
+    return {"result": "ok"}
 #
 #     if str(current_user.tipo) != 'A':
 #         return redirect(location=url_for('principal.index'))
@@ -251,6 +219,36 @@ import fastapi as _fastapi
 #     except Exception as e:
 #         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
 #         return []
+#
+#
+# def install_00():
+#     try:
+#         os.system('pip install --upgrade pip')
+#     except Exception as e:
+#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
+#
+#
+# def install_01(package):
+#     try:
+#         os.system('pip install ' + package)
+#     except Exception as e:
+#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
+#
+#
+# def install_02(package):
+#     try:
+#         subprocess.call(['pip', 'install', package])
+#         subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+#     except Exception as e:
+#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
+#
+#
+# def install_03(package):
+#     try:
+#         import pip
+#         pip.main(['install', package])
+#     except Exception as e:
+#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
 #
 #
 # @bp_admin_investidor_log.route('/testetimenormal', methods=['GET', 'POST'])

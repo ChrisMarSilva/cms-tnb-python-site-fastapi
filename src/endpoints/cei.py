@@ -15,33 +15,31 @@ import fastapi as _fastapi
 # from app.util.util_json import get_json_retorno_dados, get_json_retorno_metodo, get_json_retorno_grid
 # from app.util.util_datahora import pegar_data_hora_atual
 # from app.util.util_formatacao import decimal_to_str, inteiro_to_str
-#
-#
-# bp_cei = Blueprint('cei', __name__, url_prefix='/cei')
-#
-#
-# @bp_cei.route('/')
+
+
+router = _fastapi.APIRouter(prefix="/cei", tags=['cei'])
+
+
+@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
-# # @flask_optimize.optimize(cache='GET-600')  # 600seg/10Min
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#     user_cpf = ''
-#     user_dthr = ''
-#     user_sit = 'I'
-#     title_cor = 'text-danger'
-#     id_usuario = current_user.id
-#     usuario_cei = UsuarioCei.get_by_usuario(id_usuario=id_usuario)
-#     if usuario_cei:
-#         user_cpf = usuario_cei.cpf
-#         user_dthr = usuario_cei.dthr_alteracao_format()
-#         user_sit = usuario_cei.situacao
-#         if user_dthr != '':
-#             title_cor = 'text-success'
-#     return render_template(template_name_or_list="cei.html", user_cpf=user_cpf, user_dthr=user_dthr, user_sit=user_sit, title_cor=title_cor)
-#
-#
+async def get_index():
+    # user_cpf = ''
+    # user_dthr = ''
+    # user_sit = 'I'
+    # title_cor = 'text-danger'
+    # id_usuario = current_user.id
+    # usuario_cei = UsuarioCei.get_by_usuario(id_usuario=id_usuario)
+    # if usuario_cei:
+    #     user_cpf = usuario_cei.cpf
+    #     user_dthr = usuario_cei.dthr_alteracao_format()
+    #     user_sit = usuario_cei.situacao
+    #     if user_dthr != '':
+    #         title_cor = 'text-success'
+    # return render_template(template_name_or_list="cei.html", user_cpf=user_cpf, user_dthr=user_dthr, user_sit=user_sit, title_cor=title_cor)
+    return {"result": "ok"}
+
+
 # @bp_cei.route('/salvar', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
