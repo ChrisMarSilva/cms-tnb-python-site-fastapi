@@ -10,18 +10,19 @@ import fastapi as _fastapi
 # from app.models.log_erro import LogErro
 # from app.mail import mail
 # from app.util.util_json import get_json_retorno_metodo
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/contato", tags=['contato'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-async def get_index():
+async def get_index(request: _fastapi.Request):
     # if current_user.is_authenticated:
     #     return redirect(location=url_for('principal.index'))
     # return render_template(template_name_or_list="contato.html")
-    return {"result": "ok"}
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
 # @bp_contato.route('/enviarMensagem', methods=['GET', 'POST'])

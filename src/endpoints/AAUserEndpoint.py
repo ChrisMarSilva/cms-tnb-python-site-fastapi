@@ -1,9 +1,8 @@
-from typing import List
 import inspect
 import os
 import fastapi as _fastapi
+# from fastapi.security import OAuth2PasswordRequestForm
 import sqlalchemy.orm as _orm
-from sqlalchemy.ext.asyncio import AsyncSession
 import src.services as _services
 import src.schemas as _schemas
 import src.database as _database
@@ -11,10 +10,33 @@ import src.config.config_trace as _tracer
 
 
 router = _fastapi.APIRouter(prefix="/users", tags=['users'])
+# fastapi.responses.RedirectResponse(url=request.url_for(name='account')
+
+
+# @router.post("/login", status_code=_fastapi.status.HTTP_200_OK)
+# async def get_login(request: OAuth2PasswordRequestForm = _fastapi.Depends(), db: _orm.Session = _fastapi.Depends(_database.base.get_db)):
+#     try:
+#         db_user = await _services.UserService.get_user_by_email(db=db, email=request.username)
+#         if not db_user:
+#             raise _fastapi.HTTPException(status_code=_fastapi.status.HTTP_404_NOT_FOUND, detail=f"Invalid Credentials")
+#         if not Hash.verify(db_user.hashed_password, request.password):
+#             raise _fastapi.HTTPException(status_code=_fastapi.status.HTTP_404_NOT_FOUND, detail=f"Incorrect password")
+#         access_token = _token.create_access_token(data={"sub": db_user.email, "id": db_user.id})
+#         return {"access_token": access_token, "token_type": "bearer"}
+#     except Exception as e:
+#         raise _fastapi.HTTPException(status_code=_fastapi.status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+#
+#
+# @router.post("/logado", status_code=_fastapi.status.HTTP_200_OK)
+# async def get_logado(current_user: _schemas.User = _fastapi.Depends(_oauth2.get_current_user)):
+#     try:
+#         return {"logado-id": current_user.id, "logado-email": current_user.username}
+#     except Exception as e:
+#         raise _fastapi.HTTPException(status_code=_fastapi.status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 
 @router.get("/", responses={_fastapi.status.HTTP_400_BAD_REQUEST: {'model': _schemas.ErrorOutput}})  # , response_model=List[_schemas.User]
-async def read_users(skip: int = 0, limit: int = 10, db: AsyncSession = _fastapi.Depends(_database.base.get_db_async)):  # _orm.Session # _database.SessionAsync # AsyncSession
+async def read_users(skip: int = 0, limit: int = 10, db: _orm.Session = _fastapi.Depends(_database.base.get_db)):  # _orm.Session # _database.SessionAsync # AsyncSession
     with _tracer.tracer.start_as_current_span(f"{str(os.path.basename(__file__).replace('.py', ''))}.{inspect.stack()[0][3]}") as span:
         span.set_attribute("parametro_skip", skip)
         span.set_attribute("parametro_limit", limit)
@@ -36,11 +58,11 @@ async def create_user(user: _schemas.UserCreate, db: _orm.Session = _fastapi.Dep
         return await _services.UserService.create_user(db=db, user=user)
 
 
-@router.put("/", response_model=_schemas.User)
-async def update_user(user: _schemas.UserCreate, db: _orm.Session = _fastapi.Depends(_database.base.get_db)):
+@router.put("/{user_id}", response_model=_schemas.User)
+async def update_user(user_id: int, user: _schemas.UserCreate, db: _orm.Session = _fastapi.Depends(_database.base.get_db)):
     with _tracer.tracer.start_as_current_span(f"{str(os.path.basename(__file__).replace('.py', ''))}.{inspect.stack()[0][3]}") as span:
         span.set_attribute("parametro_user", user)
-        return await _services.UserService.update_user(db=db, user=user)
+        return await _services.UserService.update_user(db=db, user=user, user_id=user_id)
 
 
 @router.delete("/{user_id}", status_code=_fastapi.status.HTTP_204_NO_CONTENT)

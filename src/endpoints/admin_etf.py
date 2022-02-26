@@ -11,22 +11,22 @@ import fastapi as _fastapi
 # from app.models.etf_indice_cotacao import ETFIndiceCotacao
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados, get_json_retorno_grid
 # from app.util.util_datahora import pegar_data_atual, pegar_data_hora_atual
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/etf", tags=['admin_etf'])
 
 
-# @bp_admin_etf.route('/')
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
 # @flask_optimize.optimize(cache='GET-84600')  # 84600seg/1410Min/23,5Hr
-# def index():
-#     if str(current_user.tipo) != 'A':
-#         return redirect(location=url_for('principal.index'))
-#     return render_template(template_name_or_list="admin_etf.html")
-#
-#
+async def get_index(request: _fastapi.Request):
+    # if str(current_user.tipo) != 'A':
+    #     return redirect(location=url_for('principal.index'))
+    # return render_template(template_name_or_list="admin_etf.html")
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
+
+
 # @bp_admin_etf.route('/grid', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

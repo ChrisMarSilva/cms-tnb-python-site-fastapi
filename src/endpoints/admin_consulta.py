@@ -10,21 +10,22 @@ import fastapi as _fastapi
 # from app.models.log_erro import LogErro
 # from app.models.admin_consulta import AdminConsulta
 # from app.util.util_json import get_json_retorno_grid
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/AdminConsulta", tags=['admin_consulta'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @login_required
 # @flask_optimize.optimize(cache='GET-84600')  # 84600seg/1410Min/23,5Hr
-async def get_index():
+async def get_index(request: _fastapi.Request):
     # if str(current_user.tipo) != 'A':
     #     return redirect(location=url_for('principal.index'))
     # lista_tabelas = get_lista_tabelas()
     # lista_campos = get_lista_campos()
     # return render_template(template_name_or_list="admin_consulta.html", lista_tabelas=lista_tabelas, lista_campos=lista_campos)
-    return {"result": "ok"}
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
 # @bp_admin_consulta.route('/ComandoSQL', methods=['GET', 'POST'])

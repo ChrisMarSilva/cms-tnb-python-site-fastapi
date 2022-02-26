@@ -15,14 +15,15 @@ import fastapi as _fastapi
 # from app.models.usuario_hash import UsuarioHash
 # from app.util.util_json import get_json_retorno_metodo
 # from app.util.util_datahora import pegar_data_atual
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/usuario", tags=['usuario'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
-async def get_index():
-    return {"result": "ok"}
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
+async def get_index(request: _fastapi.Request):
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
 # @bp_usuario.route("/criarconta")

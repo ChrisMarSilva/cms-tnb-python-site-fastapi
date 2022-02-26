@@ -2,7 +2,7 @@
 {% if request.path == "/login/" or request.path == "/usuario/esqueceusenha" or request.path == "/usuario/criarconta" %}
 
 {% else %}
-    {% if current_user.is_authenticated %}
+	<!--    if current_user.is_authenticated-->
 		<!-- Top Bar -->
 		<nav class="top_navbar">
 			<div class="container">
@@ -10,18 +10,18 @@
 					<div class="col-12">
 						<div class="navbar-logo">
 							<a href="javascript:void(0);" class="bars"></a>
-							<a class="navbar-brand" href="{{ url_for('principal.index') }}"><img src="{{ url_for('static', filename='pages/img/iconeB.png') }}" width="30" alt=""><span class="m-l-10" style="text-transform: none;">TamoNaBolsa</span></a>
+							<a class="navbar-brand" href="{{ url_for('principal.index') }}"><img src="{{ url_for('static', path='/pages/img/iconeB.png') }}" width="30" alt=""><span class="m-l-10" style="text-transform: none;">TamoNaBolsa</span></a>
 						</div>
 						<ul class="nav navbar-nav">
 
-							{% if current_user.tipo == 'A' %}
+<!--							if current_user.tipo == 'A'-->
 							<li class="dropdown task" id="MnPrincLogErros" name="MnPrincLogErros" style="visibility: hidden">
 								<a href="{{ url_for('logerro.index') }}" >
 									<i class="icon-flag"></i>
 									<span id="MnPrincLogErrosCount" name="MnPrincLogErrosCount" class="label-count">0</span>
 								</a>
 							</li>
-							{% endif %}
+<!--							endif-->
 
 							<li class="dropdown notifications" id="MnPrincAlertaMsg" name="MnPrincAlertaMsg" style="visibility: hidden">
 								<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="icon-bell"></i><span id="MnPrincAlertaMsgCount" name="MnPrincAlertaMsgCount" class="label-count">0</span></a>
@@ -39,14 +39,14 @@
 							</li>
 
 							<li class=""> <a href="{{ url_for('finan_acoes.index') }}">FINAN</a> </li>
-							{% if current_user.tipo == 'A' %}
+<!--							if current_user.tipo == 'A'-->
 <!--							<li class="search_bar hidden-xs" style="width: 450px;"> <div class="input-group"> <input id="txtPrincAtivoBusca" name="txtPrincAtivoBusca" type="text" class="form-control" placeholder="Buscar ativo..."> </div> </li>-->
 <!--							<li class=""> <a href="{{ url_for('finan_acoes.index') }}">FIIs</a> </li>-->
 <!--							<li class=""> <a href="{{ url_for('finan_acoes.index') }}">ETFs</a> </li>-->
 <!--							<li class=""> <a href="{{ url_for('finan_acoes.filtros') }}">Filtros</a> </li>-->
-							{% endif %}
+<!--							endif-->
 
-							{% if current_user.tipo == 'A' %}
+<!--							if current_user.tipo == 'A'-->
 							<li class="dropdown app_menu hidden-sm"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="icon-settings"></i></a>
 							    <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; right: 1px; transform: translate3d(0px, 65px, 0px);">
 							        <li>
@@ -69,7 +69,7 @@
 							        </li>
 							    </ul>
 							</li>
-							{% endif %}
+<!--							endif-->
 
 							<li> <a title="Fatos" href="{{ url_for('fatos.index') }}"><i class="fa fa-bullhorn"></i></a> </li>
 
@@ -79,14 +79,14 @@
 
 							<li class="dropdown profile">
 								<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-									{% if current_user.foto and current_user.foto != '' %}
-									<img width="36" height="36" id="imgPerfilPag" class="rounded-circle" src="{{ url_for('static', filename='pages/profile/'+current_user.foto) }}" onerror="this.src='{{ url_for('static', filename='pages/img/pessoa-icon.png') }}'" alt="User">
-									{% else %}
-									<img width="36" height="36" id="imgPerfilPag" class="rounded-circle" src="{{ url_for('static', filename='pages/img/pessoa-icon.png') }}" onerror="this.src='{{ url_for('static', filename='pages/img/pessoa-icon.png') }}'" alt="User">
-									{% endif %}
+<!--									if current_user.foto and current_user.foto != ''-->
+									<img width="36" height="36" id="imgPerfilPag" class="rounded-circle" src="{{ url_for('static', path='/pages/profile/'+current_user.foto) }}" onerror="this.src='{{ url_for('static', path='/pages/img/pessoa-icon.png') }}'" alt="User">
+<!--									else-->
+									<img width="36" height="36" id="imgPerfilPag" class="rounded-circle" src="{{ url_for('static', path='/pages/img/pessoa-icon.png') }}" onerror="this.src='{{ url_for('static', path='/pages/img/pessoa-icon.png') }}'" alt="User">
+<!--									endif-->
 								</a>
 								<ul class="dropdown-menu dropdown-menu-right pullDown" role="menu" style="left: auto; right: 0px;">
-									<li><div class="user-info"> <h6 class="user-name m-b-0">{{ current_user.nome }}</h6> </div> </li>
+									<li><div class="user-info"> <h6 class="user-name m-b-0"><!-- current_user.nome --> </h6> </div> </li>
 									<hr>
 									<li id="MnPrincPerfil">    <a href="{{ url_for('perfil.index') }}">    <i class="fa fa-fw fa-user-circle m-r-10"></i> <span>Minha Conta</span> </a></li>
 									<li id="MnPrincCorretora"> <a href="{{ url_for('corretora.index') }}"> <i class="fa fa-bank m-r-10"></i> <span>Corretora</span> </a></li>
@@ -123,7 +123,7 @@
 			</div>
 		</aside>
 		<!-- Top Menu -->
-	{% else %}
+<!--	else-->
 		<!-- Top Bar -->
 		<nav class="top_navbar">
 			<div class="container">
@@ -131,7 +131,7 @@
 					<div class="col-12">
 						<div class="navbar-logo">
 							<a href="javascript:void(0);" class="bars"></a>
-							<a class="navbar-brand" href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='pages/img/iconeB.png') }}" width="30" alt=""><span class="m-l-10" style="text-transform: none;">TamoNaBolsa</span></a>
+							<a class="navbar-brand" href="{{ url_for('main.home') }}"><img src="{{ url_for('static', path='/pages/img/iconeB.png') }}" width="30" alt=""><span class="m-l-10" style="text-transform: none;">TamoNaBolsa</span></a>
 						</div>
 					</div>
 				</div>
@@ -156,5 +156,5 @@
 			</div>
 		</aside>
 		<!-- Top Menu -->
-	{% endif %}
+<!--	endif-->
 {% endif %}

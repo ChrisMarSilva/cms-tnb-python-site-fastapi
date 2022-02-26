@@ -15,15 +15,16 @@ import fastapi as _fastapi
 # from app.util.util_json import get_json_retorno_dados, get_json_retorno_metodo, get_json_retorno_grid
 # from app.util.util_datahora import pegar_data_hora_atual
 # from app.util.util_formatacao import decimal_to_str, inteiro_to_str
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/cei", tags=['cei'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @login_required
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-async def get_index():
+async def get_index(request: _fastapi.Request):
     # user_cpf = ''
     # user_dthr = ''
     # user_sit = 'I'
@@ -37,7 +38,7 @@ async def get_index():
     #     if user_dthr != '':
     #         title_cor = 'text-success'
     # return render_template(template_name_or_list="cei.html", user_cpf=user_cpf, user_dthr=user_dthr, user_sit=user_sit, title_cor=title_cor)
-    return {"result": "ok"}
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
 # @bp_cei.route('/salvar', methods=['GET', 'POST'])

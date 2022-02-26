@@ -43,15 +43,16 @@ import fastapi as _fastapi
 # from app.util.util_formatacao import decimal_to_str, decimal_prov_to_str, decimal_cripto_curto_to_str, inteiro_to_str
 # from app.util.util_datahora import pegar_data_atual
 # #import memory_profiler as mp
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/portfolio", tags=['portfolio'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @login_required
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-async def get_index():
+async def get_index(request: _fastapi.Request):
     # id_usuario = current_user.id
     # lista_nomes = get_lista_nome_portfolio()
     # if lista_nomes: lista_nomes.sort(reverse=True)
@@ -62,7 +63,7 @@ async def get_index():
     # if not gerar_portoflio and UsuarioBDREmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
     # if not gerar_portoflio and UsuarioCriptoLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
     # return render_template(template_name_or_list="portfolio.html", gerar_portoflio=gerar_portoflio, lista_nomes=lista_nomes)
-    return {"result": "ok"}
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
 # @bp_portfolio.route('/grid', methods=['GET', 'POST'])

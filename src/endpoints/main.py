@@ -7,16 +7,17 @@ import fastapi as _fastapi
 # from app.cache import cache
 # from app.optimize import flask_optimize
 # from app.models.log_erro import LogErro
+from src.config.config_templates import templates as _templates
 
 
-router = _fastapi.APIRouter(prefix="/main", tags=['main'])
+router = _fastapi.APIRouter(prefix="", tags=['main'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
-@router.get(path='/home', status_code=_fastapi.status.HTTP_200_OK)
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
+@router.get(path='/home', response_class=_fastapi.responses.HTMLResponse)
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-async def get_index():
+async def get_index1(request: _fastapi.Request):
     # if current_user.is_authenticated:
     #     return redirect(location=url_for('principal.index'))
-    # return render_template(template_name_or_list="home.html")
-    return {"result": "ok"}
+    # return _templates.TemplateResponse("home.html", {"request": request})
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})

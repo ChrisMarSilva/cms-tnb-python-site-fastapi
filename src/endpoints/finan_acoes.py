@@ -26,17 +26,18 @@ import fastapi as _fastapi
 # from app.util.util_formatacao import decimal_to_str, decimal_resumido, decimal_prov_to_str
 # from app.util.util_json import get_json_retorno_grid, get_json_retorno_dados
 # from app.util.util_datahora import  converter_datetime_str, pegar_data_atual, adicionar_meses
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/finan/acoe", tags=['finan_acoes'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @login_required
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-async def get_index():
+async def get_index(request: _fastapi.Request):
     # return render_template(template_name_or_list="finan_acoes.html")
-    return {"result": "ok"}
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
 # @bp_finan_acoes.route("/<codigo>", methods=['GET', 'POST'])

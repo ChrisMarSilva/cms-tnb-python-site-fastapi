@@ -17,58 +17,60 @@
     <meta name="description" content="Acompanhe seus investimentos de forma SIMPLES. Controle suas Operações de Compra, Venda, Bonificação, Desdobramento e Grupamento. >Registre todos os seus Dividendos e Juros sobre Capital Próprio. Apuração: Cálculo de Imposto de Renda(Pessoa Física) a pagar mensalmente para Operação Comum e Day-Trade. IRPF: Demonstração de Imposto de Renda para Declaração Anual.">
 
     <title>..:: TnB{% block subtitulo %} {% endblock %} ::..</title>
-    <link type="image/x-icon" rel="icon" href="{{ url_for('static', filename='pages/img/iconeP.png') }}">
+    <link type="image/x-icon" rel="icon" href="{{ url_for('static', path='/pages/img/iconeP.png') }}">
 
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='plugins/css/bootstrap.min.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='assets/css/color_skins.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', path='/plugins/css/bootstrap.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', path='/assets/css/main.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', path='/assets/css/color_skins.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', path='/assets/css/animate.min.css') }}" />
 	<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link type="text/css" rel="stylesheet" href="{{ static_autoversion('pages/css/PagPadrao.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', path='/pages/css/PagPadrao.css') }}" />
     {% block styles %} {% endblock %}
 
 </head>
 <body class="theme-blue">
 
-    {% include 'component_menu.html' %}
+<!--    { % include 'component_menu.html' % }-->
 
-    {% block content %} {% endblock %}
+<!--    { % block content % } { % endblock % }-->
 
     {% include 'component_modal.html' %}
 
     {% block modal %} {% endblock %}
 
-<!--	<script src="{{ url_for('static', filename='plugins/js/jquery-3.5.1.slim.min.js') }}"></script>-->
-	<script src="{{ url_for('static', filename='assets/js/libscripts.bundle.js') }}"></script>
-	<script src="{{ url_for('static', filename='assets/js/vendorscripts.bundle.js') }}"></script>
-	<script src="{{ url_for('static', filename='assets/js/mainscripts.bundle.js') }}"></script>
-	<script src="{{ url_for('static', filename='assets/js/bootstrap-notify.js') }}"></script>
-	<script src="{{ url_for('static', filename='assets/js/notifications.js') }}"></script>
-	<script src="{{ url_for('static', filename='plugins/js/vue.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='plugins/js/axios.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='plugins/js/lodash.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='plugins/js/moment.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='plugins/js/moment-pt-br.min.js') }}"></script>
-<!--	<script src="{{ url_for('static', filename='plugins/js/lozad.min.js') }}"></script>-->
+<!--	<script src="{{ url_for('static', path='/plugins/js/jquery-3.5.1.slim.min.js') }}"></script>-->
+	<script src="{{ url_for('static', path='/assets/js/libscripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', path='/assets/js/vendorscripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', path='/assets/js/mainscripts.bundle.js') }}"></script>
+	<script src="{{ url_for('static', path='/assets/js/bootstrap-notify.js') }}"></script>
+	<script src="{{ url_for('static', path='/assets/js/notifications.js') }}"></script>
+	<script src="{{ url_for('static', path='/plugins/js/vue.min.js') }}"></script>
+	<script src="{{ url_for('static', path='/plugins/js/axios.min.js') }}"></script>
+	<script src="{{ url_for('static', path='/plugins/js/lodash.min.js') }}"></script>
+	<script src="{{ url_for('static', path='/plugins/js/moment.min.js') }}"></script>
+	<script src="{{ url_for('static', path='/plugins/js/moment-pt-br.min.js') }}"></script>
+<!--	<script src="{{ url_for('static', path='/plugins/js/lozad.min.js') }}"></script>-->
     {% block scripts %} {% endblock %}
-	<script src="{{ static_autoversion('pages/js/PagPadrao.js') }}"></script>
-	<script src="{{ static_autoversion('pages/js/PagPadraoDatas.js') }}"></script>
-	<script src="{{ static_autoversion('pages/js/PagPadraoFormatar.js') }}"></script>
-	<script src="{{ static_autoversion('pages/js/PagPadraoSelects.js') }}"></script>
+	<script src="{{ url_for('static', path='/pages/js/PagPadrao.js') }}"></script>
+	<script src="{{ url_for('static', path='/pages/js/PagPadraoDatas.js') }}"></script>
+	<script src="{{ url_for('static', path='/pages/js/PagPadraoFormatar.js') }}"></script>
+	<script src="{{ url_for('static', path='/pages/js/PagPadraoSelects.js') }}"></script>
 
     {% block modal_oper %} {% endblock %}
 
     {% block modal_porv %} {% endblock %}
 
-	{% if current_user.is_authenticated %}
+    <!--	if current_user.is_authenticated-->
     <script>
         $(document).ready(function() {
             fVerificarAlertaMsg("/");
             $("#MnPrincAlertaMsg").click(function() { fMarcarTodosAvisoComoLidos("/"); });
-            {% if current_user.tipo == 'A' %} fVerificarLogErros("/"); {% endif %}
+            <!--            if current_user.tipo == 'A'-->
+            fVerificarLogErros("/");
+            <!--            endif-->
         });
     </script>
-	{% endif %}
+    <!--	endif-->
 
 </body>
 </html>

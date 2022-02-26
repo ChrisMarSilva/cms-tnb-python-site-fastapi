@@ -62,7 +62,10 @@ if __name__ == "__main__":
 # pip install Pillow --upgrade
 # pip install mysql-connector-python --upgrade
 # pip install pymysql --upgrade
+# pip install aiomysql --upgrade
 # pip install sqltap
+# pip install fastapi-login
+# pip install 'fastapi-users[sqlalchemy2]'
 
 # uvicorn main:app --reload
 # hypercorn main:app --worker-class trio

@@ -12,16 +12,19 @@ import fastapi as _fastapi
 # from app.models.log_erro import LogErro
 # from app.util.util_json import get_json_retorno_grid
 # from app.util.util_datahora import pegar_data_atual
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/admin/testes", tags=['admim_testes'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @login_required
 # @flask_optimize.optimize(cache='GET-1')  # 84600seg/1410Min/23,5Hr
-async def get_index():
-    return {"result": "ok"}
+async def get_index(request: _fastapi.Request):
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
+
+
 #     if str(current_user.tipo) != 'A':
 #         return redirect(location=url_for('principal.index'))
 #

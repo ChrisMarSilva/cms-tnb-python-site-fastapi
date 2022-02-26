@@ -26,29 +26,27 @@ import fastapi as _fastapi
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados, get_json_retorno_grid, get_json_retorno_lista
 # from app.util.util_formatacao import decimal_to_str, decimal_cripto_to_str, inteiro_to_str
 # from app.util.util_datahora import converter_str_to_datetime, converter_datetime_str, pegar_data_atual
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/apuracao", tags=['apuracao'])
 
 
-# @bp_apuracao.route('/')
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#
-#     id_usuario = current_user.id
-#     gerar_portoflio = False
-#     if not gerar_portoflio and UsuarioACAOEmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioFiiFundoImobLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioETFIndiceLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioBDREmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#     if not gerar_portoflio and UsuarioCriptoLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
-#
-#     return render_template(template_name_or_list="apuracao.html", gerar_portoflio=gerar_portoflio)
-#
-#
+async def get_index(request: _fastapi.Request):
+    # id_usuario = current_user.id
+    # gerar_portoflio = False
+    # if not gerar_portoflio and UsuarioACAOEmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioFiiFundoImobLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioETFIndiceLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioBDREmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # if not gerar_portoflio and UsuarioCriptoLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
+    # return render_template(template_name_or_list="apuracao.html", gerar_portoflio=gerar_portoflio)
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
+
+
 # @bp_apuracao.route('/listaAno', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()

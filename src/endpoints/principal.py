@@ -49,15 +49,16 @@ import fastapi as _fastapi
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados, get_json_retorno_grid
 # from app.util.util_formatacao import decimal_to_str, decimal_prov_to_str, decimal_cripto_curto_to_str
 # from app.util.util_datahora import converter_str_to_datetime, converter_datetime_str, pegar_data_atual, adicionar_dias, adicionar_meses
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/principal", tags=['principal'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @login_required
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-async def get_index():
+async def get_index(request: _fastapi.Request):
     # id_usuario = current_user.id
     # gerar_portoflio = False
     # if not gerar_portoflio and UsuarioACAOEmpresaLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
@@ -67,7 +68,7 @@ async def get_index():
     # if not gerar_portoflio and UsuarioCriptoLancamento.buscar_quant_operacao(id_usuario=id_usuario, situacao='P') > 0: gerar_portoflio = True
     # UsuarioApuracaoCalculada.gerar_todos(id_usuario=id_usuario)
     # return render_template(template_name_or_list="principal.html", gerar_portoflio=gerar_portoflio)
-    return {"result": "ok"}
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
 # @bp_principal.route('/inicial')

@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-import sys
+# import sys
 import os
-from datetime import timedelta
+import inspect
+# from datetime import timedelta
 import fastapi as _fastapi
+from fastapi.security import OAuth2PasswordRequestForm
+import sqlalchemy.orm as _orm
 # from flask_login import login_user, logout_user, current_user, login_required
 # from app.cache import cache, del_cache_all
 # # from app.tracing import tracing
@@ -11,128 +14,68 @@ import fastapi as _fastapi
 # from app.models.alerta import Alerta
 # from app.models.usuario import Usuario
 # from app.models.usuario_log import UsuarioLog
-# from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados
+# from src.util.util_json import get_json_retorno_dados  # get_json_retorno_metodo
+from src.config.config_templates import templates as _templates
+from src.services.login import LoginService
+from src.schemas.login import LoginIn
+import src.database as _database
+import src.config.config_trace as _tracer
+# from src.schemas.login import LoginOut
+from src.config.config_login_manager import manager
 
 
 router = _fastapi.APIRouter(prefix="/login", tags=['login'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @flask_optimize.optimize(cache='GET-10')  # 10seg
-async def get_index():
+async def get_index(request: _fastapi.Request):
     # if current_user.is_authenticated:
     #     return redirect(location=url_for('principal.index'))
     # return render_template(template_name_or_list="login.html")
-    return {"result": "ok"}
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
-# @bp_login.route("/entrar", methods=['GET', 'POST'])
-# # @tracing.trace()
+@router.post(path="/entrar", status_code=_fastapi.status.HTTP_200_OK)  # , response_model=LoginIn
 # @flask_optimize.optimize('json')
-# def entrar():
-#     try:
-#
-#         data = None
-#         origem = ''
-#
-#         if request.method == 'POST':
-#             data = request.form
-#             origem = 'L'  # Login Site
-#         elif request.method == 'GET':
-#             data = request.args
-#             origem = 'P'  # Login App
-#
-#         if not data:
-#             origem = 'P'  # Login App
-#             data = request.get_json(silent=True)
-#
-#         if not data: return make_response(get_json_retorno_dados(msg='Dados não informado!'), 200)
-#
-#         try:
-#             email = data.get('txtEmail')
-#             senha = data.get('txtSenha')
-#         except:
-#             return make_response(get_json_retorno_dados(msg='Dados não informado!'), 200)
-#
-#         if not email: return make_response(get_json_retorno_dados(msg='E-mail não informado!'), 200)
-#         if not senha: return make_response(get_json_retorno_dados(msg='Senha não informada!'), 200)
-#
-#         usuario = Usuario.get_by_email_full(email=email)
-#         if not usuario: return make_response(get_json_retorno_dados(msg='Usuário/Senha Inválido.'), 200)
-#
-#         # usuario = Usuario.get_by_email(email=email)
-#         # if not usuario:
-#         #     usuario = Usuario.get_by_email_parcial(email=email)
-#         #     if not usuario:
-#         #         return make_response(get_json_retorno_dados(msg='Usuário/Senha Inválido.'), 200)
-#
-#         if usuario.situacao == 'X':  # X-Bloqueado
-#             Alerta.registrar(id_usuario=usuario.id, tipo='LOGIN-02', mensagem='Usuário Bloqueado. <br>IP: ' + str(request.remote_addr))
-#             return make_response(get_json_retorno_dados(msg='Usuário Bloqueado. <br/>Contate o Suporte do Site.'), 200)
-#
-#         if usuario.situacao != 'A':  # A-Ativo
-#             Alerta.registrar(id_usuario=usuario.id, tipo='LOGIN-02', mensagem='Usuário não está Ativo. <br>IP: ' + str(request.remote_addr))
-#             return make_response(get_json_retorno_dados(msg='Usuário não está Ativo.'), 200)
-#
-#         if not usuario.validar_senha(senha=senha):
-#
-#             UsuarioLog().registrar(id_usuario=usuario.id, situacao='I')   # I-Senha Invalida
-#             usuario.tentatia += 1
-#             Alerta.registrar(id_usuario=usuario.id, tipo='LOGIN-02', mensagem='Tentativa de login ' + str(usuario.tentatia) + '/3. <br>IP: ' + str(request.remote_addr))
-#
-#             if usuario.tentatia >= 3:
-#                 UsuarioLog().registrar(id_usuario=usuario.id, situacao='B')  # B-Inativar Usuario
-#                 usuario.situacao = 'I'  # I-Inativo
-#                 usuario.salvar()
-#                 Alerta.registrar(id_usuario=usuario.id, tipo='LOGIN-03', mensagem='Usuário inativado por tentativas de login. <br>IP: ' + str(request.remote_addr))
-#                 return make_response(get_json_retorno_dados(msg='Usuário Inativo por Tentativas de Login com senha Inválida.'), 200)
-#
-#             usuario.salvar()
-#             return make_response(get_json_retorno_dados(msg='Usuário/Senha Inválido.'), 200)
-#
-#         if usuario.tentatia > 0 or usuario.situacao != 'A':  # A-Ativo
-#             usuario.tentatia = 0
-#             usuario.situacao = 'A'  # A-Ativo
-#             usuario.salvar()
-#
-#         try:
-#             cache.clear()
-#         except Exception as e:
-#             pass
-#
-#         try:
-#             del_cache_all(current_user.id)
-#         except Exception as e:
-#             pass
-#
-#         try:
-#             logout_user()
-#         except Exception as e:
-#             pass
-#
-#         login_user(user=usuario, remember=True, duration=timedelta(hours=1))
-#         UsuarioLog().registrar(id_usuario=usuario.id, situacao=origem)
-#
-#         foto = usuario.foto
-#         if foto:
-#             foto = current_app.config['IMAGE_UPLOADS'] + '/' + foto
-#             foto = foto[1:]
-#
-#         dados = dict({
-#             "Id": str(usuario.id),
-#             "Tipo": str(usuario.tipo),
-#             "Nome": str(usuario.nome),
-#             "Foto": str(foto) if foto else '',
-#             "Email": str(usuario.email),
-#         })
-#
-#         return make_response(get_json_retorno_dados(rslt='OK', dados=dados), 200)
-#
-#     except Exception as e:
-#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
-#         return make_response(get_json_retorno_metodo(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
-#
-#
+async def entrar(response: _fastapi.Response, request: LoginIn, db: _orm.Session = _fastapi.Depends(_database.base.get_db)):
+    with _tracer.tracer.start_as_current_span(f"{str(os.path.basename(__file__).replace('.py', ''))}.{inspect.stack()[0][3]}") as span:
+        span.set_attribute("parametro_request", request)
+        dados = await LoginService.entrar(db=db, response=response, email=request.txtEmail, senha=request.txtSenha)
+        return dados
+
+
+@router.post(path="/entrar2", status_code=_fastapi.status.HTTP_200_OK)  # , response_model=LoginIn
+# @flask_optimize.optimize('json')
+async def entrar2(response: _fastapi.Response, request: OAuth2PasswordRequestForm = _fastapi.Depends(), db: _orm.Session = _fastapi.Depends(_database.base.get_db)):
+    with _tracer.tracer.start_as_current_span(f"{str(os.path.basename(__file__).replace('.py', ''))}.{inspect.stack()[0][3]}") as span:
+        span.set_attribute("parametro_request", request)
+        # dados = await LoginService.entrar(db=db, response=response, email=request.username, senha=request.password)
+        dados = await LoginService.entrar(db=db, response=response, email="chris.mar.silva@gmail.com", senha="#Chrs2387")
+        return dados
+
+'''
+
+async def get_current_user(request: Request): 
+    try:
+        cookie_authorization: str = request.cookies.get("Authorization")
+        # some logic with cookie_authorization
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid authentication"
+        )
+'''
+
+
+@router.post("/logado2", status_code=_fastapi.status.HTTP_200_OK)
+async def logado2(request: _fastapi.Request, current_user=_fastapi.Depends(manager)):
+    try:
+        # cookie_session_id: str = request.cookies.get("session_id")
+        return {"logado": current_user, "manager": manager, "access-token": request.cookies.get("access-token")}
+    except Exception as e:
+        raise _fastapi.HTTPException(status_code=_fastapi.status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
 # @bp_login.route("/sair", methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
@@ -158,6 +101,5 @@ async def get_index():
 #         return make_response(get_json_retorno_metodo(rslt='OK'), 200)
 #
 #     except Exception as e:
-#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(
-#             __file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
+#         LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '')), linha=int(sys.exc_info()[-1].tb_lineno))
 #         return make_response(get_json_retorno_metodo(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)

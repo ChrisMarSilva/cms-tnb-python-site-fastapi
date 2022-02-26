@@ -5,19 +5,20 @@ import fastapi as _fastapi
 # from flask_login import login_required, current_user
 # from app.optimize import flask_optimize
 # from app.models.log_erro import LogErro
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/criptofoxbit", tags=['admin_cripto_foxbit'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
 # @login_required
 # @flask_optimize.optimize(cache='GET-1')
-async def get_index():
+async def get_index(request: _fastapi.Request):
     # if str(current_user.tipo) != 'A':
     #     return redirect(location=url_for('principal.index'))
     # return render_template(template_name_or_list="admin_cripto_foxbit.html")
-    return {"result": "ok"}
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
 # @bp_admin_cripto_foxbit.route('/processar', methods=['GET', 'POST'])

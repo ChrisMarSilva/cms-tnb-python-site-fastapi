@@ -40,14 +40,15 @@ import fastapi as _fastapi
 # from app.models.log_erro import LogErro
 # from app.util.util_datahora import pegar_data_atual
 # from app.util.util_json import get_json_retorno_lista
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/listas", tags=['admin_listas'])
 
 
-@router.get(path='/', status_code=_fastapi.status.HTTP_200_OK)
-async def get_index():
-    return {"result": "ok"}
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
+async def get_index(request: _fastapi.Request):
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
 # @bp_admin_listas.route('/lista_codigo_completo', methods=['GET', 'POST'])

@@ -12,21 +12,20 @@ import fastapi as _fastapi
 # from app.util.util_json import get_json_retorno_metodo, get_json_retorno_dados, get_json_retorno_grid
 # from app.util.util_formatacao import decimal_to_str
 # from app.util.util_datahora import converter_str_to_datetime, converter_datetime_str
+from src.config.config_templates import templates as _templates
 
 
 router = _fastapi.APIRouter(prefix="/aluguel", tags=['aluguel'])
 
 
-# @bp_aluguel.route('/')
-# @login_required
-# # @tracing.trace()
-# # @cache.cached(timeout=60)
-# # @flask_optimize.optimize(cache='GET-600')  # 600seg/10Min
+@router.get(path='/', response_class=_fastapi.responses.HTMLResponse)
+#@login_required
 # @flask_optimize.optimize(cache='GET-1')  # 1seg
-# def index():
-#     return render_template(template_name_or_list="aluguel.html")
-#
-#
+async def get_index(request: _fastapi.Request):
+    # return render_template(template_name_or_list="aluguel.html")
+    return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
+
+
 # @bp_aluguel.route('/grid', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
