@@ -31,6 +31,13 @@ def get_logger() -> logging.Logger:
 
 '''
 
+def log_print(msg, *args, **kwargs):
+    print(f"[{datetime.datetime.now()}] {msg}. {args=}, {kwargs=}")
+
+log_print(msg="dsgsfgf")
+log_print(msg="dsgsfgf", result="cgfdgfdgfff")
+
+
 
 config.setup_logging()
 logger = config.get_logger()

@@ -8,3 +8,10 @@ from main import app
 def client() -> Generator:
     with TestClient(app) as c:
         yield c
+
+#
+# @pytest.fixture
+# def client():
+#     yield TestClient(app)
+#
+#

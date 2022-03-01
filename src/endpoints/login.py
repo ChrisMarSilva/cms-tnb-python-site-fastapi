@@ -67,11 +67,12 @@ async def get_current_user(request: Request):
 '''
 
 
-@router.post("/logado2", status_code=_fastapi.status.HTTP_200_OK)
-async def logado2(request: _fastapi.Request, current_user=_fastapi.Depends(manager)):
+@router.get(path="/logado", status_code=_fastapi.status.HTTP_200_OK)
+async def logado(request: _fastapi.Request, current_user=_fastapi.Depends(manager)):
     try:
         # cookie_session_id: str = request.cookies.get("session_id")
-        return {"logado": current_user, "manager": manager, "access-token": request.cookies.get("access-token")}
+        return {"logado": current_user, "access-token": request.cookies.get("access-token")}
+        #return {"logado": current_user, "manager": manager}
     except Exception as e:
         raise _fastapi.HTTPException(status_code=_fastapi.status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 

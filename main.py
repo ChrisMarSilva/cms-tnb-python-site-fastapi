@@ -23,7 +23,9 @@ if __name__ == "__main__":
 # 	separar os repositories
 
 # python3 -m venv venv
-# source venv/bin/activate
+# source venv/Scripts/activate
+# cd venv\Scripts
+# activate
 
 # pip install --upgrade pip
 # pip install fastapi[all] -U
