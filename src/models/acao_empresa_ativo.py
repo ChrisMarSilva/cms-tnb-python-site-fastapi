@@ -3,7 +3,7 @@ import sqlalchemy as _sql
 import src.database as _database
 
 
-class ACAOEmpresaAtivo(_database.session.Base):
+class ACAOEmpresaAtivoModel(_database.session.Base):
 
     __tablename__ = "TBEMPRESA_ATIVO"
 

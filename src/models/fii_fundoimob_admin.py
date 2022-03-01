@@ -3,7 +3,7 @@ import sqlalchemy as _sql
 import src.database as _database
 
 
-class FiiFundoImobAdmin(_database.session.Base):
+class FiiFundoImobAdminModel(_database.session.Base):
 
     __tablename__ = "TBFII_FUNDOIMOB_ADMIN"
 

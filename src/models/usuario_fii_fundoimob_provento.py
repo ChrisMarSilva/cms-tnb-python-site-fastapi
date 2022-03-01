@@ -5,7 +5,7 @@ from src.util.util_formatacao import decimal_to_str, inteiro_to_str
 from src.util.util_datahora import converter_str_to_datetime, converter_datetime_str
 
 
-class UsuarioFiiFundoImobProvento(_database.session.Base):
+class UsuarioFiiFundoImobProventoModel(_database.session.Base):
 
     __tablename__ = "TBFII_PROVENTO"
 

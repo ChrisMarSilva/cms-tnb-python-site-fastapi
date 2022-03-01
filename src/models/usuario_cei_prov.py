@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-class UsuarioCeiProv():
+class UsuarioCeiProvModel():
 
     tablename = "TBCEI_PROV_USER_"
 

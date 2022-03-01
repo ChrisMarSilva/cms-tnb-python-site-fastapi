@@ -3,7 +3,7 @@ import sqlalchemy as _sql
 import src.database as _database
 
 
-class ETFIndice(_database.session.Base):
+class ETFIndiceModel(_database.session.Base):
 
     __tablename__ = "TBETF_INDICE"
 

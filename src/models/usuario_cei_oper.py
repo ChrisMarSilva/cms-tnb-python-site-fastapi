@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-class UsuarioCeiOper():
+class UsuarioCeiOperModel():
 
     tablename = "TBCEI_OPER_USER_"
 

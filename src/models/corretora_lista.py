@@ -3,7 +3,7 @@ import sqlalchemy as _sql
 import src.database as _database
 
 
-class CorretoraLista(_database.session.Base):
+class CorretoraListaModel(_database.session.Base):
 
     __tablename__ = "TBCORRETORA_LISTA"
 

@@ -4,7 +4,7 @@ import src.database as _database
 from src.util.util_formatacao import decimal_to_str
 
 
-class UsuarioCarteiraProjecaoItem(_database.session.Base):
+class UsuarioCarteiraProjecaoItemModel(_database.session.Base):
 
     __tablename__ = "TBCARTEIRA_PROJECAO_ITEM"
 

@@ -3,7 +3,7 @@ import sqlalchemy as _sql
 import src.database as _database
 
 
-class UsuarioETFIndiceFatoRelevanteAtivo(_database.session.Base):
+class UsuarioETFIndiceFatoRelevanteAtivoModel(_database.session.Base):
 
     __tablename__ = "TBETF_FATORELEVANTE_ATIVO"
 

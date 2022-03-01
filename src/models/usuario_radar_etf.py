@@ -3,7 +3,7 @@ import sqlalchemy as _sql
 import src.database as _database
 
 
-class UsuarioRadarEtf(_database.session.Base):
+class UsuarioRadarEtfModel(_database.session.Base):
 
     __tablename__ = "TBUSUARIO_ACOMP_INDICE"
 

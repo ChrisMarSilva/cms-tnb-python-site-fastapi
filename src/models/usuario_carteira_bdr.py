@@ -4,7 +4,7 @@ import src.database as _database
 from src.util.util_formatacao import decimal_to_str, inteiro_to_str
 
 
-class UsuarioCarteiraBdr(_database.session.Base):
+class UsuarioCarteiraBdrModel(_database.session.Base):
 
     __tablename__ = "TBCARTEIRA_BDR"
 

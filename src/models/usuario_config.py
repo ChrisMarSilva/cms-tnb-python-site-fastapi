@@ -3,7 +3,7 @@ import sqlalchemy as _sql
 import src.database as _database
 
 
-class UsuarioConfig(_database.session.Base):
+class UsuarioConfigModel(_database.session.Base):
 
     __tablename__ = "TBUSUARIO_CONFIG"
 

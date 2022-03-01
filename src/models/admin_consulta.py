@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-class AdminConsulta():
+class AdminConsultaModel():
 
     def __init__(self):
         pass

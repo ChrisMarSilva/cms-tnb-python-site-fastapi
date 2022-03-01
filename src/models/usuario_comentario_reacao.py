@@ -3,7 +3,7 @@ import sqlalchemy as _sql
 import src.database as _database
 
 
-class UsuarioComentarioReacao(_database.session.Base):
+class UsuarioComentarioReacaoModel(_database.session.Base):
 
     __tablename__ = "TBCOMENTARIO_REACAO"
 

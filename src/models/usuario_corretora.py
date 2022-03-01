@@ -4,7 +4,7 @@ import src.database as _database
 from src.util.util_formatacao import decimal_to_str
 
 
-class UsuarioCorretora(_database.session.Base):
+class UsuarioCorretoraModel(_database.session.Base):
 
     __tablename__ = "TBCORRETORA"
 

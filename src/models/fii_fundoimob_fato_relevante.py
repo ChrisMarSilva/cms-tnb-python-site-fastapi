@@ -4,7 +4,7 @@ import src.database as _database
 from src.util.util_datahora import converter_str_to_datetime, converter_datetime_str
 
 
-class FiiFundoImobFatoRelevante(_database.session.Base):
+class FiiFundoImobFatoRelevanteModel(_database.session.Base):
 
     __tablename__ = "TBFII_FUNDOIMOB_FATORELEVANTE"
 

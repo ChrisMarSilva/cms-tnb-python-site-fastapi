@@ -4,7 +4,7 @@ import src.database as _database
 from src.util.util_datahora import converter_str_to_datetime, converter_datetime_str
 
 
-class UsuarioLog(_database.session.Base):
+class UsuarioLogModel(_database.session.Base):
 
     __tablename__ = "TBUSUARIO_LOG"
 

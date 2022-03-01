@@ -3,7 +3,7 @@ import sqlalchemy as _sql
 import src.database as _database
 
 
-class UsuarioCarteiraProjecao(_database.session.Base):
+class UsuarioCarteiraProjecaoModel(_database.session.Base):
 
     __tablename__ = "TBCARTEIRA_PROJECAO"
 

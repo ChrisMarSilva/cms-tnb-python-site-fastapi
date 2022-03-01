@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-class ACAOEmpresaAtivoCotacaoHist():
+class ACAOEmpresaAtivoCotacaoHistModel():
 
     @staticmethod
     def get_table_name(categoria: str, codigo: str) -> str:

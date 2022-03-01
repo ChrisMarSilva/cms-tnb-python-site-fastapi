@@ -3,7 +3,7 @@ import sqlalchemy as _sql
 import src.database as _database
 
 
-class BDREmpresa(_database.session.Base):
+class BDREmpresaModel(_database.session.Base):
 
     __tablename__ = "TBBDR_EMPRESA"
 
