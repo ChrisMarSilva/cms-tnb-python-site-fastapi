@@ -51,7 +51,12 @@ async def get_index(request: _fastapi.Request):
     return _templates.TemplateResponse("index.html", {"request": request, "pagina": "home"})
 
 
-# @bp_admin_listas.route('/lista_codigo_completo', methods=['GET', 'POST'])
+# @router.route('/healthcheck', methods=['GET'])
+# async def healthcheck():
+# return {"status": "ok"}
+
+
+# @router.route('/lista_codigo_completo', methods=['GET', 'POST'])
 # @login_required
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
 # def lista_codigo_completo():
@@ -64,7 +69,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 
 
-# @bp_admin_listas.route('/lista_codigo_completo_acao', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_completo_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -78,7 +83,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_completo_fii', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_completo_fii', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -92,7 +97,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_completo_etf', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_completo_etf', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -106,7 +111,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_completo_cripto', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_completo_cripto', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -120,7 +125,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_completo_bdr', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_completo_bdr', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -134,7 +139,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_comprado', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_comprado', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -149,7 +154,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_comprado_acao', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_comprado_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -164,7 +169,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_comprado_fii', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_comprado_fii', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -179,7 +184,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_comprado_etf', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_comprado_etf', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -194,7 +199,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_comprado_bdr', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_comprado_bdr', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -209,7 +214,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_comprado_cripto', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_comprado_cripto', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -224,7 +229,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_comprado_para_proventos', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_comprado_para_proventos', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -239,7 +244,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_provento', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_provento', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -254,7 +259,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_provento_acao', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_provento_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -269,7 +274,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_provento_fii', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_provento_fii', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -284,7 +289,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_provento_bdr', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_provento_bdr', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -299,7 +304,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_aluguel_acao', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_aluguel_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -314,7 +319,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_radar', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_radar', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -327,7 +332,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_radar_acao', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_radar_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -340,7 +345,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_radar_fii', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_radar_fii', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -353,7 +358,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_radar_etf', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_radar_etf', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -366,7 +371,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_radar_bdr', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_radar_bdr', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -379,7 +384,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_radar_cripto', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_radar_cripto', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -392,7 +397,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_setor_acao', methods=['GET', 'POST'])
+# @router.route('/lista_setor_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -406,7 +411,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_subsetor_acao', methods=['GET', 'POST'])
+# @router.route('/lista_subsetor_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -420,7 +425,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_segmento_acao', methods=['GET', 'POST'])
+# @router.route('/lista_segmento_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -434,7 +439,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_setor_bdr', methods=['GET', 'POST'])
+# @router.route('/lista_setor_bdr', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -448,7 +453,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_subsetor_bdr', methods=['GET', 'POST'])
+# @router.route('/lista_subsetor_bdr', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -462,7 +467,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_segmento_bdr', methods=['GET', 'POST'])
+# @router.route('/lista_segmento_bdr', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -476,7 +481,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_corretora_user', methods=['GET', 'POST'])
+# @router.route('/lista_corretora_user', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -491,7 +496,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_corretora_geral', methods=['GET', 'POST'])
+# @router.route('/lista_corretora_geral', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -505,7 +510,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_corretora_geral_user_cadastrada', methods=['GET', 'POST'])
+# @router.route('/lista_corretora_geral_user_cadastrada', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -520,7 +525,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_corretora_geral_user_nao_cadastrada', methods=['GET', 'POST'])
+# @router.route('/lista_corretora_geral_user_nao_cadastrada', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -535,7 +540,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_nomes_empresa_acao', methods=['GET', 'POST'])
+# @router.route('/lista_nomes_empresa_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -549,7 +554,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_nomes_empresa_fii', methods=['GET', 'POST'])
+# @router.route('/lista_nomes_empresa_fii', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -564,7 +569,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_nomes_empresa_etf', methods=['GET', 'POST'])
+# @router.route('/lista_nomes_empresa_etf', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -578,7 +583,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_nomes_empresa_bdr', methods=['GET', 'POST'])
+# @router.route('/lista_nomes_empresa_bdr', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -592,7 +597,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_nomes_empresa_cripto', methods=['GET', 'POST'])
+# @router.route('/lista_nomes_empresa_cripto', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -606,7 +611,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_nomes_carteira_user', methods=['GET', 'POST'])
+# @router.route('/lista_nomes_carteira_user', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -621,7 +626,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_nomes_radar_user', methods=['GET', 'POST'])
+# @router.route('/lista_nomes_radar_user', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json')
@@ -648,7 +653,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_nomes_projecao_user', methods=['GET', 'POST'])
+# @router.route('/lista_nomes_projecao_user', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-10')  # 10seg
@@ -663,7 +668,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_users_com_alerta', methods=['GET', 'POST'])
+# @router.route('/lista_users_com_alerta', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -677,7 +682,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_users_com_assinatura_alerta', methods=['GET', 'POST'])
+# @router.route('/lista_users_com_assinatura_alerta', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -691,7 +696,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_operacao_cei', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_operacao_cei', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -706,7 +711,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_codigo_user_provento_cei', methods=['GET', 'POST'])
+# @router.route('/lista_codigo_user_provento_cei', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -721,7 +726,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_nomes_tipos_fii', methods=['GET', 'POST'])
+# @router.route('/lista_nomes_tipos_fii', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -735,7 +740,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_nomes_admins_fii', methods=['GET', 'POST'])
+# @router.route('/lista_nomes_admins_fii', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-1800')  # 1800seg/30Min
@@ -749,7 +754,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_anos_user_lancamentos_acao', methods=['GET', 'POST'])
+# @router.route('/lista_anos_user_lancamentos_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-10')  # 10seg
@@ -773,7 +778,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_anos_user_operacao_acao', methods=['GET', 'POST'])
+# @router.route('/lista_anos_user_operacao_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-10')  # 10seg
@@ -798,7 +803,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_anos_user_provento', methods=['GET', 'POST'])
+# @router.route('/lista_anos_user_provento', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-10')  # 10seg
@@ -828,7 +833,7 @@ async def get_index(request: _fastapi.Request):
 #         return make_response(get_json_retorno_lista(rslt='FALHA', msg=LogErro.descricao_erro(texto=str(e))), 200)
 #
 #
-# @bp_admin_listas.route('/lista_anos_user_provento_acao', methods=['GET', 'POST'])
+# @router.route('/lista_anos_user_provento_acao', methods=['GET', 'POST'])
 # @login_required
 # # @tracing.trace()
 # @flask_optimize.optimize('json', cache='GET-10')  # 10seg

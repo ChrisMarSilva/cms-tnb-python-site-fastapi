@@ -1,83 +1,67 @@
-# # -*- coding: utf-8 -*-
-# import sys
-# import os
-# from app.banco import db
+# -*- coding: utf-8 -*-
+import sys
+import os
+import sqlalchemy.orm as _orm
 # from app.models.log_erro import LogErro
 
 
-# class UsuarioETFIndiceFatoRelevanteAtivo(db.Model):
+class UsuarioETFIndiceFatoRelevanteAtivoRepository:
 
-#     __tablename__ = "TBETF_FATORELEVANTE_ATIVO"
+    @classmethod
+    async def get_all(cls, db: _orm.Session):
+        try:
+            return cls.query.all()
+        except Exception as e:
+            #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
+            raise
 
-#     id_fato = db.Column('IDFATO', db.Integer, db.ForeignKey('TBETF_FATORELEVANTE.ID'), primary_key=True, nullable=False, index=True)
-#     id_usuario = db.Column('IDUSUARIO', db.Integer, db.ForeignKey('TBUSUARIO.ID'), primary_key=True, nullable=False, index=True)
+    @classmethod
+    async def get_by_fato_and_usuario(cls, db: _orm.Session, id_usuario: int, id_fato: int):
+        try:
+            return cls.query.filter_by(id_usuario=id_usuario, id_fato=id_fato).first()
+        except Exception as e:
+            #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
+            raise
 
-#     def __init__(self, id_fato: int = None, id_usuario: int = None):
-#         self.id_fato = id_fato
-#         self.id_usuario = id_usuario
+    @classmethod
+    async def excluir_by_usuario(cls, db: _orm.Session, id_usuario: int, commit: bool = True):
+        try:
+            cls.query.filter_by(id_usuario=id_usuario).delete()
+            if commit: db.commit()
+        except Exception as e:
+            db.rollback()
+            #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
+            raise
 
-#     @classmethod
-#     def get_all(cls):
-#         try:
-#             return cls.query.all()
-#         except Exception as e:
-#             LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
-#             raise
+    @classmethod
+    async def excluir_tudo(cls, db: _orm.Session, id_usuario: int, commit: bool = True):
+        try:
+            query = "DELETE FROM TBETF_FATORELEVANTE_ATIVO WHERE IDUSUARIO = :IDUSUARIO"
+            params = {'IDUSUARIO': id_usuario}
+            db.execute(query, params)
+            if commit: db.commit()
+        except Exception as e:
+            db.rollback()
+            #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
+            raise
 
-#     @classmethod
-#     def get_by_fato_and_usuario(cls, id_usuario: int, id_fato: int):
-#         try:
-#             return cls.query.filter_by(id_usuario=id_usuario, id_fato=id_fato).first()
-#         except Exception as e:
-#             LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
-#             raise
+    @classmethod
+    async def salvar(cls, db: _orm.Session, commit: bool = True):
+        try:
+            if self.get_by_fato_and_usuario(id_fato=self.id_fato, id_usuario=self.id_usuario): return False
+            db.add(self)
+            if commit: db.commit()
+        except Exception as e:
+            db.rollback()
+            #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
+            #raise
 
-#     @classmethod
-#     def excluir_by_usuario(cls, id_usuario: int, commit: bool = True):
-#         try:
-#             cls.query.filter_by(id_usuario=id_usuario).delete()
-#             if commit: db.session.commit()
-#         except Exception as e:
-#             db.session.rollback()
-#             LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
-#             raise
-
-#     @classmethod
-#     def excluir_tudo(cls, id_usuario: int, commit: bool = True):
-#         try:
-#             query = "DELETE FROM TBETF_FATORELEVANTE_ATIVO WHERE IDUSUARIO = :IDUSUARIO"
-#             params = {'IDUSUARIO': id_usuario}
-#             db.session.execute(query, params)
-#             if commit: db.session.commit()
-#         except Exception as e:
-#             db.session.rollback()
-#             LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
-#             raise
-
-#     def salvar(self, commit: bool = True):
-#         try:
-#             if self.get_by_fato_and_usuario(id_fato=self.id_fato, id_usuario=self.id_usuario): return False
-#             db.session.add(self)
-#             if commit: db.session.commit()
-#         except Exception as e:
-#             db.session.rollback()
-#             LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
-#             #raise
-
-#     def excluir(self, commit: bool = True):
-#         try:
-#             db.session.delete(self)
-#             if commit: db.session.commit()
-#         except Exception as e:
-#             db.session.rollback()
-#             LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
-#             raise
-
-#     def __enter__(self):
-#         return self
-
-#     def __exit__(self, exc_type, exc_value, exc_traceback):
-#         pass
-
-#     def __repr__(self):
-#         return '<UsuarioETFIndiceFatoRelevanteAtivo - {str(self.id_fato)} -  {str(self.id_usuario)}>'
+    @classmethod
+    async def excluir(cls, db: _orm.Session, commit: bool = True):
+        try:
+            db.delete(self)
+            if commit: db.commit()
+        except Exception as e:
+            db.rollback()
+            #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
+            raise
