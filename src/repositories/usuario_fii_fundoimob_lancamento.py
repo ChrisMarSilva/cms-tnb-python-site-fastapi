@@ -3,7 +3,7 @@ import sys
 import os
 import asyncio
 import sqlalchemy.orm as _orm
-from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
+from src.models.usuario_fii_fundoimob_lancamento import UsuarioFiiFundoImobLancamentoModel
 # from app.models.log_erro import LogErro
 
 

@@ -2,7 +2,7 @@
 import sys
 import os
 #from flask_login import current_user
-from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
+from src.models.log_erro import LogErroModel
 import sqlalchemy.orm as _orm
 
 

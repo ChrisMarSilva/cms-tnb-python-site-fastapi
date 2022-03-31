@@ -2,7 +2,7 @@
 import sys
 import os
 import sqlalchemy.orm as _orm
-from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
+from src.models.usuario_etf_indice_fato_relevante_ativo import UsuarioETFIndiceFatoRelevanteAtivoModel
 # from app.models.log_erro import LogErro
 
 

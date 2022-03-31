@@ -2,7 +2,7 @@
 import sys
 import os
 import sqlalchemy.orm as _orm
-from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
+from src.models.acao_empresa_financeiro import ACAOEmpresaFinanceiroModel
 # from app.models.log_erro import LogErro
 
 
@@ -11,7 +11,7 @@ class ACAOEmpresaFinanceiroRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(nome).all()
+            return db.query(ACAOEmpresaFinanceiroModel).order_by(ACAOEmpresaFinanceiroModel.nome).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class ACAOEmpresaFinanceiroRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(ACAOEmpresaFinanceiroModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class ACAOEmpresaFinanceiroRepository:
     @classmethod
     async def get_by_cod_cvmd(cls, db: _orm.Session, cod_cvm: str):
         try:
-            return cls.query.filter_by(cod_cvm=cod_cvm).first()
+            return db.query(ACAOEmpresaFinanceiroModel).filter_by(cod_cvm=cod_cvm).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -36,7 +36,7 @@ class ACAOEmpresaFinanceiroRepository:
     def buscar_listar_anos_finan_anual(cls, db: _orm.Session, cod_cvm: str):
         try:
             query = """ SELECT DISTINCT ANO_REREF FROM TBEMPRESA_DFP WHERE CD_CVM = :CD_CVM ORDER BY ANO_REREF """
-           params = {'CD_CVM': cod_cvm}
+            params = {'CD_CVM': cod_cvm}
             return db.execute(query, params)
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
@@ -51,4 +51,3 @@ class ACAOEmpresaFinanceiroRepository:
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
-

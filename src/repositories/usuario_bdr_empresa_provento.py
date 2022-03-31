@@ -3,7 +3,7 @@ import sys
 import os
 import asyncio
 import sqlalchemy.orm as _orm
-from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
+from src.models.usuario_bdr_empresa_provento import UsuarioBDREmpresaProventoModel
 # # from app.models.log_erro import LogErro
 
 

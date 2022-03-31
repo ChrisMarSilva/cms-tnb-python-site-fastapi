@@ -2,7 +2,7 @@
 import sys
 import os
 import sqlalchemy.orm as _orm
-from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
+from src.models.fii_fundoimob_cotacao import FiiFundoImobCotacaoModel
 # from app.models.log_erro import LogErro
 
 

@@ -2,7 +2,7 @@
 import sys
 import os
 import sqlalchemy.orm as _orm
-from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
+from src.models.acao_empresa_setor import ACAOEmpresaSetorModel
 # from app.models.log_erro import LogErro
 
 

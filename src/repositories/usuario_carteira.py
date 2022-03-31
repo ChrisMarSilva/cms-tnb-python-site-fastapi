@@ -6,26 +6,26 @@ import time
 import asyncio
 # from threading import Thread
 import sqlalchemy.orm as _orm
-from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
+from src.models.acao_empresa_ativo import ACAOEmpresaAtivoModel
+from src.models.fii_fundoimob import FiiFundoImobModel
+from src.models.etf_indice import ETFIndiceModel
+from src.models.bdr_empresa import BDREmpresaModel
+from src.models.cripto_empresa import CriptoEmpresaModel
+from src.models.usuario_acao_empresa_lancamento import UsuarioACAOEmpresaLancamentoModel
+from src.models.usuario_acao_empresa_operacao import UsuarioACAOEmpresaOperacaoModel
+from src.models.usuario_fii_fundoimob_lancamento import UsuarioFiiFundoImobLancamentoModel
+from src.models.usuario_etf_indice_lancamento import UsuarioETFIndiceLancamentoModel
+from src.models.usuario_etf_indice_operacao import UsuarioETFIndiceOperacaoModel
+from src.models.usuario_bdr_empresa_lancamento import UsuarioBDREmpresaLancamentoModel
+from src.models.usuario_bdr_empresa_operacao import UsuarioBDREmpresaOperacaoModel
+from src.models.usuario_cripto_lancamento import UsuarioCriptoLancamentoModel
+from src.models.usuario_carteira import UsuarioCarteiraModel
+from src.models.usuario_carteira_acao import UsuarioCarteiraAcaoModel
+from src.models.usuario_carteira_fii import UsuarioCarteiraFiiModel
+from src.models.usuario_carteira_etf import UsuarioCarteiraEtfModel
+from src.models.usuario_carteira_bdr import UsuarioCarteiraBdrModel
+from src.models.usuario_carteira_cripto import UsuarioCarteiraCriptoModel
 # # from app.models.log_erro import LogErro
-# from app.models.acao_empresa_ativo import ACAOEmpresaAtivo
-# from app.models.fii_fundoimob import FiiFundoImob
-# from app.models.etf_indice import ETFIndice
-# from app.models.bdr_empresa import BDREmpresa
-# from app.models.cripto_empresa import CriptoEmpresa
-# from app.models.usuario_acao_empresa_lancamento import UsuarioACAOEmpresaLancamento
-# from app.models.usuario_acao_empresa_operacao import UsuarioACAOEmpresaOperacao
-# from app.models.usuario_fii_fundoimob_lancamento import UsuarioFiiFundoImobLancamento
-# from app.models.usuario_etf_indice_lancamento import UsuarioETFIndiceLancamento
-# from app.models.usuario_etf_indice_operacao import UsuarioETFIndiceOperacao
-# from app.models.usuario_bdr_empresa_lancamento import UsuarioBDREmpresaLancamento
-# from app.models.usuario_bdr_empresa_operacao import UsuarioBDREmpresaOperacao
-# from app.models.usuario_cripto_lancamento import UsuarioCriptoLancamento
-# from app.models.usuario_carteira_acao import UsuarioCarteiraAcao
-# from app.models.usuario_carteira_fii import UsuarioCarteiraFii
-# from app.models.usuario_carteira_etf import UsuarioCarteiraEtf
-# from app.models.usuario_carteira_bdr import UsuarioCarteiraBdr
-# from app.models.usuario_carteira_cripto import UsuarioCarteiraCripto
 
 
 class UsuarioCarteiraRepository:
