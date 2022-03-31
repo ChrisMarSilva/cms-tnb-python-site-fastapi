@@ -11,7 +11,6 @@ from src.models.usuario import UsuarioModel
 # from app.cache import get_cache_user, set_cache_user
 # from app.models.usuario_hash import UsuarioHash
 # from app.models.usuario_log import UsuarioLog
-# from app.util.util_datahora import converter_str_to_datetime, converter_datetime_str
 import src.config.config_trace as _tracer
 
 class UsuarioRepository:

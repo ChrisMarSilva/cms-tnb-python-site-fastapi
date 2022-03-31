@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-from flask_login import current_user
+#from flask_login import current_user
+from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
 import sqlalchemy.orm as _orm
-from app.util.util_datahora import pegar_data_hora_atual, converter_str_to_datetime, converter_datetime_str
 
 
 class LogErroRepository:

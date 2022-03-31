@@ -18,7 +18,7 @@ class ACAOEmpresaAtivoCotacaoHistRepository:
 
     @classmethod
     async def tabela_existe(cls, db: _orm.Session, categoria: str, codigo: str):
-        table_name = ACAOEmpresaAtivoCotacaoHist.get_table_name(categoria=categoria, codigo=codigo)
+        table_name = ACAOEmpresaAtivoCotacaoHistRepository.get_table_name(categoria=categoria, codigo=codigo)
         query = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = :TABLE_NAME"
         params = {'TABLE_NAME': table_name}
         return db.execute(query, params).first()
@@ -28,7 +28,7 @@ class ACAOEmpresaAtivoCotacaoHistRepository:
         try:
             # if not cls.tabela_existe(categoria=categoria, codigo=codigo): return []
 
-            table_name = ACAOEmpresaAtivoCotacaoHist.get_table_name(categoria=categoria, codigo=codigo)
+            table_name = ACAOEmpresaAtivoCotacaoHistRepository.get_table_name(categoria=categoria, codigo=codigo)
 
             query = """ SELECT C.DATA, C.COTACAO, C.VARIACAO FROM """ + table_name + """ C WHERE 1 = 1 """
             if dt_ini: query += " AND C.DATA >= :DATAINICIO "
@@ -51,7 +51,7 @@ class ACAOEmpresaAtivoCotacaoHistRepository:
 
             # if not cls.tabela_existe(categoria=categoria, codigo=codigo): return 0.0
 
-            table_name = ACAOEmpresaAtivoCotacaoHist.get_table_name(categoria=categoria, codigo=codigo)
+            table_name = ACAOEmpresaAtivoCotacaoHistRepository.get_table_name(categoria=categoria, codigo=codigo)
 
             query = "SELECT C.COTACAO FROM " + table_name + " C WHERE C.DATA = ( SELECT MIN(S.DATA) FROM " + table_name + " S WHERE S.DATA >= :DATAINICIO AND S.DATA <= :DATAFIM ) "
             params = {'DATAINICIO': dt_ini, 'DATAFIM': dt_fim}
@@ -70,7 +70,7 @@ class ACAOEmpresaAtivoCotacaoHistRepository:
 
             # if not cls.tabela_existe(categoria=categoria, codigo=codigo): return 0.0
 
-            table_name = ACAOEmpresaAtivoCotacaoHist.get_table_name(categoria=categoria, codigo=codigo)
+            table_name = ACAOEmpresaAtivoCotacaoHistRepository.get_table_name(categoria=categoria, codigo=codigo)
 
             query = "SELECT C.COTACAO FROM " + table_name + " C WHERE C.DATA = ( SELECT MAX(S.DATA) FROM " + table_name + " S WHERE S.DATA >= :DATAINICIO AND S.DATA <= :DATAFIM ) "
             params = {'DATAINICIO': dt_ini, 'DATAFIM': dt_fim}
@@ -89,7 +89,7 @@ class ACAOEmpresaAtivoCotacaoHistRepository:
 
             # if not cls.tabela_existe(categoria=categoria, codigo=codigo): return 0.0
 
-            table_name = ACAOEmpresaAtivoCotacaoHist.get_table_name(categoria=categoria, codigo=codigo)
+            table_name = ACAOEmpresaAtivoCotacaoHistRepository.get_table_name(categoria=categoria, codigo=codigo)
 
             query = """ SELECT MAX(C.COTACAO) AS COTACAO FROM """ + table_name + """ C WHERE 1 = 1 """
             if dt_ini: query += " AND C.DATA >= :DATAINICIO "

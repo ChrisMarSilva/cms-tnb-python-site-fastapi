@@ -2,6 +2,7 @@
 import sys
 import os
 import sqlalchemy.orm as _orm
+from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
 # from app.models.log_erro import LogErro
 
 
@@ -10,7 +11,7 @@ class ACAOEmpresaFinanceiroRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.nome).all()
+            return cls.query.order_by(nome).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise

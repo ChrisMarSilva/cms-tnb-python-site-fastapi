@@ -6,19 +6,18 @@ import time
 import asyncio
 # from threading import Thread
 import sqlalchemy.orm as _orm
-from app.models.usuario_apuracao import UsuarioApuracao
-from app.models.usuario_config import UsuarioConfig
-from app.models.usuario_acao_empresa_lancamento import UsuarioACAOEmpresaLancamento
-from app.models.usuario_fii_fundoimob_lancamento import UsuarioFiiFundoImobLancamento
-from app.models.usuario_etf_indice_lancamento import UsuarioETFIndiceLancamento
-from app.models.usuario_bdr_empresa_lancamento import UsuarioBDREmpresaLancamento
-from app.models.usuario_acao_empresa_operacao import UsuarioACAOEmpresaOperacao
-from app.models.usuario_etf_indice_operacao import UsuarioETFIndiceOperacao
-from app.models.usuario_bdr_empresa_operacao import UsuarioBDREmpresaOperacao
-from app.models.usuario_cripto_lancamento import UsuarioCriptoLancamento
+from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
+# from app.models.usuario_apuracao import UsuarioApuracao
+# from app.models.usuario_config import UsuarioConfig
+# from app.models.usuario_acao_empresa_lancamento import UsuarioACAOEmpresaLancamento
+# from app.models.usuario_fii_fundoimob_lancamento import UsuarioFiiFundoImobLancamento
+# from app.models.usuario_etf_indice_lancamento import UsuarioETFIndiceLancamento
+# from app.models.usuario_bdr_empresa_lancamento import UsuarioBDREmpresaLancamento
+# from app.models.usuario_acao_empresa_operacao import UsuarioACAOEmpresaOperacao
+# from app.models.usuario_etf_indice_operacao import UsuarioETFIndiceOperacao
+# from app.models.usuario_bdr_empresa_operacao import UsuarioBDREmpresaOperacao
+# from app.models.usuario_cripto_lancamento import UsuarioCriptoLancamento
 # from app.models.log_erro import LogErro
-from app.util.util_formatacao import decimal_to_str
-from app.util.util_datahora import pegar_data_atual, converter_str_to_datetime, converter_datetime_str
 
 
 class UsuarioApuracaoCalculadaRepository:

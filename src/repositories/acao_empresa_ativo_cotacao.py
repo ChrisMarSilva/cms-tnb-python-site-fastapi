@@ -4,8 +4,6 @@ import os
 import sqlalchemy.orm as _orm
 from src.models.acao_empresa_ativo_cotacao import ACAOEmpresaAtivoCotacaoModel
 # from app.models.log_erro import LogErro
-from src.util.util_formatacao import decimal_to_str
-from src.util.util_datahora import converter_str_to_datetime, converter_datetime_str
 
 
 class ACAOEmpresaAtivoCotacaoRepository:

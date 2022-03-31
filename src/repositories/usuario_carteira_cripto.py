@@ -2,8 +2,8 @@
 import sys
 import os
 import sqlalchemy.orm as _orm
+from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
 # # from app.models.log_erro import LogErro
-from app.util.util_formatacao import decimal_to_str, inteiro_to_str
 
 
 class UsuarioCarteiraCriptoRepository:

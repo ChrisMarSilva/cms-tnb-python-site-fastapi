@@ -2,9 +2,8 @@
 import sys
 import os
 import sqlalchemy.orm as _orm
+from src.models.xxxxxxxxxxx import xxxxxxxxxxxModel
 # from app.models.log_erro import LogErro
-from app.util.util_formatacao import decimal_to_str, inteiro_to_str
-from app.util.util_datahora import converter_str_to_datetime, converter_datetime_str
 
 
 class UsuarioACAOEmpresaOperacaoRepository:
