@@ -11,12 +11,12 @@ class FiiFundoImobFatoRelevanteRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session, id_fundo: int = None, dt_env_ini: str = None, dt_env_fim: str = None, reg_inicio: int = 1, qtde_por_pagina: int = 100):
         filters = []
-        filters.append(cls, db: _orm.situacao == 'A')
-        if id_fundo: filters.append(cls, db: _orm.id_fundo == id_fundo)
-        if dt_env_ini: filters.append(cls, db: _orm.data_env >= dt_env_ini)
-        if dt_env_fim: filters.append(cls, db: _orm.data_env <= dt_env_fim)
+        filters.append(FiiFundoImobFatoRelevanteModel.situacao == 'A')
+        if id_fundo: filters.append(FiiFundoImobFatoRelevanteModel.id_fundo == id_fundo)
+        if dt_env_ini: filters.append(FiiFundoImobFatoRelevanteModel.data_env >= dt_env_ini)
+        if dt_env_fim: filters.append(FiiFundoImobFatoRelevanteModel.data_env <= dt_env_fim)
         try:
-            return cls.query.filter(*filters).order_by(cls, db: _orm.data_env.desc()).offset(reg_inicio).limit(qtde_por_pagina).all()
+            return db.query(FiiFundoImobFatoRelevanteModel).filter(*filters).order_by(FiiFundoImobFatoRelevanteModel.data_env.desc()).offset(reg_inicio).limit(qtde_por_pagina).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -24,7 +24,7 @@ class FiiFundoImobFatoRelevanteRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(FiiFundoImobFatoRelevanteModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -32,7 +32,7 @@ class FiiFundoImobFatoRelevanteRepository:
     @classmethod
     async def get_all_by_fundo(cls, db: _orm.Session, id_fundo: int):
         try:
-            return cls.query.filter_by(id_fundo=id_fundo).all()
+            return db.query(FiiFundoImobFatoRelevanteModel).filter_by(id_fundo=id_fundo).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -40,12 +40,12 @@ class FiiFundoImobFatoRelevanteRepository:
     @classmethod
     async def get_total(cls, db: _orm.Session, id_fundo: int = None, dt_env_ini: str = None, dt_env_fim: str = None):
         filters = []
-        filters.append(cls, db: _orm.situacao == 'A')
-        if id_fundo: filters.append(cls, db: _orm.id_fundo == id_fundo)
-        if dt_env_ini: filters.append(cls, db: _orm.data_env >= dt_env_ini)
-        if dt_env_fim: filters.append(cls, db: _orm.data_env <= dt_env_fim)
+        filters.append(FiiFundoImobFatoRelevanteModel.situacao == 'A')
+        if id_fundo: filters.append(FiiFundoImobFatoRelevanteModel.id_fundo == id_fundo)
+        if dt_env_ini: filters.append(FiiFundoImobFatoRelevanteModel.data_env >= dt_env_ini)
+        if dt_env_fim: filters.append(FiiFundoImobFatoRelevanteModel.data_env <= dt_env_fim)
         try:
-            return cls.query.filter(*filters).count()
+            return db.query(FiiFundoImobFatoRelevanteModel).filter(*filters).count()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise

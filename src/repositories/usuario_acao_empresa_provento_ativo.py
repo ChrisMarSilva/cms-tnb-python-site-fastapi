@@ -11,7 +11,7 @@ class UsuarioACAOEmpresaProventoAtivoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(UsuarioACAOEmpresaProventoAtivoModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class UsuarioACAOEmpresaProventoAtivoRepository:
     @classmethod
     async def get_by_provento_and_usuario(cls, db: _orm.Session, id_usuario: int, id_provento: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, id_provento=id_provento).first()
+            return db.query(UsuarioACAOEmpresaProventoAtivoModel).filter_by(id_usuario=id_usuario, id_provento=id_provento).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -37,10 +37,10 @@ class UsuarioACAOEmpresaProventoAtivoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioACAOEmpresaProventoAtivoModel, commit: bool = True):
         try:
-            if self.get_by_provento_and_usuario(id_provento=self.id_provento, id_usuario=self.id_usuario): return False
-            db.add(self)
+            if cls.get_by_provento_and_usuario(id_provento=row.id_provento, id_usuario=row.id_usuario): return False
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -48,9 +48,9 @@ class UsuarioACAOEmpresaProventoAtivoRepository:
             #raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioACAOEmpresaProventoAtivoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

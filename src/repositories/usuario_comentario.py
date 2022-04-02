@@ -11,7 +11,7 @@ class UsuarioComentarioRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.id).all()
+            return db.query(UsuarioComentarioModel).order_by(UsuarioComentarioModel.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class UsuarioComentarioRepository:
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario).order_by(cls, db: _orm.id).all()
+            return db.query(UsuarioComentarioModel).filter_by(id_usuario=id_usuario).order_by(UsuarioComentarioModel.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class UsuarioComentarioRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioComentarioModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +35,7 @@ class UsuarioComentarioRepository:
     @classmethod
     async def get_by_id_and_id_usuario(cls, db: _orm.Session, id_usuario: int, id: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, id=id).first()
+            return db.query(UsuarioComentarioModel).filter_by(id_usuario=id_usuario, id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -43,7 +43,7 @@ class UsuarioComentarioRepository:
     @classmethod
     async def get_by_id_pai(cls, db: _orm.Session, id_usuario: int, id_pai: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, id_pai=id_pai).first()
+            return db.query(UsuarioComentarioModel).filter_by(id_usuario=id_usuario, id_pai=id_pai).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -51,7 +51,7 @@ class UsuarioComentarioRepository:
     @classmethod
     async def get_qtde_total_coment_princ(cls, db: _orm.Session):
         try:
-            return cls.query.filter_by(tipo='A', situacao='A').count()
+            return db.query(UsuarioComentarioModel).filter_by(tipo='A', situacao='A').count()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -204,9 +204,9 @@ class UsuarioComentarioRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioComentarioModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -214,9 +214,9 @@ class UsuarioComentarioRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioComentarioModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

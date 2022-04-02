@@ -14,13 +14,13 @@ class UsuarioCriptoLancamentoRepository:
         try:
 
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if id_cripto: filters.append(cls, db: _orm.id_cripto == id_cripto)
-            if dt_ini: filters.append(cls, db: _orm.data >= dt_ini)
-            if dt_fim: filters.append(cls, db: _orm.data <= dt_fim)
-            if tipo: filters.append(cls, db: _orm.tipo == tipo)
+            if id_usuario: filters.append(UsuarioCriptoLancamentoModel.id_usuario == id_usuario)
+            if id_cripto: filters.append(UsuarioCriptoLancamentoModel.id_cripto == id_cripto)
+            if dt_ini: filters.append(UsuarioCriptoLancamentoModel.data >= dt_ini)
+            if dt_fim: filters.append(UsuarioCriptoLancamentoModel.data <= dt_fim)
+            if tipo: filters.append(UsuarioCriptoLancamentoModel.tipo == tipo)
 
-            return cls.query.filter(*filters).order_by(cls, db: _orm.id).all()
+            return db.query(UsuarioCriptoLancamentoModel).filter(*filters).order_by(UsuarioCriptoLancamentoModel.id).all()
 
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
@@ -29,7 +29,7 @@ class UsuarioCriptoLancamentoRepository:
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario).all()
+            return db.query(UsuarioCriptoLancamentoModel).filter_by(id_usuario=id_usuario).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -37,7 +37,7 @@ class UsuarioCriptoLancamentoRepository:
     @classmethod
     async def get_all_by_cripto(cls, db: _orm.Session, id_cripto: int):
         try:
-            return cls.query.filter_by(id_cripto=id_cripto).all()
+            return db.query(UsuarioCriptoLancamentoModel).filter_by(id_cripto=id_cripto).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -45,7 +45,7 @@ class UsuarioCriptoLancamentoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioCriptoLancamentoModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -53,7 +53,7 @@ class UsuarioCriptoLancamentoRepository:
     @classmethod
     async def get_by_usuario(cls, db: _orm.Session, id: int, id_usuario: int):
         try:
-            return cls.query.filter_by(id=id, id_usuario=id_usuario).first()
+            return db.query(UsuarioCriptoLancamentoModel).filter_by(id=id, id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -63,10 +63,10 @@ class UsuarioCriptoLancamentoRepository:
         try:
 
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if id_cripto: filters.append(cls, db: _orm.id_cripto == id_cripto)
+            if id_usuario: filters.append(UsuarioCriptoLancamentoModel.id_usuario == id_usuario)
+            if id_cripto: filters.append(UsuarioCriptoLancamentoModel.id_cripto == id_cripto)
 
-            return db.query(db.func.min(cls, db: _orm.data)).filter(*filters).first()
+            return db.query(db.func.min(UsuarioCriptoLancamentoModel.data)).filter(*filters).first()
 
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
@@ -77,10 +77,10 @@ class UsuarioCriptoLancamentoRepository:
         try:
 
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if id_cripto: filters.append(cls, db: _orm.id_cripto == id_cripto)
+            if id_usuario: filters.append(UsuarioCriptoLancamentoModel.id_usuario == id_usuario)
+            if id_cripto: filters.append(UsuarioCriptoLancamentoModel.id_cripto == id_cripto)
 
-            return db.query(db.func.max(cls, db: _orm.data)).filter(*filters).first()
+            return db.query(db.func.max(UsuarioCriptoLancamentoModel.data)).filter(*filters).first()
 
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
@@ -389,9 +389,9 @@ class UsuarioCriptoLancamentoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioCriptoLancamentoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -399,9 +399,9 @@ class UsuarioCriptoLancamentoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioCriptoLancamentoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

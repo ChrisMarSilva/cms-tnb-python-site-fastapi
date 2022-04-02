@@ -11,7 +11,7 @@ class UsuarioCorretoraRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(UsuarioCorretoraModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class UsuarioCorretoraRepository:
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario).order_by(cls, db: _orm.nome).all()
+            return db.query(UsuarioCorretoraModel).filter_by(id_usuario=id_usuario).order_by(UsuarioCorretoraModel.nome).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class UsuarioCorretoraRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioCorretoraModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +35,7 @@ class UsuarioCorretoraRepository:
     @classmethod
     async def get_by_usuario(cls, db: _orm.Session, id: int, id_usuario: int):
         try:
-            return cls.query.filter_by(id=id, id_usuario=id_usuario).first()
+            return db.query(UsuarioCorretoraModel).filter_by(id=id, id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -43,7 +43,7 @@ class UsuarioCorretoraRepository:
     @classmethod
     async def get_by_cnpj(cls, db: _orm.Session, cnpj: str, id_usuario: int):
         try:
-            return cls.query.filter_by(cnpj=cnpj, id_usuario=id_usuario).first()
+            return db.query(UsuarioCorretoraModel).filter_by(cnpj=cnpj, id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -51,7 +51,7 @@ class UsuarioCorretoraRepository:
     @classmethod
     async def get_by_nome(cls, db: _orm.Session, nome: str, id_usuario: int):
         try:
-            return cls.query.filter_by(nome=nome, id_usuario=id_usuario).first()
+            return db.query(UsuarioCorretoraModel).filter_by(nome=nome, id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -59,7 +59,7 @@ class UsuarioCorretoraRepository:
     @classmethod
     async def get_by_id_corretora_lista(cls, db: _orm.Session, id_corretora_lista: int, id_usuario: int):
         try:
-            return cls.query.filter_by(id_corretora_lista=id_corretora_lista, id_usuario=id_usuario).first()
+            return db.query(UsuarioCorretoraModel).filter_by(id_corretora_lista=id_corretora_lista, id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -68,9 +68,9 @@ class UsuarioCorretoraRepository:
     async def get_nomes(cls, db: _orm.Session, id_usuario: int):
         try:
             try:
-                return cls.query.filter_by(situacao='A', id_usuario=id_usuario).order_by(cls, db: _orm.nome).all()
+                return db.query(UsuarioCorretoraModel).filter_by(situacao='A', id_usuario=id_usuario).order_by(UsuarioCorretoraModel.nome).all()
             except Exception as e:
-                return cls.query.filter_by(situacao='A', id_usuario=id_usuario).order_by(cls, db: _orm.nome).all()
+                return db.query(UsuarioCorretoraModel).filter_by(situacao='A', id_usuario=id_usuario).order_by(UsuarioCorretoraModel.nome).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -118,9 +118,9 @@ class UsuarioCorretoraRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioCorretoraModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -128,9 +128,9 @@ class UsuarioCorretoraRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioCorretoraModel, commit: bool = True):
         try:
-            params = {'IDUSUARIO': self.id_usuario, 'IDCORRETORA': self.id}
+            params = {'IDUSUARIO': row.id_usuario, 'IDCORRETORA': row.id}
             db.execute('UPDATE TBPROVENTO       SET IDCORRETORA = NULL WHERE IDUSUARIO = :IDUSUARIO AND IDCORRETORA = :IDCORRETORA', params)
             db.execute('UPDATE TBOPERACAO       SET IDCORRETORA = NULL WHERE IDUSUARIO = :IDUSUARIO AND IDCORRETORA = :IDCORRETORA', params)
             db.execute('UPDATE TBLANCAMENTO     SET IDCORRETORA = NULL WHERE IDUSUARIO = :IDUSUARIO AND IDCORRETORA = :IDCORRETORA', params)
@@ -138,7 +138,7 @@ class UsuarioCorretoraRepository:
             db.execute('UPDATE TBFII_LANCAMENTO SET IDCORRETORA = NULL WHERE IDUSUARIO = :IDUSUARIO AND IDCORRETORA = :IDCORRETORA', params)
             db.execute('UPDATE TBETF_OPERACAO   SET IDCORRETORA = NULL WHERE IDUSUARIO = :IDUSUARIO AND IDCORRETORA = :IDCORRETORA', params)
             db.execute('UPDATE TBETF_LANCAMENTO SET IDCORRETORA = NULL WHERE IDUSUARIO = :IDUSUARIO AND IDCORRETORA = :IDCORRETORA', params)
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

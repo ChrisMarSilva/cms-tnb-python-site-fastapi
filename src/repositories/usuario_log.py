@@ -4,6 +4,7 @@ import os
 import sqlalchemy.orm as _orm
 from src.models.usuario_log import UsuarioLogModel
 # from app.models.log_erro import LogErro
+from src.util.util_datahora import pegar_data_hora_atual, pegar_data_atual
 
 
 class UsuarioLogRepository:
@@ -11,7 +12,7 @@ class UsuarioLogRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(UsuarioLogModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +20,7 @@ class UsuarioLogRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioLogModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +28,7 @@ class UsuarioLogRepository:
     @classmethod
     async def get_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario).first()
+            return db.query(UsuarioLogModel).filter_by(id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -76,7 +77,7 @@ class UsuarioLogRepository:
     @classmethod
     async def excluir_by_usuario(cls, db: _orm.Session, id_usuario: int, commit: bool = True):
         try:
-            cls.query.filter_by(id_usuario=id_usuario).delete()
+            db.query(UsuarioLogModel).filter_by(id_usuario=id_usuario).delete()
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -96,7 +97,7 @@ class UsuarioLogRepository:
             raise
 
     @staticmethod
-    async def registrar(id_usuario: int, situacao: str = 'L'):
+    async def registrar(db: _orm.Session, id_usuario: int, situacao: str = 'L'):
         try:
 
             # L-Login Site
@@ -114,7 +115,7 @@ class UsuarioLogRepository:
             except Exception as e:
                 data_hora = pegar_data_hora_atual()
 
-            usuario_log = UsuarioLog()
+            usuario_log = UsuarioLogModel()
             usuario_log.id_usuario = id_usuario
             usuario_log.data = pegar_data_atual()
             usuario_log.data_hora = data_hora
@@ -123,5 +124,5 @@ class UsuarioLogRepository:
             db.commit()
 
         except Exception as e:
-            #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
+            pass #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
 

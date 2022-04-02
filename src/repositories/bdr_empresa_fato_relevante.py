@@ -11,13 +11,13 @@ class BDREmpresaFatoRelevanteRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session, id_empresa: int = None, dt_env_ini: str = None, dt_env_fim: str = None, reg_inicio: int = 1, qtde_por_pagina: int = 100):
         filters = []
-        filters.append(cls, db: _orm.situacao == 'A')
-        if id_empresa: filters.append(cls, db: _orm.id_empresa == id_empresa)
-        if dt_env_ini: filters.append(cls, db: _orm.data_env >= dt_env_ini)
-        if dt_env_fim: filters.append(cls, db: _orm.data_env <= dt_env_fim)
+        filters.append(BDREmpresaFatoRelevanteModel.situacao == 'A')
+        if id_empresa: filters.append(BDREmpresaFatoRelevanteModel.id_empresa == id_empresa)
+        if dt_env_ini: filters.append(BDREmpresaFatoRelevanteModel.data_env >= dt_env_ini)
+        if dt_env_fim: filters.append(BDREmpresaFatoRelevanteModel.data_env <= dt_env_fim)
         try:
-            return cls.query.filter(*filters).order_by(cls, db: _orm.data_env.desc()).offset(reg_inicio).limit(qtde_por_pagina).all()
-            # return cls.query.order_by(cls, db: _orm.reg_inicio.desc()).paginate(page=reg_inicio, per_page=qtde_por_pagina)
+            return db.query(BDREmpresaFatoRelevanteModel).filter(*filters).order_by(BDREmpresaFatoRelevanteModel.data_env.desc()).offset(reg_inicio).limit(qtde_por_pagina).all()
+            # return db.query(MODEL).order_by(MODEL.reg_inicio.desc()).paginate(page=reg_inicio, per_page=qtde_por_pagina)
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -25,7 +25,7 @@ class BDREmpresaFatoRelevanteRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(BDREmpresaFatoRelevanteModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -33,7 +33,7 @@ class BDREmpresaFatoRelevanteRepository:
     @classmethod
     async def get_all_by_empresa(cls, db: _orm.Session, id_empresa: int):
         try:
-            return cls.query.filter_by(id_empresa=id_empresa).all()
+            return db.query(BDREmpresaFatoRelevanteModel).filter_by(id_empresa=id_empresa).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -41,12 +41,12 @@ class BDREmpresaFatoRelevanteRepository:
     @classmethod
     async def get_total(cls, db: _orm.Session, id_empresa: int = None, dt_env_ini: str = None, dt_env_fim: str = None):
         filters = []
-        filters.append(cls, db: _orm.situacao == 'A')
-        if id_empresa: filters.append(cls, db: _orm.id_empresa == id_empresa)
-        if dt_env_ini: filters.append(cls, db: _orm.data_env >= dt_env_ini)
-        if dt_env_fim: filters.append(cls, db: _orm.data_env <= dt_env_fim)
+        filters.append(BDREmpresaFatoRelevanteModel.situacao == 'A')
+        if id_empresa: filters.append(BDREmpresaFatoRelevanteModel.id_empresa == id_empresa)
+        if dt_env_ini: filters.append(BDREmpresaFatoRelevanteModel.data_env >= dt_env_ini)
+        if dt_env_fim: filters.append(BDREmpresaFatoRelevanteModel.data_env <= dt_env_fim)
         try:
-            return cls.query.filter(*filters).count()
+            return db.query(BDREmpresaFatoRelevanteModel).filter(*filters).count()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise

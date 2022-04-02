@@ -11,7 +11,7 @@ class BDREmpresaSegmentoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.filter_by(situacao='A').order_by(cls, db: _orm.descricao).all()
+            return db.query(BDREmpresaSegmentoModel).filter_by(situacao='A').order_by(BDREmpresaSegmentoModel.descricao).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class BDREmpresaSegmentoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id, situacao='A').first()
+            return db.query(BDREmpresaSegmentoModel).filter_by(id=id, situacao='A').first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class BDREmpresaSegmentoRepository:
     @classmethod
     async def get_by_descricao(cls, db: _orm.Session, descricao: str):
         try:
-            return cls.query.filter_by(descricao=descricao, situacao='A').first()
+            return db.query(BDREmpresaSegmentoModel).filter_by(descricao=descricao, situacao='A').first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise

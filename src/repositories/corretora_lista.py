@@ -11,7 +11,7 @@ class CorretoraListaRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(CorretoraListaModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class CorretoraListaRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(CorretoraListaModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class CorretoraListaRepository:
     @classmethod
     async def get_by_nome(cls, db: _orm.Session, nome: str):
         try:
-            return cls.query.filter_by(nome=nome).first()
+            return db.query(CorretoraListaModel).filter_by(nome=nome).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +35,7 @@ class CorretoraListaRepository:
     @classmethod
     async def get_by_cnpj(cls, db: _orm.Session, cnpj: str):
         try:
-            return cls.query.filter_by(cnpj=cnpj).first()
+            return db.query(CorretoraListaModel).filter_by(cnpj=cnpj).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -44,9 +44,9 @@ class CorretoraListaRepository:
     async def get_nomes(cls, db: _orm.Session):
         try:
             try:
-                return cls.query.filter_by(situacao='A').order_by(cls, db: _orm.nome).all()
+                return db.query(CorretoraListaModel).filter_by(situacao='A').order_by(CorretoraListaModel.nome).all()
             except Exception as e:
-                return cls.query.filter_by(situacao='A').order_by(cls, db: _orm.nome).all()
+                return db.query(CorretoraListaModel).filter_by(situacao='A').order_by(CorretoraListaModel.nome).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -161,9 +161,9 @@ class CorretoraListaRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: CorretoraListaModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -171,11 +171,11 @@ class CorretoraListaRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: CorretoraListaModel, commit: bool = True):
         try:
-            params = {'IDCORRETORALISTA': self.id}
+            params = {'IDCORRETORALISTA': row.id}
             db.execute('UPDATE TBCORRETORA SET IDCORRETORALISTA = NULL WHERE IDCORRETORALISTA = :IDCORRETORALISTA', params)
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

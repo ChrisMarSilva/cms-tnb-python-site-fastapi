@@ -11,7 +11,7 @@ class ETFIndiceCotacaoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(ETFIndiceCotacaoModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class ETFIndiceCotacaoRepository:
     @classmethod
     async def get_by_indice(cls, db: _orm.Session, id_indice: int):
         try:
-            return cls.query.filter_by(id_indice=id_indice).first()
+            return db.query(ETFIndiceCotacaoModel).filter_by(id_indice=id_indice).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -87,9 +87,9 @@ class ETFIndiceCotacaoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: ETFIndiceCotacaoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -97,9 +97,9 @@ class ETFIndiceCotacaoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: ETFIndiceCotacaoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

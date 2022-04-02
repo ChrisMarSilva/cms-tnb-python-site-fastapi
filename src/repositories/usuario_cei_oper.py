@@ -14,7 +14,7 @@ class UsuarioCeiOperRepository:
         # // $sql  = "SHOW TABLES LIKE ".self::$table_name;
         # // $sql  = "DESCRIBE ".self::$table_name;
         query = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = :TABLE_NAME"
-        params = {'TABLE_NAME': cls.tablename + str(id_usuario)}
+        params = {'TABLE_NAME': "TBCEI_OPER_USER_" + str(id_usuario)}
         return db.execute(query, params).first()
 
     @classmethod
@@ -24,7 +24,7 @@ class UsuarioCeiOperRepository:
             return []
 
         query = """ SELECT CO.ID, CO.IDUSUARIO, CO.CATEGORIA, CO.DATA, CO.TIPO, CO.CODIGO, CO.QUANT, CO.PRECO, CO.TOTAL, CO.CORRET_ID, CO.CORRET_NOME, CO.CORRET_CONTA, CO.SITUACAO 
-                    FROM """ + cls.tablename + str(id_usuario) + """ CO 
+                    FROM TBCEI_OPER_USER_""" + str(id_usuario) + """ CO 
                     WHERE CO.IDUSUARIO = :IDUSUARIO
                 """
         if dt_ini: query += " AND CO.DATA >= :DATAINICIO "
@@ -53,7 +53,7 @@ class UsuarioCeiOperRepository:
             return []
 
         query = """ SELECT CO.ID, CO.IDUSUARIO, CO.CATEGORIA, CO.DATA, CO.TIPO, CO.CODIGO, CO.QUANT, CO.PRECO, CO.TOTAL, CO.CORRET_ID, CO.CORRET_NOME, CO.CORRET_CONTA, CO.SITUACAO 
-                    FROM """ + cls.tablename + str(id_usuario) + """ CO 
+                    FROM TBCEI_OPER_USER_""" + str(id_usuario) + """ CO 
                     WHERE CO.ID = :ID
                 """
         params = {'ID': id}
@@ -69,7 +69,7 @@ class UsuarioCeiOperRepository:
         if not cls.tabela_existe(id_usuario=id_usuario):
             return []
 
-        query = """ SELECT DISTINCT CP.CODIGO FROM """ + cls.tablename + str(id_usuario) + """ CP ORDER BY CP.CODIGO """
+        query = """ SELECT DISTINCT CP.CODIGO FROM TBCEI_OPER_USER_""" + str(id_usuario) + """ CP ORDER BY CP.CODIGO """
         params = {}
         try:
             return db.execute(query, params)
@@ -82,7 +82,7 @@ class UsuarioCeiOperRepository:
         try:
             if not cls.tabela_existe(id_usuario=id_usuario):
                 return True
-            query = """ UPDATE """ + cls.tablename + str(id_usuario) + """ SET SITUACAO = :SITUACAO WHERE ID = :ID """
+            query = """ UPDATE TBCEI_OPER_USER_""" + str(id_usuario) + """ SET SITUACAO = :SITUACAO WHERE ID = :ID """
             params = {'ID': id, 'SITUACAO': situacao}
             db.execute(query, params)
             if commit: db.commit()
@@ -97,7 +97,7 @@ class UsuarioCeiOperRepository:
         try:
             if not cls.tabela_existe(id_usuario=id_usuario):
                 return True
-            query = """ UPDATE """ + cls.tablename + str(id_usuario) + """ SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO """
+            query = """ UPDATE TBCEI_OPER_USER_""" + str(id_usuario) + """ SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO """
             params = {'IDUSUARIO': id_usuario}
             db.execute(query, params)
             if commit: db.commit()

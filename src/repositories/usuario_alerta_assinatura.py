@@ -11,7 +11,7 @@ class UsuarioAlertaAssinaturaRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(UsuarioAlertaAssinaturaModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class UsuarioAlertaAssinaturaRepository:
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario).all()
+            return db.query(UsuarioAlertaAssinaturaModel).filter_by(id_usuario=id_usuario).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class UsuarioAlertaAssinaturaRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioAlertaAssinaturaModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +35,7 @@ class UsuarioAlertaAssinaturaRepository:
     @classmethod
     async def get_by_tipos(cls, db: _orm.Session, id_usuario: int, tipo_assinatura: str, tipo_alerta: str):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, tipo_assinatura=tipo_assinatura, tipo_alerta=tipo_alerta).first()
+            return db.query(UsuarioAlertaAssinaturaModel).filter_by(id_usuario=id_usuario, tipo_assinatura=tipo_assinatura, tipo_alerta=tipo_alerta).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -104,9 +104,9 @@ class UsuarioAlertaAssinaturaRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioAlertaAssinaturaModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -114,12 +114,11 @@ class UsuarioAlertaAssinaturaRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioAlertaAssinaturaModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
-            raiseao: {str(self.situacao)}' \
-               '>'
+            raise

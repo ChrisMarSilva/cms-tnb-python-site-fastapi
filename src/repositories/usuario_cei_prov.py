@@ -11,7 +11,7 @@ class UsuarioCeiProvRepository:
     @classmethod
     async def tabela_existe(cls, db: _orm.Session, id_usuario: int):
         query = " SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = :TABLE_NAME"
-        params = {'TABLE_NAME': cls.tablename + str(id_usuario)}
+        params = {'TABLE_NAME': "TBCEI_PROV_USER_" + str(id_usuario)}
         return db.execute(query, params).first()
 
     @classmethod
@@ -21,7 +21,7 @@ class UsuarioCeiProvRepository:
             return []
 
         query = """ SELECT CP.ID, CP.IDUSUARIO, CP.CATEGORIA, CP.CODIGO, CP.DATA_PAGTO, CP.TIPO, CP.QUANT, CP.TOTAL_BRUTO, CP.TOTAL_LIQUIDO, CP.CORRET_ID, CP.CORRET_NOME, CP.CORRET_CONTA, CP.SITUACAO
-                    FROM """ + cls.tablename + str(id_usuario) + """ CP 
+                    FROM TBCEI_PROV_USER_""" + str(id_usuario) + """ CP 
                     WHERE CP.IDUSUARIO = :IDUSUARIO
                 """
 
@@ -51,7 +51,7 @@ class UsuarioCeiProvRepository:
             return []
 
         query = """ SELECT CP.ID, CP.IDUSUARIO, CP.CATEGORIA, CP.CODIGO, CP.DATA_PAGTO, CP.TIPO, CP.QUANT, CP.TOTAL_BRUTO, CP.TOTAL_LIQUIDO, CP.CORRET_ID, CP.CORRET_NOME, CP.CORRET_CONTA, CP.SITUACAO 
-                    FROM """ + cls.tablename + str(id_usuario) + """ CP 
+                    FROM TBCEI_PROV_USER_""" + str(id_usuario) + """ CP 
                     WHERE CP.ID = :ID
                 """
         params = {'ID': id}
@@ -67,7 +67,7 @@ class UsuarioCeiProvRepository:
         if not cls.tabela_existe(id_usuario=id_usuario):
             return []
 
-        query = """ SELECT DISTINCT CP.CODIGO FROM """ + cls.tablename + str(id_usuario) + """ CP ORDER BY CP.CODIGO """
+        query = """ SELECT DISTINCT CP.CODIGO FROM TBCEI_PROV_USER_""" + str(id_usuario) + """ CP ORDER BY CP.CODIGO """
         params = {}
         try:
             return db.execute(query, params)
@@ -80,7 +80,7 @@ class UsuarioCeiProvRepository:
         try:
             if not cls.tabela_existe(id_usuario=id_usuario):
                 return True
-            query = """ UPDATE """ + cls.tablename + str(id_usuario) + """ SET SITUACAO = :SITUACAO WHERE ID = :ID """
+            query = """ UPDATE TBCEI_PROV_USER_""" + str(id_usuario) + """ SET SITUACAO = :SITUACAO WHERE ID = :ID """
             params = {'ID': id, 'SITUACAO': situacao}
             db.execute(query, params)
             if commit: db.commit()
@@ -95,7 +95,7 @@ class UsuarioCeiProvRepository:
         try:
             if not cls.tabela_existe(id_usuario=id_usuario):
                 return True
-            query = """ UPDATE """ + cls.tablename + str(id_usuario) + """ SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO """
+            query = """ UPDATE TBCEI_PROV_USER_""" + str(id_usuario) + """ SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO """
             params = {'IDUSUARIO': id_usuario}
             db.execute(query, params)
             if commit: db.commit()

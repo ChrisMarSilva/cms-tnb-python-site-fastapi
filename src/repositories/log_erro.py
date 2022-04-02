@@ -2,8 +2,9 @@
 import sys
 import os
 #from flask_login import current_user
-from src.models.log_erro import LogErroModel
 import sqlalchemy.orm as _orm
+from src.models.log_erro import LogErroModel
+from src.util.util_datahora import pegar_data_hora_atual
 
 
 class LogErroRepository:
@@ -11,7 +12,7 @@ class LogErroRepository:
     @classmethod
     async def find_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.data_hora, cls.id).all()
+            return db.query(LogErroModel).order_by(LogErroModel.data_hora, cls.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +20,7 @@ class LogErroRepository:
     @classmethod
     async def find_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(LogErroModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -76,18 +77,18 @@ class LogErroRepository:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
 
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: LogErroModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
 
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: LogErroModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -97,13 +98,13 @@ class LogErroRepository:
     @staticmethod
     async def descricao_erro(texto: str = None) -> str:
         try:
-            if str(current_user.tipo) == 'A': return str(texto)
+            # if str(current_user.tipo) == 'A': return str(texto)
             return "Ocorreu um erro ao processar a requisição. Tente novamente mais tarde!"
         except:
             return "Ocorreu um erro ao processar a requisição. Tente novamente mais tarde!"
 
     @staticmethod
-    async def registrar(id_usuario: int = None, arqv: str = None, linha: int = None, texto: str = None) -> bool:
+    async def registrar(db: _orm.Session, id_usuario: int = None, arqv: str = None, linha: int = None, texto: str = None) -> bool:
         try:
 
             try:
@@ -114,7 +115,7 @@ class LogErroRepository:
             if texto.strip() == '': return False
 
             try:
-                if not id_usuario: id_usuario = current_user.id
+                # if not id_usuario: id_usuario = current_user.id
                 if id_usuario is not None and str(id_usuario).strip() == '': id_usuario = None
             except:
                 id_usuario = None
@@ -135,7 +136,7 @@ class LogErroRepository:
             except Exception as e:
                 data_hora = pegar_data_hora_atual()
 
-            log_erro = LogErro()
+            log_erro = LogErroModel()
             log_erro.data_hora = data_hora
             log_erro.id_usuario = id_usuario
             log_erro.arquivo = arqv

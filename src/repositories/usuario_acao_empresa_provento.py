@@ -12,7 +12,7 @@ class UsuarioACAOEmpresaProventoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(UsuarioACAOEmpresaProventoModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -20,7 +20,7 @@ class UsuarioACAOEmpresaProventoRepository:
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario).all()
+            return db.query(UsuarioACAOEmpresaProventoModel).filter_by(id_usuario=id_usuario).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -28,7 +28,7 @@ class UsuarioACAOEmpresaProventoRepository:
     @classmethod
     async def get_all_by_ativo(cls, db: _orm.Session, id_ativo: int):
         try:
-            return cls.query.filter_by(id_ativo=id_ativo).all()
+            return db.query(UsuarioACAOEmpresaProventoModel).filter_by(id_ativo=id_ativo).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -36,7 +36,7 @@ class UsuarioACAOEmpresaProventoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioACAOEmpresaProventoModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -44,7 +44,7 @@ class UsuarioACAOEmpresaProventoRepository:
     @classmethod
     async def get_by_usuario(cls, db: _orm.Session, id: int, id_usuario: int):
         try:
-            return cls.query.filter_by(id=id, id_usuario=id_usuario).first()
+            return db.query(UsuarioACAOEmpresaProventoModel).filter_by(id=id, id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -54,10 +54,10 @@ class UsuarioACAOEmpresaProventoRepository:
         try:
 
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if id_ativo: filters.append(cls, db: _orm.id_ativo == id_ativo)
+            if id_usuario: filters.append(UsuarioACAOEmpresaProventoModel.id_usuario == id_usuario)
+            if id_ativo: filters.append(UsuarioACAOEmpresaProventoModel.id_ativo == id_ativo)
 
-            return db.query(db.func.min(cls, db: _orm.data_pagto)).filter(*filters).first()
+            return db.query(db.func.min(UsuarioACAOEmpresaProventoModel.data_pagto)).filter(*filters).first()
 
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
@@ -68,9 +68,9 @@ class UsuarioACAOEmpresaProventoRepository:
         try:
 
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if id_ativo: filters.append(cls, db: _orm.id_ativo == id_ativo)
-            return db.query(db.func.min(cls, db: _orm.data_ex)).filter(*filters).first()
+            if id_usuario: filters.append(UsuarioACAOEmpresaProventoModel.id_usuario == id_usuario)
+            if id_ativo: filters.append(UsuarioACAOEmpresaProventoModel.id_ativo == id_ativo)
+            return db.query(db.func.min(UsuarioACAOEmpresaProventoModel.data_ex)).filter(*filters).first()
 
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
@@ -81,10 +81,10 @@ class UsuarioACAOEmpresaProventoRepository:
         try:
 
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if id_ativo: filters.append(cls, db: _orm.id_ativo == id_ativo)
+            if id_usuario: filters.append(UsuarioACAOEmpresaProventoModel.id_usuario == id_usuario)
+            if id_ativo: filters.append(UsuarioACAOEmpresaProventoModel.id_ativo == id_ativo)
 
-            return db.query(db.func.max(cls, db: _orm.data_pagto)).filter(*filters).first()
+            return db.query(db.func.max(UsuarioACAOEmpresaProventoModel.data_pagto)).filter(*filters).first()
 
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
@@ -95,10 +95,10 @@ class UsuarioACAOEmpresaProventoRepository:
         try:
 
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if id_ativo: filters.append(cls, db: _orm.id_ativo == id_ativo)
+            if id_usuario: filters.append(UsuarioACAOEmpresaProventoModel.id_usuario == id_usuario)
+            if id_ativo: filters.append(UsuarioACAOEmpresaProventoModel.id_ativo == id_ativo)
 
-            return db.query(db.func.max(cls, db: _orm.data_ex)).filter(*filters).first()
+            return db.query(db.func.max(UsuarioACAOEmpresaProventoModel.data_ex)).filter(*filters).first()
 
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
@@ -439,9 +439,9 @@ class UsuarioACAOEmpresaProventoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioACAOEmpresaProventoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -449,9 +449,9 @@ class UsuarioACAOEmpresaProventoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioACAOEmpresaProventoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

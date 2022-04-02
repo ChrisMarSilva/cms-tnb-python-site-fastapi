@@ -11,7 +11,7 @@ class UsuarioRadarGrupoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.id).all()
+            return db.query(UsuarioRadarGrupoModel).order_by(UsuarioRadarGrupoModel.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class UsuarioRadarGrupoRepository:
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario).order_by(cls, db: _orm.id_usuario, cls.descricao).all()
+            return db.query(UsuarioRadarGrupoModel).filter_by(id_usuario=id_usuario).order_by(UsuarioRadarGrupoModel.id_usuario, UsuarioRadarGrupoModel.descricao).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class UsuarioRadarGrupoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioRadarGrupoModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +35,7 @@ class UsuarioRadarGrupoRepository:
     @classmethod
     async def get_by_id_and_id_usuario(cls, db: _orm.Session, id: int, id_usuario: int):
         try:
-            return cls.query.filter_by(id=id, id_usuario=id_usuario).first()
+            return db.query(UsuarioRadarGrupoModel).filter_by(id=id, id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -43,7 +43,7 @@ class UsuarioRadarGrupoRepository:
     @classmethod
     async def get_by_descricao(cls, db: _orm.Session, id_usuario: int, descricao: str):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, descricao=descricao).first()
+            return db.query(UsuarioRadarGrupoModel).filter_by(id_usuario=id_usuario, descricao=descricao).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -51,7 +51,7 @@ class UsuarioRadarGrupoRepository:
     @classmethod
     async def get_descricoes_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, situacao='A', ).order_by(cls, db: _orm.descricao).all()
+            return db.query(UsuarioRadarGrupoModel).filter_by(id_usuario=id_usuario, situacao='A', ).order_by(UsuarioRadarGrupoModel.descricao).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -109,9 +109,9 @@ class UsuarioRadarGrupoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioRadarGrupoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -119,14 +119,14 @@ class UsuarioRadarGrupoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioRadarGrupoModel, commit: bool = True):
         try:
-            params = {'IDGRUPO': self.id}
+            params = {'IDGRUPO': row.id}
             db.execute("DELETE FROM TBUSUARIO_ACOMP_CRIPTO WHERE IDGRUPO = :IDGRUPO", params)
             db.execute("DELETE FROM TBUSUARIO_ACOMP_INDICE WHERE IDGRUPO = :IDGRUPO", params)
             db.execute("DELETE FROM TBUSUARIO_ACOMP_FUNDO  WHERE IDGRUPO = :IDGRUPO", params)
             db.execute("DELETE FROM TBUSUARIO_ACOMP_ATIVO  WHERE IDGRUPO = :IDGRUPO", params)
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

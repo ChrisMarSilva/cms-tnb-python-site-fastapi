@@ -11,7 +11,7 @@ class FiiFundoImobAdminRepository:
     @classmethod
     async def find_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(MODEL).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class FiiFundoImobAdminRepository:
     @classmethod
     async def get_lista_nomes(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.nome).all()
+            return db.query(MODEL).order_by(MODEL.nome).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise

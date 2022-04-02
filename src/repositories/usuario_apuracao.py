@@ -11,12 +11,12 @@ class UsuarioApuracaoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session, id_usuario: int, tipo: str = None, categoria: str = None, ano_mes: str = None):
         filters = []
-        filters.append(cls, db: _orm.id_usuario == id_usuario)
-        if tipo: filters.append(cls, db: _orm.tipo == tipo)
-        if categoria: filters.append(cls, db: _orm.categoria == categoria)
-        if ano_mes: filters.append(cls, db: _orm.ano_mes == ano_mes)
+        filters.append(UsuarioApuracaoModel.id_usuario == id_usuario)
+        if tipo: filters.append(UsuarioApuracaoModel.tipo == tipo)
+        if categoria: filters.append(UsuarioApuracaoModel.categoria == categoria)
+        if ano_mes: filters.append(UsuarioApuracaoModel.ano_mes == ano_mes)
         try:
-            return cls.query.filter(*filters).order_by(cls, db: _orm.ano_mes, cls.tipo, cls.categoria).all()
+            return db.query(UsuarioApuracaoModel).filter(*filters).order_by(UsuarioApuracaoModel.ano_mes, cls.tipo, cls.categoria).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -24,7 +24,7 @@ class UsuarioApuracaoRepository:
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario).all()
+            return db.query(UsuarioApuracaoModel).filter_by(id_usuario=id_usuario).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -32,7 +32,7 @@ class UsuarioApuracaoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioApuracaoModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -40,7 +40,7 @@ class UsuarioApuracaoRepository:
     @classmethod
     async def get_menor_ano(cls, db: _orm.Session, id_usuario: int = None):
         try:
-            return db.query(db.func.min(cls, db: _orm.ano_mes)).filter_by(id_usuario=id_usuario).first()
+            return db.query(db.func.min(UsuarioApuracaoModel.ano_mes)).filter_by(id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -48,7 +48,7 @@ class UsuarioApuracaoRepository:
     @classmethod
     async def get_maior_ano(cls, db: _orm.Session, id_usuario: int = None):
         try:
-            return db.query(db.func.max(cls, db: _orm.ano_mes)).filter_by(id_usuario=id_usuario).first()
+            return db.query(db.func.max(UsuarioApuracaoModel.ano_mes)).filter_by(id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -133,9 +133,9 @@ class UsuarioApuracaoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioApuracaoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -143,9 +143,9 @@ class UsuarioApuracaoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioApuracaoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

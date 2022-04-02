@@ -12,7 +12,7 @@ class UsuarioETFIndiceLancamentoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(UsuarioETFIndiceLancamentoModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -20,7 +20,7 @@ class UsuarioETFIndiceLancamentoRepository:
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario).all()
+            return db.query(UsuarioETFIndiceLancamentoModel).filter_by(id_usuario=id_usuario).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -28,7 +28,7 @@ class UsuarioETFIndiceLancamentoRepository:
     @classmethod
     async def get_all_by_indice(cls, db: _orm.Session, id_indice: int):
         try:
-            return cls.query.filter_by(id_indice=id_indice).all()
+            return db.query(UsuarioETFIndiceLancamentoModel).filter_by(id_indice=id_indice).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -36,7 +36,7 @@ class UsuarioETFIndiceLancamentoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioETFIndiceLancamentoModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -44,7 +44,7 @@ class UsuarioETFIndiceLancamentoRepository:
     @classmethod
     async def get_by_usuario(cls, db: _orm.Session, id: int, id_usuario: int):
         try:
-            return cls.query.filter_by(id=id, id_usuario=id_usuario).first()
+            return db.query(UsuarioETFIndiceLancamentoModel).filter_by(id=id, id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -54,10 +54,10 @@ class UsuarioETFIndiceLancamentoRepository:
         try:
 
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if id_indice: filters.append(cls, db: _orm.id_indice == id_indice)
+            if id_usuario: filters.append(UsuarioETFIndiceLancamentoModel.id_usuario == id_usuario)
+            if id_indice: filters.append(UsuarioETFIndiceLancamentoModel.id_indice == id_indice)
 
-            return db.query(db.func.min(cls, db: _orm.data)).filter(*filters).first()
+            return db.query(db.func.min(UsuarioETFIndiceLancamentoModel.data)).filter(*filters).first()
 
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
@@ -68,10 +68,10 @@ class UsuarioETFIndiceLancamentoRepository:
         try:
 
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if id_indice: filters.append(cls, db: _orm.id_indice == id_indice)
+            if id_usuario: filters.append(UsuarioETFIndiceLancamentoModel.id_usuario == id_usuario)
+            if id_indice: filters.append(UsuarioETFIndiceLancamentoModel.id_indice == id_indice)
 
-            return db.query(db.func.max(cls, db: _orm.data)).filter(*filters).first()
+            return db.query(db.func.max(UsuarioETFIndiceLancamentoModel.data)).filter(*filters).first()
 
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
@@ -638,9 +638,9 @@ class UsuarioETFIndiceLancamentoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioETFIndiceLancamentoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -648,9 +648,9 @@ class UsuarioETFIndiceLancamentoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioETFIndiceLancamentoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

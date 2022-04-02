@@ -1,12 +1,12 @@
 # # -*- coding: utf-8 -*-
-# import sys
-# import os
-# import asyncio
-# import hashlib
+import sys
+import os
+import asyncio
+import hashlib
 import inspect
 import sqlalchemy.orm as _orm
 from src.models.usuario import UsuarioModel
-# # from app.models.log_erro import LogErro
+# from app.models.log_erro import LogErro
 # from app.login import login_manager
 # from app.cache import get_cache_user, set_cache_user
 # from app.models.usuario_hash import UsuarioHash
@@ -29,7 +29,7 @@ class UsuarioRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(UsuarioModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -37,7 +37,7 @@ class UsuarioRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -45,7 +45,7 @@ class UsuarioRepository:
     @classmethod
     async def get_by_email(cls, db: _orm.Session, email: str):
         try:
-            result = cls.query.filter_by(email=email).first()
+            result = db.query(UsuarioModel).filter_by(email=email).first()
             # db.close()
             return result
         except Exception as e:
@@ -55,7 +55,7 @@ class UsuarioRepository:
     @classmethod
     async def get_by_email_parcial(cls, db: _orm.Session, email: str):
         try:
-            result = cls.query.filter(cls, db: _orm.email.like(email+'@%')).first()
+            result = db.query(UsuarioModel).filter(UsuarioModel.email.like(email+'@%')).first()
             # db.close()
             return result
         except Exception as e:
@@ -66,10 +66,10 @@ class UsuarioRepository:
     @classmethod
     async def get_total(cls, db: _orm.Session, data_registro: str = None, situacao: str = None):
         filters = []
-        if data_registro: filters.append(cls, db: _orm.data_registro == data_registro)
-        if situacao: filters.append(cls, db: _orm.situacao == situacao)
+        if data_registro: filters.append(UsuarioModel.data_registro == data_registro)
+        if situacao: filters.append(UsuarioModel.situacao == situacao)
         try:
-            return cls.query.filter(*filters).count()
+            return db.query(UsuarioModel).filter(*filters).count()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -197,17 +197,17 @@ class UsuarioRepository:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
 
-    async def resetar_dados(cls, db: _orm.Session, commit: bool = True):
+    async def resetar_dados(cls, db: _orm.Session, row: UsuarioModel, commit: bool = True):
         try:
 
-            params = {'IDUSUARIO': self.id}
+            params = {'IDUSUARIO': row.id}
 
             try:
-                db.execute("UPDATE TBCEI_OPER_USER_" + str(self.id) + " SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO", params)
+                db.execute("UPDATE TBCEI_OPER_USER_" + str(row.id) + " SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO", params)
             except:
                 pass
             try:
-                db.execute("UPDATE TBCEI_PROV_USER_"+str(self.id)+" SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO", params)
+                db.execute("UPDATE TBCEI_PROV_USER_"+str(row.id)+" SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO", params)
             except:
                 pass
 
@@ -264,18 +264,18 @@ class UsuarioRepository:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
 
-    async def excluir_tudo(cls, db: _orm.Session, commit: bool = True):
+    async def excluir_tudo(cls, db: _orm.Session, row: UsuarioModel, commit: bool = True):
         try:
 
-            params = {'IDUSUARIO': self.id}
+            params = {'IDUSUARIO': row.id}
 
             try:
-                db.execute("UPDATE TBCEI_OPER_USER_" + str(self.id) + " SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO", params)
+                db.execute("UPDATE TBCEI_OPER_USER_" + str(row.id) + " SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO", params)
             except:
                 pass
 
             try:
-                db.execute("UPDATE TBCEI_PROV_USER_"+str(self.id)+" SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO", params)
+                db.execute("UPDATE TBCEI_PROV_USER_"+str(row.id)+" SET SITUACAO = 'I' WHERE IDUSUARIO = :IDUSUARIO", params)
             except:
                 pass
 
@@ -340,18 +340,18 @@ class UsuarioRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

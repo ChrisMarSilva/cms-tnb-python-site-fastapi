@@ -11,11 +11,11 @@ class UsuarioCarteiraAcaoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session, id: int = None, id_carteira: int = None, id_ativo: int = None):
         filters = []
-        if id: filters.append(cls, db: _orm.id == id)
-        if id_carteira: filters.append(cls, db: _orm.id_carteira == id_carteira)
-        if id_ativo: filters.append(cls, db: _orm.id_ativo == id_ativo)
+        if id: filters.append(UsuarioCarteiraAcaoModel.id == id)
+        if id_carteira: filters.append(UsuarioCarteiraAcaoModel.id_carteira == id_carteira)
+        if id_ativo: filters.append(UsuarioCarteiraAcaoModel.id_ativo == id_ativo)
         try:
-            return cls.query.filter(*filters).order_by(cls, db: _orm.id).all()
+            return db.query(UsuarioCarteiraAcaoModel).filter(*filters).order_by(UsuarioCarteiraAcaoModel.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -23,7 +23,7 @@ class UsuarioCarteiraAcaoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioCarteiraAcaoModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -404,9 +404,9 @@ class UsuarioCarteiraAcaoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioCarteiraAcaoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -414,9 +414,9 @@ class UsuarioCarteiraAcaoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioCarteiraAcaoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

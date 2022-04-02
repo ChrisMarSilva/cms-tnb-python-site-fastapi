@@ -11,37 +11,37 @@ class UsuarioACAOEmpresaLancamentoRepository:
 
     @classmethod
     async def get_all(cls, db: _orm.Session):
-        return cls.query.all()
+        return db.query(UsuarioACAOEmpresaLancamentoModel).all()
 
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
-        return cls.query.filter_by(id_usuario=id_usuario).all()
+        return db.query(UsuarioACAOEmpresaLancamentoModel).filter_by(id_usuario=id_usuario).all()
 
     @classmethod
     async def get_all_by_ativo(cls, db: _orm.Session, id_ativo: int):
-        return cls.query.filter_by(id_ativo=id_ativo).all()
+        return db.query(UsuarioACAOEmpresaLancamentoModel).filter_by(id_ativo=id_ativo).all()
 
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
-        return cls.query.filter_by(id=id).first()
+        return db.query(UsuarioACAOEmpresaLancamentoModel).filter_by(id=id).first()
 
     @classmethod
     async def get_by_usuario(cls, db: _orm.Session, id: int, id_usuario: int):
-        return cls.query.filter_by(id=id, id_usuario=id_usuario).first()
+        return db.query(UsuarioACAOEmpresaLancamentoModel).filter_by(id=id, id_usuario=id_usuario).first()
 
     @classmethod
     async def get_menor_ano(cls, db: _orm.Session, id_usuario: int = None, id_ativo: int = None):
         filters = []
-        if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-        if id_ativo: filters.append(cls, db: _orm.id_ativo == id_ativo)
-        return db.query(db.func.min(cls, db: _orm.data)).filter(*filters).first()
+        if id_usuario: filters.append(UsuarioACAOEmpresaLancamentoModel.id_usuario == id_usuario)
+        if id_ativo: filters.append(UsuarioACAOEmpresaLancamentoModel.id_ativo == id_ativo)
+        return db.query(db.func.min(UsuarioACAOEmpresaLancamentoModel.data)).filter(*filters).first()
 
     @classmethod
     async def get_maior_ano(cls, db: _orm.Session, id_usuario: int = None, id_ativo: int = None):
         filters = []
-        if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-        if id_ativo: filters.append(cls, db: _orm.id_ativo == id_ativo)
-        return db.query(db.func.max(cls, db: _orm.data)).filter(*filters).first()
+        if id_usuario: filters.append(UsuarioACAOEmpresaLancamentoModel.id_usuario == id_usuario)
+        if id_ativo: filters.append(UsuarioACAOEmpresaLancamentoModel.id_ativo == id_ativo)
+        return db.query(db.func.max(UsuarioACAOEmpresaLancamentoModel.data)).filter(*filters).first()
 
     @classmethod
     async def buscar_todos(cls, db: _orm.Session, id_usuario: int = None, codigo: str = None, dt_ini: str = None, dt_fim: str = None, tipo: str = None, ordem: str = None, id_corretora: str = None, troca: str = None):
@@ -341,18 +341,18 @@ class UsuarioACAOEmpresaLancamentoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioACAOEmpresaLancamentoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioACAOEmpresaLancamentoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

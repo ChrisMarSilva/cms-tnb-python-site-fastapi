@@ -4,6 +4,7 @@ import os
 import sqlalchemy.orm as _orm
 from src.models.alerta import AlertaModel
 # from app.models.log_erro import LogErro
+from src.util.util_datahora import pegar_data_atual, pegar_data_hora_atual
 
 
 class AlertaRepository:
@@ -11,7 +12,7 @@ class AlertaRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.dthr_registro).all()
+            return db.query(AlertaModel).order_by(AlertaModel.dthr_registro).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +20,7 @@ class AlertaRepository:
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario).order_by(cls, db: _orm.dthr_registro).all()
+            return db.query(AlertaModel).filter_by(id_usuario=id_usuario).order_by(AlertaModel.dthr_registro).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +28,7 @@ class AlertaRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(AlertaModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +36,7 @@ class AlertaRepository:
     @classmethod
     async def get_by_id_usuarios(cls, db: _orm.Session, id_usuario: int, id: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, id=id).first()
+            return db.query(AlertaModel).filter_by(id_usuario=id_usuario, id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -89,10 +90,10 @@ class AlertaRepository:
             raise
 
     @staticmethod
-    async def registrar(id_usuario: int = None, tipo: str = None, mensagem: str = None):
+    async def registrar(db: _orm.Session, id_usuario: int = None, tipo: str = None, mensagem: str = None):
         try:
 
-            alerta = Alerta()
+            alerta = AlertaModel()
             alerta.id_usuario = id_usuario
             alerta.dthr_registro = pegar_data_hora_atual()
             alerta.data_envio = pegar_data_atual()
@@ -106,12 +107,12 @@ class AlertaRepository:
             db.commit()
 
         except Exception as e:
-            #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
+            pass  #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: AlertaModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

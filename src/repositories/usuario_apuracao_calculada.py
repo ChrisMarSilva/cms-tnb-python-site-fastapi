@@ -18,6 +18,7 @@ from src.models.usuario_etf_indice_operacao import UsuarioETFIndiceOperacaoModel
 from src.models.usuario_bdr_empresa_operacao import UsuarioBDREmpresaOperacaoModel
 from src.models.usuario_cripto_lancamento import UsuarioCriptoLancamentoModel
 # from app.models.log_erro import LogErro
+from src.util.util_datahora import pegar_data_atual, converter_datetime_str
 
 
 class UsuarioApuracaoCalculadaRepository:
@@ -63,7 +64,7 @@ class UsuarioApuracaoCalculadaRepository:
     @classmethod
     @asyncio.coroutine
     async def gerar_async(cls, db: _orm.Session, id_usuario: int, tp_apuracao: str, calc_vlr_superior: str = None) -> None:
-        cls.gerar(id_usuario=id_usuario, tp_apuracao=tp_apuracao, calc_vlr_superior=calc_vlr_superior)
+        cls.gerar(db=db, id_usuario=id_usuario, tp_apuracao=tp_apuracao, calc_vlr_superior=calc_vlr_superior)
 
     @classmethod
     async def gerar(cls, db: _orm.Session, id_usuario: int, tp_apuracao: str, calc_vlr_superior: str = None) -> None:
@@ -73,11 +74,11 @@ class UsuarioApuracaoCalculadaRepository:
             ano_atual = converter_datetime_str(data=dt_atual, fmt='%Y')
             mes_atual = converter_datetime_str(data=dt_atual, fmt='%m')
 
-            if cls.get_total(id_usuario=id_usuario, categoria=tp_apuracao, ano_mes_ini=str(ano_atual+mes_atual)) > 0:
+            if cls.get_total(db=db, id_usuario=id_usuario, categoria=tp_apuracao, ano_mes_ini=str(ano_atual+mes_atual)) > 0:
                 return
 
             if tp_apuracao == 'C' and not calc_vlr_superior:
-                config = UsuarioConfig.get_by_tipo(id_usuario=id_usuario, tipo='APURACAO_COMPENSAR_PREJUIZO')
+                config = UsuarioConfigModel.get_by_tipo(id_usuario=id_usuario, tipo='APURACAO_COMPENSAR_PREJUIZO')
                 calc_vlr_superior = config.valor if config else 'S'
 
             if tp_apuracao == "C": calc_vlr_superior = calc_vlr_superior  # Acao Comum
@@ -90,46 +91,46 @@ class UsuarioApuracaoCalculadaRepository:
             elif tp_apuracao == "K": calc_vlr_superior = "N"  # Cripto
             if not calc_vlr_superior: calc_vlr_superior = "N"
 
-            rows = UsuarioApuracao.get_all(id_usuario=id_usuario, tipo='M', categoria=tp_apuracao)
+            rows = UsuarioApuracaoModel.get_all(id_usuario=id_usuario, tipo='M', categoria=tp_apuracao)
             lista_apuracao = [[str(row.ano_mes), float(row.valor) if row.valor else 0.0] for row in rows]
 
             lista_acao_lanc = []
             lista_acao_oper = []
             if tp_apuracao == "C" or tp_apuracao == "D":  # Acoes C-Comum e D-DayTrade
-                rows = UsuarioACAOEmpresaLancamento.buscar_todos(id_usuario=id_usuario, tipo="V", troca="N")
+                rows = UsuarioACAOEmpresaLancamentoModel.buscar_todos(id_usuario=id_usuario, tipo="V", troca="N")
                 lista_acao_lanc = [[int(row['ID']), str(row['DATA'])[0:6], float(row['VLRTXIRRF']) if row['VLRTXIRRF'] else 0.0] for row in rows]
-                rows = UsuarioACAOEmpresaOperacao.buscar_todos(id_usuario=id_usuario, categoria=tp_apuracao, tipo="V", troca="N")
-                lista_acao_oper = [[int(row['ID']), int(row['IDLANC']), str(row['DATA'])[0:6], float(row['TOTVLRCUSTO']) if row['TOTVLRCUSTO'] else 0.0, float(UsuarioACAOEmpresaOperacao.calcular_vlr_valorizacao(tipo=row['TIPO'], quant=float(row['QUANT']), vlr_preco_medio=float(row['VLRPRECOMEDIO']), tot_vlr_custo=float(row['TOTVLRCUSTO'])))] for row in rows]
+                rows = UsuarioACAOEmpresaOperacaoModel.buscar_todos(id_usuario=id_usuario, categoria=tp_apuracao, tipo="V", troca="N")
+                lista_acao_oper = [[int(row['ID']), int(row['IDLANC']), str(row['DATA'])[0:6], float(row['TOTVLRCUSTO']) if row['TOTVLRCUSTO'] else 0.0, float(UsuarioACAOEmpresaOperacaoModel.calcular_vlr_valorizacao(tipo=row['TIPO'], quant=float(row['QUANT']), vlr_preco_medio=float(row['VLRPRECOMEDIO']), tot_vlr_custo=float(row['TOTVLRCUSTO'])))] for row in rows]
 
             lista_fii_lanc = []
             if tp_apuracao == 'F':  # FII F-Fundo
-                rows = UsuarioFiiFundoImobLancamento.buscar_todos(id_usuario=id_usuario, tipo="V", troca="N")
-                lista_fii_lanc = [[int(row['ID']), str(row['DATA'])[0:6], float(row['VLRTXIRRF']) if row['VLRTXIRRF'] else 0.0, float(row['TOTVLRCUSTO']) if row['TOTVLRCUSTO'] else 0.0, float(UsuarioFiiFundoImobLancamento.calcular_vlr_valorizacao(tipo=row['TIPO'], quant=float(row['QUANT']), vlr_preco_medio=float(row['VLRPRECOMEDIO']), tot_vlr_custo=float(row['TOTVLRCUSTO'])))] for row in rows]
+                rows = UsuarioFiiFundoImobLancamentoModel.buscar_todos(id_usuario=id_usuario, tipo="V", troca="N")
+                lista_fii_lanc = [[int(row['ID']), str(row['DATA'])[0:6], float(row['VLRTXIRRF']) if row['VLRTXIRRF'] else 0.0, float(row['TOTVLRCUSTO']) if row['TOTVLRCUSTO'] else 0.0, float(UsuarioFiiFundoImobLancamentoModel.calcular_vlr_valorizacao(tipo=row['TIPO'], quant=float(row['QUANT']), vlr_preco_medio=float(row['VLRPRECOMEDIO']), tot_vlr_custo=float(row['TOTVLRCUSTO'])))] for row in rows]
 
             lista_etf_lanc = []
             lista_etf_oper = []
             if tp_apuracao == 'E' or tp_apuracao == 'G':  # ETF E-Comum e G-DayTrade
-                rows = UsuarioETFIndiceLancamento.buscar_todos(id_usuario=id_usuario, tipo="V", troca="N")
+                rows = UsuarioETFIndiceLancamentoModel.buscar_todos(id_usuario=id_usuario, tipo="V", troca="N")
                 lista_etf_lanc = [[int(row['ID']), str(row['DATA'])[0:6], float(row['VLRTXIRRF']) if row['VLRTXIRRF'] else 0.0] for row in rows]
                 rows = None
-                if tp_apuracao == "E": rows = UsuarioETFIndiceOperacao.buscar_todos(id_usuario=id_usuario, categoria='C', tipo="V", troca="N")
-                if tp_apuracao == "G": rows = UsuarioETFIndiceOperacao.buscar_todos(id_usuario=id_usuario, categoria='D', tipo="V", troca="N")
-                lista_etf_oper = [[int(row['ID']), int(row['IDLANC']), str(row['DATA'])[0:6], float(row['TOTVLRCUSTO']) if row['TOTVLRCUSTO'] else 0.0, float(UsuarioETFIndiceOperacao.calcular_vlr_valorizacao(tipo=row['TIPO'], quant=float(row['QUANT']), vlr_preco_medio=float(row['VLRPRECOMEDIO']), tot_vlr_custo=float(row['TOTVLRCUSTO'])))] for row in rows]
+                if tp_apuracao == "E": rows = UsuarioETFIndiceOperacaoModel.buscar_todos(id_usuario=id_usuario, categoria='C', tipo="V", troca="N")
+                if tp_apuracao == "G": rows = UsuarioETFIndiceOperacaoModel.buscar_todos(id_usuario=id_usuario, categoria='D', tipo="V", troca="N")
+                lista_etf_oper = [[int(row['ID']), int(row['IDLANC']), str(row['DATA'])[0:6], float(row['TOTVLRCUSTO']) if row['TOTVLRCUSTO'] else 0.0, float(UsuarioETFIndiceOperacaoModel.calcular_vlr_valorizacao(tipo=row['TIPO'], quant=float(row['QUANT']), vlr_preco_medio=float(row['VLRPRECOMEDIO']), tot_vlr_custo=float(row['TOTVLRCUSTO'])))] for row in rows]
 
             lista_bdr_lanc = []
             lista_bdr_oper = []
             if tp_apuracao == 'I' or tp_apuracao == 'J':  # BDR I-Comum e J-DayTrade
-                rows = UsuarioBDREmpresaLancamento.buscar_todos(id_usuario=id_usuario, tipo="V", troca="N")
+                rows = UsuarioBDREmpresaLancamentoModel.buscar_todos(id_usuario=id_usuario, tipo="V", troca="N")
                 lista_bdr_lanc = [[int(row['ID']), str(row['DATA'])[0:6], float(row['VLRTXIRRF']) if row['VLRTXIRRF'] else 0.0] for row in rows]
                 rows = None
-                if tp_apuracao == "I": rows = UsuarioBDREmpresaOperacao.buscar_todos(id_usuario=id_usuario, categoria='C', tipo="V", troca="N")
-                if tp_apuracao == "J": rows = UsuarioBDREmpresaOperacao.buscar_todos(id_usuario=id_usuario, categoria='D', tipo="V", troca="N")
-                lista_bdr_oper = [[int(row['ID']), int(row['IDLANC']), str(row['DATA'])[0:6], float(row['TOTVLRCUSTO']) if row['TOTVLRCUSTO'] else 0.0, float(UsuarioBDREmpresaOperacao.calcular_vlr_valorizacao(tipo=row['TIPO'], quant=float(row['QUANT']), vlr_preco_medio=float(row['VLRPRECOMEDIO']), tot_vlr_custo=float(row['TOTVLRCUSTO'])))] for row in rows]
+                if tp_apuracao == "I": rows = UsuarioBDREmpresaOperacaoModel.buscar_todos(id_usuario=id_usuario, categoria='C', tipo="V", troca="N")
+                if tp_apuracao == "J": rows = UsuarioBDREmpresaOperacaoModel.buscar_todos(id_usuario=id_usuario, categoria='D', tipo="V", troca="N")
+                lista_bdr_oper = [[int(row['ID']), int(row['IDLANC']), str(row['DATA'])[0:6], float(row['TOTVLRCUSTO']) if row['TOTVLRCUSTO'] else 0.0, float(UsuarioBDREmpresaOperacaoModel.calcular_vlr_valorizacao(tipo=row['TIPO'], quant=float(row['QUANT']), vlr_preco_medio=float(row['VLRPRECOMEDIO']), tot_vlr_custo=float(row['TOTVLRCUSTO'])))] for row in rows]
 
             lista_cripto_lanc = []
             if tp_apuracao == 'K':  # CRIPTO K-Cripto
-                rows = UsuarioCriptoLancamento.buscar_todos(id_usuario=id_usuario, tipo="V")
-                lista_cripto_lanc = [[int(row['ID']), str(row['DATA'])[0:6], 0.0, float(row['TOTVLRCUSTO']) if row['TOTVLRCUSTO'] else 0.0, float(UsuarioCriptoLancamento.calcular_vlr_valorizacao(tipo=row['TIPO'], quant=float(row['QUANT']), vlr_preco_medio=float(row['VLRPRECOMEDIO']), tot_vlr_custo=float(row['TOTVLRCUSTO'])))] for row in rows]
+                rows = UsuarioCriptoLancamentoModel.buscar_todos(id_usuario=id_usuario, tipo="V")
+                lista_cripto_lanc = [[int(row['ID']), str(row['DATA'])[0:6], 0.0, float(row['TOTVLRCUSTO']) if row['TOTVLRCUSTO'] else 0.0, float(UsuarioCriptoLancamentoModel.calcular_vlr_valorizacao(tipo=row['TIPO'], quant=float(row['QUANT']), vlr_preco_medio=float(row['VLRPRECOMEDIO']), tot_vlr_custo=float(row['TOTVLRCUSTO'])))] for row in rows]
 
             anos = []
             try:
@@ -232,7 +233,7 @@ class UsuarioApuracaoCalculadaRepository:
 
                     if vlr_imposto_a_pagar > 0.0: vlr_imposto_devido = vlr_imposto_a_pagar - vlr_imposto_pago
 
-                    apur_calc = UsuarioApuracaoCalculada()
+                    apur_calc = UsuarioApuracaoCalculadaModel()
                     apur_calc.id_usuario = id_usuario
                     apur_calc.categoria = tp_apuracao
                     apur_calc.ano_mes = ano_mes
@@ -261,11 +262,11 @@ class UsuarioApuracaoCalculadaRepository:
     async def get_all(cls, db: _orm.Session, id_usuario: int = None, categoria: str = None, ano_mes_ini: str = None, ano_mes_fim: str = None):
         try:
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if categoria: filters.append(cls, db: _orm.categoria == categoria)
-            if ano_mes_ini: filters.append(cls, db: _orm.ano_mes >= ano_mes_ini)
-            if ano_mes_fim: filters.append(cls, db: _orm.ano_mes <= ano_mes_fim)
-            return cls.query.filter(*filters).order_by(cls, db: _orm.ano_mes).all()
+            if id_usuario: filters.append(UsuarioApuracaoCalculadaModel.id_usuario == id_usuario)
+            if categoria: filters.append(UsuarioApuracaoCalculadaModel.categoria == categoria)
+            if ano_mes_ini: filters.append(UsuarioApuracaoCalculadaModel.ano_mes >= ano_mes_ini)
+            if ano_mes_fim: filters.append(UsuarioApuracaoCalculadaModel.ano_mes <= ano_mes_fim)
+            return db.query(UsuarioApuracaoCalculadaModel).filter(*filters).order_by(UsuarioApuracaoCalculadaModel.ano_mes).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -274,11 +275,11 @@ class UsuarioApuracaoCalculadaRepository:
     async def get_total(cls, db: _orm.Session, id_usuario: int = None, categoria: str = None, ano_mes_ini: str = None, ano_mes_fim: str = None):
         try:
             filters = []
-            if id_usuario: filters.append(cls, db: _orm.id_usuario == id_usuario)
-            if categoria: filters.append(cls, db: _orm.categoria == categoria)
-            if ano_mes_ini: filters.append(cls, db: _orm.ano_mes >= ano_mes_ini)
-            if ano_mes_fim: filters.append(cls, db: _orm.ano_mes <= ano_mes_fim)
-            return cls.query.filter(*filters).count()
+            if id_usuario: filters.append(UsuarioApuracaoCalculadaModel.id_usuario == id_usuario)
+            if categoria: filters.append(UsuarioApuracaoCalculadaModel.categoria == categoria)
+            if ano_mes_ini: filters.append(UsuarioApuracaoCalculadaModel.ano_mes >= ano_mes_ini)
+            if ano_mes_fim: filters.append(UsuarioApuracaoCalculadaModel.ano_mes <= ano_mes_fim)
+            return db.query(UsuarioApuracaoCalculadaModel).filter(*filters).count()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -308,9 +309,9 @@ class UsuarioApuracaoCalculadaRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioApuracaoCalculadaModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -318,9 +319,9 @@ class UsuarioApuracaoCalculadaRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioApuracaoCalculadaModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

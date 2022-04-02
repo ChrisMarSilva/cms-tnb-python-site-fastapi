@@ -11,7 +11,7 @@ class BDREmpresaProventoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.id).all()
+            return db.query(BDREmpresaProventoModel).order_by(BDREmpresaProventoModel.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class BDREmpresaProventoRepository:
     @classmethod
     async def get_all_by_empresa(cls, db: _orm.Session, id_bdr: int):
         try:
-            return cls.query.filter_by(id_bdr=id_bdr).order_by(cls, db: _orm.id).all()
+            return db.query(BDREmpresaProventoModel).filter_by(id_bdr=id_bdr).order_by(BDREmpresaProventoModel.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class BDREmpresaProventoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(BDREmpresaProventoModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -163,9 +163,9 @@ class BDREmpresaProventoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: BDREmpresaProventoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -173,11 +173,11 @@ class BDREmpresaProventoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: BDREmpresaProventoModel, commit: bool = True):
         try:
-            params = {'IDBDRPROV': self.id}
+            params = {'IDBDRPROV': row.id}
             db.execute("DELETE FROM TBBDR_EMPRESA_PROVENTO_ATIVO WHERE IDBDRPROV = :IDBDRPROV", params)
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

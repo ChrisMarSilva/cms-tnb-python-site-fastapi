@@ -4,7 +4,7 @@ import os
 import datetime as dt
 import time
 import asyncio
-# from threading import Thread
+from threading import Thread
 import sqlalchemy.orm as _orm
 from src.models.acao_empresa_ativo import ACAOEmpresaAtivoModel
 from src.models.fii_fundoimob import FiiFundoImobModel
@@ -81,11 +81,11 @@ class UsuarioCarteiraRepository:
             try:
                 asyncio.set_event_loop(loop)
                 # loop.run_until_complete(teste_01())
-                tasks = [asyncio.Task(cls, db: _orm.__gerar_acao(id_carteira=id_carteira, id_usuario=id_usuario, codigo=codigo)),
-                         asyncio.Task(cls, db: _orm.__gerar_fii(id_carteira=id_carteira, id_usuario=id_usuario, codigo=codigo)),
-                         asyncio.Task(cls, db: _orm.__gerar_etf(id_carteira=id_carteira, id_usuario=id_usuario, codigo=codigo)),
-                         asyncio.Task(cls, db: _orm.__gerar_bdr(id_carteira=id_carteira, id_usuario=id_usuario, codigo=codigo)),
-                         asyncio.Task(cls, db: _orm.__gerar_cripto(id_carteira=id_carteira, id_usuario=id_usuario, codigo=codigo)),
+                tasks = [asyncio.Task(cls.__gerar_acao(id_carteira=id_carteira, id_usuario=id_usuario, codigo=codigo)),
+                         asyncio.Task(cls.__gerar_fii(id_carteira=id_carteira, id_usuario=id_usuario, codigo=codigo)),
+                         asyncio.Task(cls.__gerar_etf(id_carteira=id_carteira, id_usuario=id_usuario, codigo=codigo)),
+                         asyncio.Task(cls.__gerar_bdr(id_carteira=id_carteira, id_usuario=id_usuario, codigo=codigo)),
+                         asyncio.Task(cls.__gerar_cripto(id_carteira=id_carteira, id_usuario=id_usuario, codigo=codigo)),
                          ]
                 loop.run_until_complete(asyncio.gather(*tasks))
             finally:
@@ -103,11 +103,11 @@ class UsuarioCarteiraRepository:
     async def __gerar_default(cls, db: _orm.Session, id_usuario: int) -> int:
         try:
 
-            carteira = UsuarioCarteira.buscar_por_tipo_default(id_usuario=id_usuario)
+            carteira = UsuarioCarteiraModel.buscar_por_tipo_default(id_usuario=id_usuario)
             if carteira:
                 return int(carteira['ID'])
 
-            carteira = UsuarioCarteira()
+            carteira = UsuarioCarteiraModel()
             carteira.id_usuario = id_usuario
             carteira.descricao = 'Meu Portfólio'
             carteira.tipo = 'D'  # D-Default
@@ -128,7 +128,7 @@ class UsuarioCarteiraRepository:
 
             # print(dt.datetime.now(), 'UsuarioCarteira - Gerar - __gerar_acao - INICIO')
 
-            rows = ACAOEmpresaAtivo.buscar_pendentes_situacao(id_usuario=id_usuario, codigo=codigo)
+            rows = ACAOEmpresaAtivoModel.buscar_pendentes_situacao(id_usuario=id_usuario, codigo=codigo)
             for row in rows:
                 codigo = str(row['CODIGO'])
                 id_ativo = int(row['ID'])
@@ -1332,7 +1332,7 @@ class UsuarioCarteiraRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, situacao='A').order_by(cls, db: _orm.tipo, cls.descricao).all()
+            return db.query(MODEL).filter_by(id_usuario=id_usuario, situacao='A').order_by(MODEL.tipo, cls.descricao).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -1340,7 +1340,7 @@ class UsuarioCarteiraRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id, situacao='A').first()
+            return db.query(MODEL).filter_by(id=id, situacao='A').first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -1348,7 +1348,7 @@ class UsuarioCarteiraRepository:
     @classmethod
     async def get_by_usuario(cls, db: _orm.Session, id_usuario: int, id: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, id=id, situacao='A').first()
+            return db.query(MODEL).filter_by(id_usuario=id_usuario, id=id, situacao='A').first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -1356,7 +1356,7 @@ class UsuarioCarteiraRepository:
     @classmethod
     async def get_by_descricao(cls, db: _orm.Session, id_usuario: int, descricao: str):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, descricao=descricao, situacao='A').first()
+            return db.query(MODEL).filter_by(id_usuario=id_usuario, descricao=descricao, situacao='A').first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -1364,7 +1364,7 @@ class UsuarioCarteiraRepository:
     @classmethod
     async def get_by_tipo(cls, db: _orm.Session, id_usuario: int, tipo: str = 'D'):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, tipo=tipo).first()
+            return db.query(MODEL).filter_by(id_usuario=id_usuario, tipo=tipo).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -1372,7 +1372,7 @@ class UsuarioCarteiraRepository:
     @classmethod
     async def get_lista_nome(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, tipo='P', situacao='A').order_by(cls, db: _orm.tipo, cls.descricao).all()
+            return db.query(MODEL).filter_by(id_usuario=id_usuario, tipo='P', situacao='A').order_by(MODEL.tipo, cls.descricao).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -1472,9 +1472,9 @@ class UsuarioCarteiraRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioCarteiraModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -1482,9 +1482,9 @@ class UsuarioCarteiraRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioCarteiraModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

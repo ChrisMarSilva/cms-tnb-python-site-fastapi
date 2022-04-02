@@ -11,7 +11,7 @@ class UsuarioCarteiraProjecaoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.id).all()
+            return db.query(UsuarioCarteiraProjecaoModel).order_by(UsuarioCarteiraProjecaoModel.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class UsuarioCarteiraProjecaoRepository:
     @classmethod
     async def get_all_by_usuario(cls, db: _orm.Session, id_usuario: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, situacao='A').order_by(cls, db: _orm.descricao).all()
+            return db.query(UsuarioCarteiraProjecaoModel).filter_by(id_usuario=id_usuario, situacao='A').order_by(UsuarioCarteiraProjecaoModel.descricao).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class UsuarioCarteiraProjecaoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id, situacao='A').first()
+            return db.query(UsuarioCarteiraProjecaoModel).filter_by(id=id, situacao='A').first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +35,7 @@ class UsuarioCarteiraProjecaoRepository:
     @classmethod
     async def get_by_id_and_usuario(cls, db: _orm.Session, id_usuario: int, id: int):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, id=id, situacao='A').first()
+            return db.query(UsuarioCarteiraProjecaoModel).filter_by(id_usuario=id_usuario, id=id, situacao='A').first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -43,7 +43,7 @@ class UsuarioCarteiraProjecaoRepository:
     @classmethod
     async def get_by_descricao(cls, db: _orm.Session, id_usuario: int, descricao: str):
         try:
-            return cls.query.filter_by(id_usuario=id_usuario, descricao=descricao, situacao='A').first()
+            return db.query(UsuarioCarteiraProjecaoModel).filter_by(id_usuario=id_usuario, descricao=descricao, situacao='A').first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -101,9 +101,9 @@ class UsuarioCarteiraProjecaoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioCarteiraProjecaoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -111,9 +111,9 @@ class UsuarioCarteiraProjecaoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioCarteiraProjecaoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

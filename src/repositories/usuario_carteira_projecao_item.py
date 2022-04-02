@@ -11,7 +11,7 @@ class UsuarioCarteiraProjecaoItemRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(UsuarioCarteiraProjecaoItemModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class UsuarioCarteiraProjecaoItemRepository:
     @classmethod
     async def get_by_projecao(cls, db: _orm.Session, id_projecao: int):
         try:
-            return cls.query.filter_by(id_projecao=id_projecao).first()
+            return db.query(UsuarioCarteiraProjecaoItemModel).filter_by(id_projecao=id_projecao).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -81,21 +81,19 @@ class UsuarioCarteiraProjecaoItemRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioCarteiraProjecaoItemModel, commit: bool = True):
         try:
-            db.add(self)
-            if commit:
-                db.commit()
+            db.add(row)
+            if commit: db.commit()
         except Exception as e:
             db.rollback()
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioCarteiraProjecaoItemModel, commit: bool = True):
         try:
-            db.delete(self)
-            if commit:
-                db.commit()
+            db.delete(row)
+            if commit: db.commit()
         except Exception as e:
             db.rollback()
             raise

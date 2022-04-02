@@ -11,7 +11,7 @@ class ACAOEmpresaProventoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.id).all()
+            return db.query(ACAOEmpresaProventoModel).order_by(ACAOEmpresaProventoModel.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class ACAOEmpresaProventoRepository:
     @classmethod
     async def get_all_by_empresa(cls, db: _orm.Session, id_empresa: int):
         try:
-            return cls.query.filter_by(id_empresa=id_empresa).order_by(cls, db: _orm.id).all()
+            return db.query(ACAOEmpresaProventoModel).filter_by(id_empresa=id_empresa).order_by(ACAOEmpresaProventoModel.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class ACAOEmpresaProventoRepository:
     @classmethod
     async def get_all_by_codigo_isin(cls, db: _orm.Session, codigo_isin: str):
         try:
-            return cls.query.filter_by(codigo_isin=codigo_isin).order_by(cls, db: _orm.data_ex).all()
+            return db.query(ACAOEmpresaProventoModel).filter_by(codigo_isin=codigo_isin).order_by(ACAOEmpresaProventoModel.data_ex).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +35,7 @@ class ACAOEmpresaProventoRepository:
     @classmethod
     async def get_all_by_codigo_isin_empresa(cls, db: _orm.Session, id_empresa: int, codigo_isin: str):
         try:
-            return cls.query.filter_by(id_empresa=id_empresa, codigo_isin=codigo_isin).order_by(cls, db: _orm.data_ex).all()
+            return db.query(ACAOEmpresaProventoModel).filter_by(id_empresa=id_empresa, codigo_isin=codigo_isin).order_by(ACAOEmpresaProventoModel.data_ex).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -43,7 +43,7 @@ class ACAOEmpresaProventoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(ACAOEmpresaProventoModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -217,9 +217,9 @@ class ACAOEmpresaProventoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: ACAOEmpresaProventoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -227,11 +227,11 @@ class ACAOEmpresaProventoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: ACAOEmpresaProventoModel, commit: bool = True):
         try:
-            params = {'IDEMPRPROV': self.id}
+            params = {'IDEMPRPROV': row.id}
             db.execute("DELETE FROM TBEMPRESA_PROVENTO_ATIVO WHERE IDEMPRPROV = :IDEMPRPROV", params)
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

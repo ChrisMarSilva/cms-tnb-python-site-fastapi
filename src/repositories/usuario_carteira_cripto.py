@@ -11,11 +11,11 @@ class UsuarioCarteiraCriptoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session, id: int = None, id_carteira: int = None, id_cripto: int = None):
         filters = []
-        if id: filters.append(cls, db: _orm.id == id)
-        if id_carteira: filters.append(cls, db: _orm.id_carteira == id_carteira)
-        if id_cripto: filters.append(cls, db: _orm.id_cripto == id_cripto)
+        if id: filters.append(UsuarioCarteiraCriptoModel.id == id)
+        if id_carteira: filters.append(UsuarioCarteiraCriptoModel.id_carteira == id_carteira)
+        if id_cripto: filters.append(UsuarioCarteiraCriptoModel.id_cripto == id_cripto)
         try:
-            return cls.query.filter(*filters).order_by(cls, db: _orm.id).all()
+            return db.query(UsuarioCarteiraCriptoModel).filter(*filters).order_by(UsuarioCarteiraCriptoModel.id).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -23,7 +23,7 @@ class UsuarioCarteiraCriptoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioCarteiraCriptoModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -302,9 +302,9 @@ class UsuarioCarteiraCriptoRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioCarteiraCriptoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -312,9 +312,9 @@ class UsuarioCarteiraCriptoRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioCarteiraCriptoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

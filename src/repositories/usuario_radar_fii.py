@@ -11,7 +11,7 @@ class UsuarioRadarFiiRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.all()
+            return db.query(UsuarioRadarFiiModel).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class UsuarioRadarFiiRepository:
     @classmethod
     async def get_all_by_grupo(cls, db: _orm.Session, id_grupo: int):
         try:
-            return cls.query.filter_by(id_grupo=id_grupo).all()
+            return db.query(UsuarioRadarFiiModel).filter_by(id_grupo=id_grupo).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class UsuarioRadarFiiRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioRadarFiiModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +35,7 @@ class UsuarioRadarFiiRepository:
     @classmethod
     async def get_by_id_grupo(cls, db: _orm.Session, id_grupo: int, id: int):
         try:
-            return cls.query.filter_by(id_grupo=id_grupo, id=id).first()
+            return db.query(UsuarioRadarFiiModel).filter_by(id_grupo=id_grupo, id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -43,7 +43,7 @@ class UsuarioRadarFiiRepository:
     @classmethod
     async def get_by_fundo(cls, db: _orm.Session, id_grupo: int, id_fundo: int):
         try:
-            return cls.query.filter_by(id_grupo=id_grupo, id_fundo=id_fundo).first()
+            return db.query(UsuarioRadarFiiModel).filter_by(id_grupo=id_grupo, id_fundo=id_fundo).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -232,9 +232,9 @@ class UsuarioRadarFiiRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioRadarFiiModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -242,9 +242,9 @@ class UsuarioRadarFiiRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioRadarFiiModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

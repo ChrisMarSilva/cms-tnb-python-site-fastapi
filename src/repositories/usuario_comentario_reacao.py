@@ -11,7 +11,7 @@ class UsuarioComentarioReacaoRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.id_comentario, cls.tipo, cls.id_usuario).all()
+            return db.query(UsuarioComentarioReacaoModel).order_by(UsuarioComentarioReacaoModel.id_comentario, UsuarioComentarioReacaoModel.tipo, UsuarioComentarioReacaoModel.id_usuario).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class UsuarioComentarioReacaoRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(UsuarioComentarioReacaoModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class UsuarioComentarioReacaoRepository:
     @classmethod
     async def get_by_id_comentario(cls, db: _orm.Session, id_comentario: int, id_usuario: int):
         try:
-            return cls.query.filter_by(id_comentario=id_comentario, id_usuario=id_usuario).first()
+            return db.query(UsuarioComentarioReacaoModel).filter_by(id_comentario=id_comentario, id_usuario=id_usuario).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -98,9 +98,9 @@ class UsuarioComentarioReacaoRepository:
             raise()
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: UsuarioComentarioReacaoModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -108,9 +108,9 @@ class UsuarioComentarioReacaoRepository:
             raise()
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: UsuarioComentarioReacaoModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

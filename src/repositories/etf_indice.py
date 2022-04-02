@@ -11,7 +11,7 @@ class ETFIndiceRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.filter(cls, db: _orm.situacao.in_(['A', 'E'])).order_by(cls, db: _orm.nome).all()
+            return db.query(ETFIndiceModel).filter(ETFIndiceModel.situacao.in_(['A', 'E'])).order_by(ETFIndiceModel.nome).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class ETFIndiceRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(ETFIndiceModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class ETFIndiceRepository:
     @classmethod
     async def get_by_codigo(cls, db: _orm.Session, codigo: str):
         try:
-            return cls.query.filter_by(codigo=codigo).first()
+            return db.query(ETFIndiceModel).filter_by(codigo=codigo).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +35,7 @@ class ETFIndiceRepository:
     @classmethod
     async def get_by_razao_social(cls, db: _orm.Session, razao_social: str):
         try:
-            return cls.query.filter_by(razao_social=razao_social).first()
+            return db.query(ETFIndiceModel).filter_by(razao_social=razao_social).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -43,7 +43,7 @@ class ETFIndiceRepository:
     @classmethod
     async def get_by_fundo(cls, db: _orm.Session, fundo: str):
         try:
-            return cls.query.filter_by(fundo=fundo).first()
+            return db.query(ETFIndiceModel).filter_by(fundo=fundo).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -51,7 +51,7 @@ class ETFIndiceRepository:
     @classmethod
     async def get_by_indice(cls, db: _orm.Session, indice: str):
         try:
-            return cls.query.filter_by(indice=indice).first()
+            return db.query(ETFIndiceModel).filter_by(indice=indice).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -59,7 +59,7 @@ class ETFIndiceRepository:
     @classmethod
     async def get_by_nome(cls, db: _orm.Session, nome: str):
         try:
-            return cls.query.filter_by(nome=nome).first()
+            return db.query(ETFIndiceModel).filter_by(nome=nome).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -67,7 +67,7 @@ class ETFIndiceRepository:
     @classmethod
     async def get_by_cnpj(cls, db: _orm.Session, cnpj: str):
         try:
-            return cls.query.filter_by(cnpj=cnpj).first()
+            return db.query(ETFIndiceModel).filter_by(cnpj=cnpj).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -75,7 +75,7 @@ class ETFIndiceRepository:
     @classmethod
     async def get_lista_nomes(cls, db: _orm.Session):
         try:
-            return cls.query.filter(cls, db: _orm.situacao.in_(['A', 'E'])).order_by(cls, db: _orm.nome).all()
+            return db.query(ETFIndiceModel).filter(ETFIndiceModel.situacao.in_(['A', 'E'])).order_by(ETFIndiceModel.nome).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -83,7 +83,7 @@ class ETFIndiceRepository:
     @classmethod
     async def get_lista_codigos(cls, db: _orm.Session):
         try:
-            return cls.query.filter(cls, db: _orm.situacao.in_(['A', 'E'])).order_by(cls, db: _orm.codigo).all()
+            return db.query(ETFIndiceModel).filter(ETFIndiceModel.situacao.in_(['A', 'E'])).order_by(ETFIndiceModel.codigo).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -227,9 +227,9 @@ class ETFIndiceRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: ETFIndiceModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -237,9 +237,9 @@ class ETFIndiceRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: ETFIndiceModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()

@@ -11,12 +11,12 @@ class ETFIndiceFatoRelevanteRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session, id_indice: int = None, dt_env_ini: str = None, dt_env_fim: str = None, reg_inicio: int = 1, qtde_por_pagina: int = 100):
         filters = []
-        filters.append(cls, db: _orm.situacao == 'A')
-        if id_indice: filters.append(cls, db: _orm.id_indice == id_indice)
-        if dt_env_ini: filters.append(cls, db: _orm.data_env >= dt_env_ini)
-        if dt_env_fim: filters.append(cls, db: _orm.data_env <= dt_env_fim)
+        filters.append(ETFIndiceFatoRelevanteModel.situacao == 'A')
+        if id_indice: filters.append(ETFIndiceFatoRelevanteModel.id_indice == id_indice)
+        if dt_env_ini: filters.append(ETFIndiceFatoRelevanteModel.data_env >= dt_env_ini)
+        if dt_env_fim: filters.append(ETFIndiceFatoRelevanteModel.data_env <= dt_env_fim)
         try:
-            return cls.query.filter(*filters).order_by(cls, db: _orm.data_env.desc()).offset(reg_inicio).limit(qtde_por_pagina).all()
+            return db.query(ETFIndiceFatoRelevanteModel).filter(*filters).order_by(ETFIndiceFatoRelevanteModel.data_env.desc()).offset(reg_inicio).limit(qtde_por_pagina).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -24,7 +24,7 @@ class ETFIndiceFatoRelevanteRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(ETFIndiceFatoRelevanteModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -32,7 +32,7 @@ class ETFIndiceFatoRelevanteRepository:
     @classmethod
     async def get_all_by_indice(cls, db: _orm.Session, id_indice: int):
         try:
-            return cls.query.filter_by(id_indice=id_indice).all()
+            return db.query(ETFIndiceFatoRelevanteModel).filter_by(id_indice=id_indice).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -40,12 +40,12 @@ class ETFIndiceFatoRelevanteRepository:
     @classmethod
     async def get_total(cls, db: _orm.Session, id_indice: int = None, dt_env_ini: str = None, dt_env_fim: str = None):
         filters = []
-        filters.append(cls, db: _orm.situacao == 'A')
-        if id_indice: filters.append(cls, db: _orm.id_indice == id_indice)
-        if dt_env_ini: filters.append(cls, db: _orm.data_env >= dt_env_ini)
-        if dt_env_fim: filters.append(cls, db: _orm.data_env <= dt_env_fim)
+        filters.append(ETFIndiceFatoRelevanteModel.situacao == 'A')
+        if id_indice: filters.append(ETFIndiceFatoRelevanteModel.id_indice == id_indice)
+        if dt_env_ini: filters.append(ETFIndiceFatoRelevanteModel.data_env >= dt_env_ini)
+        if dt_env_fim: filters.append(ETFIndiceFatoRelevanteModel.data_env <= dt_env_fim)
         try:
-            return cls.query.filter(*filters).count()
+            return db.query(ETFIndiceFatoRelevanteModel).filter(*filters).count()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise

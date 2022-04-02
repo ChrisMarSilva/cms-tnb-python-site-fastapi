@@ -11,7 +11,7 @@ class BDREmpresaRepository:
     @classmethod
     async def get_all(cls, db: _orm.Session):
         try:
-            return cls.query.order_by(cls, db: _orm.nome).all()
+            return db.query(BDREmpresaModel).order_by(BDREmpresaModel.nome).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -19,7 +19,7 @@ class BDREmpresaRepository:
     @classmethod
     async def get_by_id(cls, db: _orm.Session, id: int):
         try:
-            return cls.query.filter_by(id=id).first()
+            return db.query(BDREmpresaModel).filter_by(id=id).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -27,7 +27,7 @@ class BDREmpresaRepository:
     @classmethod
     async def get_by_codigo(cls, db: _orm.Session, codigo: str):
         try:
-            return cls.query.filter_by(codigo=codigo).first()
+            return db.query(BDREmpresaModel).filter_by(codigo=codigo).first()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -35,7 +35,7 @@ class BDREmpresaRepository:
     @classmethod
     async def get_lista_razao_social(cls, db: _orm.Session):
         try:
-            return cls.query.filter(cls, db: _orm.situacao == 'A').order_by(cls, db: _orm.razao_social).all()
+            return db.query(BDREmpresaModel).filter(BDREmpresaModel.situacao == 'A').order_by(BDREmpresaModel.razao_social).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -43,7 +43,7 @@ class BDREmpresaRepository:
     @classmethod
     async def get_all_codigos(cls, db: _orm.Session):
         try:
-            return cls.query.filter(cls, db: _orm.situacao == 'A').order_by(cls, db: _orm.codigo).all()
+            return db.query(BDREmpresaModel).filter(BDREmpresaModel.situacao == 'A').order_by(BDREmpresaModel.codigo).all()
         except Exception as e:
             #  LogErro.registrar(texto=str(e), arqv=str(os.path.basename(__file__).replace('.py', '') + '.' + __class__.__name__), linha=int(sys.exc_info()[-1].tb_lineno))
             raise
@@ -408,9 +408,9 @@ class BDREmpresaRepository:
             raise
 
     @classmethod
-    async def salvar(cls, db: _orm.Session, commit: bool = True):
+    async def salvar(cls, db: _orm.Session, row: BDREmpresaModel, commit: bool = True):
         try:
-            db.add(self)
+            db.add(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
@@ -418,9 +418,9 @@ class BDREmpresaRepository:
             raise
 
     @classmethod
-    async def excluir(cls, db: _orm.Session, commit: bool = True):
+    async def excluir(cls, db: _orm.Session, row: BDREmpresaModel, commit: bool = True):
         try:
-            db.delete(self)
+            db.delete(row)
             if commit: db.commit()
         except Exception as e:
             db.rollback()
