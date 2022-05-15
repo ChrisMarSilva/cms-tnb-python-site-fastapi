@@ -65,7 +65,7 @@
 #         html += "<strong>Assunto</strong>: "+assunto+"<br/>"
 #         html += "<strong>Mensagem</strong>: "+mensagem+"<br/>"
 #
-#         sender = "suporte@tamonabolsa.com.br" # "chris.mar.silva@gmail.com"
+#         sender = "su" # ""
 #         mail.send(Message(subject='TnB - Contato', html=html, sender=sender, recipients=[sender], charset='UTF-8'))
 #
 #         return make_response(get_json_retorno_metodo(rslt='OK', msg='Mensagem enviada com sucesso!'), 200)

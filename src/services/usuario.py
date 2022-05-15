@@ -82,7 +82,7 @@
 #
 #         subject = 'TnB - Ative sua Conta'
 #         html = email_confirmacao_cadastro(hash=hash)
-#         sender = "suporte@tamonabolsa.com.br"  # "chris.mar.silva@gmail.com"
+#         sender = ""
 #         mail.send(Message(subject=subject, html=html, sender=sender, recipients=[email], charset='UTF-8'))
 #
 #         msg = "Dados salvo com sucesso. <br/>Enviamos um E-mail para confirmar seu cadastro."
