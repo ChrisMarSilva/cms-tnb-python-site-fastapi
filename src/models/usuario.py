@@ -53,7 +53,7 @@ class UsuarioModel(_database.session.Base):
 
     def descriptografar_hash(self, message):
         import base64
-        key = '#Chrs123-juju78¨&*%$=='
+        key = '#C5121213-juju78¨&*%$=='
         message = base64.b64decode(message)
         message = message.decode()
         message = str(message).replace(key, '')
