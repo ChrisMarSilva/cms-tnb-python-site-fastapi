@@ -36,8 +36,7 @@ async def entrar(response: _fastapi.Response, request: LoginIn, db: _orm.Session
 async def entrar2(response: _fastapi.Response, request: OAuth2PasswordRequestForm = _fastapi.Depends(), db: _orm.Session = _fastapi.Depends(_database.base.get_db)):
     with _tracer.tracer.start_as_current_span(f"{str(os.path.basename(__file__).replace('.py', ''))}.{inspect.stack()[0][3]}") as span:
         span.set_attribute("parametro_request", request)
-        # dados = await LoginService.entrar(db=db, response=response, email=request.username, senha=request.password)
-        dados = await LoginService.entrar(db=db, response=response, email="chris.mar.silva@gmail.com", senha="#Chrs2387")
+        dados = await LoginService.entrar(db=db, response=response, email=request.username, senha=request.password)
         return dados
 
         '''
