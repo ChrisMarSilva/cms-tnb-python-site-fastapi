@@ -7,7 +7,7 @@ client = TestClient(app)
 
 
 def test_entrar():
-    body = LoginIn(txtEmail="chris.mar.silva@gmail.com", txtSenha="#Chrs2387")
+    body = LoginIn(txtEmail="<txtEmail>", txtSenha="<txtSenha>")
     response = client.post(url="/login/entrar", json={"txtEmail": body.txtEmail, "txtSenha": body.txtSenha})
     content = response.json()
     assert response.status_code == 200
