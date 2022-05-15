@@ -12,7 +12,7 @@ class LoginIn(_LoginBase):
 
     class Config:
         orm_mode = True
-        schema_extra = {"example": {"txtEmail": "chris.mar.silva@gmail.com", "txtSenha": "#Chrs2387"}}
+        schema_extra = {"example": {"txtEmail": "txtEmail@gmail.com", "txtSenha": "txtSenha"}}
 
 
 class LoginOut(_LoginBase):
