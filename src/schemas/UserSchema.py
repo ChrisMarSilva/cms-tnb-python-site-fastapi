@@ -29,8 +29,8 @@ class Login(_pydantic.BaseModel):
         allow_population_by_field_name = True
         schema_extra = {
             "example": {
-                "username": "chris.mar.silva@gmail.com",
-                "password": "#Chrs2387",
+                "username": "username",
+                "password": "password",
             }
         }
 
